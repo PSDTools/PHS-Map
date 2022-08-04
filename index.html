@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
+	<title></title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body onload="start()">
+
+	<img id="LVL1" src="Schooloverlayl1color.jpg" style="display:none;" />
+	<img id="LVL2" src="Schooloverlayl2color.jpg" style="display:none;" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+	</script>
+	<script src="script.js"></script>
+
+	<div class="selectionbox w3-small w3-animate-right" id="temp1"></div>
+	<button onclick="locateCourses()">Submit</button>
+
+
+	<div class="item">
+		<canvas id="myCanvas" style="border:1px solid #000000;" class="" </canvas>
+	</div>
+	<button id="lvl1" onclick="lvl1()">1</button>
+	<button id="lvl2" onclick="lvl2()">2</button>
+	<p></p>
+	<input id="num" type="number">
+	<button onclick="courseLoop()">Submit</button>
+
+
+
+
+
+
+
+</body>
+
+</html>
