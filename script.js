@@ -8,24 +8,55 @@ var gridLvl2;
 var stairs;
 var rooms;
 
-function createCourse(num) {
-	var tempElementId = "temp".concat("", String(num));
-	var tempElementIdNext = "temp".concat("", String(num + 1));
+var profiles = []
+
+function createProfile(profnum) {
+	prof = String(profnum)
+	console.log("prf"+prof)
+	var tempElementId = "tempProf".concat("", String(prof));
+	var tempElementIdNext = "tempProf"+ String(profnum + 1);
+	console.log("tmpprfnxt: "+ tempElementIdNext)
+	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+	//creates html elements in the courses class
+	console.log("prf"+prof)
+	document.getElementById(tempElementId).innerHTML = '\
+	<input id="num'+ prof +'" type="number">\
+	<button onclick="courseLoop('+ String(profnum) +')">Submit</button>\
+	<div class="selectionbox w3-small w3-animate-right" id="temp'+prof+'1"><p>a</p></div>\
+	<button onclick="locateCourses('+profnum+')">Submit</button>\
+	<div class="selectionbox" id="' + tempElementIdNext + '">';
+
+}
+
+
+
+
+function createCourse(num, profnum) {
+	prof = String(profnum)
+	num = String(num)
+	numnxt = parseInt(num) + 1
+	console.log(num)
+	console.log(prof)
+	console.log("profnum: "+profnum)
+	var tempElementId = "temp"+prof+num;
+	var tempElementIdNext = "temp"+prof+numnxt;
+	console.log("tmpid: " + tempElementId)
+	console.log("tmpidnxt: " + tempElementIdNext)
 	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
 	//creates html elements in the courses class
 	document.getElementById(tempElementId).innerHTML = '\
 	<div id="input-con-div" class="input-container lightModeInput">\
-	<input id="cl' + num + 'txt" type="text" required=""/>\
-	<label id="cl' + num + 'label">Class ' + num + '</label>\
+	<input id="cl' + num + prof +'txt" type="text" required=""/>\
+	<label id="cl' + num + prof + 'label">Class ' + num +'</label>\
 	</div>\
-<span id="typeId' + num + '">\
+<span id="typeId' + num + prof + '">\
 	<div id="input-con-div" class="input-container lightModeInput">\
-	<input id="rmnum' + num + 'txt" type="text" required=""/>\
-	<label id="rmnum' + num + 'label">Room Number</label>\
+	<input id="rmnum' + num + prof + 'txt" type="text" required=""/>\
+	<label id="rmnum' + num + prof + 'label">Room Number</label>\
 	</div>\
-<span id="typeId' + num + '">\
+<span id="typeId' + num + prof + '">\
 		<p> </p>\
-		<button onclick="passingTime('+ parseInt(num - 1) + ')">Passing Time</button>\
+		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
 
 }
@@ -36,23 +67,38 @@ function createCourse(num) {
 
 
 
-function courseLoop() {
-	coursesAmt = parseInt(document.getElementById("num").value) + 1
+function courseLoop(profnum) {
+	prof = String(profnum)
+	coursesAmt = parseInt(document.getElementById("num"+profnum).value) + 1
+	console.log(prof)
 	for (let i = 1; i < coursesAmt; i++) {
-		createCourse(i)
+		createCourse(i,profnum)
 	}
 }
 
-function locateCourses() {
-	courses = []
+function locateCourses(profnum) {
+	console.log("profnum = " + profnum)
+	prof = String(profnum)
+	profiles[profnum] = []
+	console.log(cou)
 	for (let i = 1; i < coursesAmt; i++) {
-		courses.push(document.getElementById("rmnum" + i + "txt").value)
+		profiles[profnum][i-1] = []
+		console.log("rmnum" + String(parseInt(i)+1) + prof +"txt")
+		profiles[profnum][i-1][0] = document.getElementById("rmnum" + i + prof +"txt").value
+		profiles[profnum][i-1][1] = document.getElementById("cl" + i + prof +"txt").value
 	}
+	
 }
 
-function passingTime(num) {
-	start = courses[num]
-	end = courses[parseInt(num + 1)]
+function passingTime(num,profnum) {
+	num = parseInt(num)
+	console.log(profnum)
+	console.log(num)
+	console.log(profiles[profnum])
+	console.log(profiles[profnum][num])
+	console.log(profiles[profnum][num][0])
+	start = profiles[profnum][num][0]
+	end = profiles[profnum][num + 1][0]
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
@@ -399,8 +445,8 @@ function printGrid1() {
 
 		for (let x = 0; x < gridLvl1[y].length; x++) {
 			if (gridLvl1[x][y] == "1") {
-				ctx.fillStyle = "#000000";
-				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
+				// ctx.fillStyle = "#000000";
+				// ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
 			} else if (gridLvl1[x][y] == "-2") {
 				ctx.fillStyle = "#00FFFF";
 				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
