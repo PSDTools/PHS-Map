@@ -493,10 +493,10 @@ rooms = {
 };
 
 function start() {
-	$.get('https://github.com/ParkerH27/PHS-Map/blob/main/Level1.txt', function(data) {
+	$.get('https://raw.githubusercontent.com/ParkerH27/PHS-Map/main/Level1.txt', function(data) {
 		gridLvl1 = JSON.parse(data)
 	});
-	$.get('https://github.com/ParkerH27/PHS-Map/blob/main/Level2.txt', function(data) {
+	$.get('https://raw.githubusercontent.com/ParkerH27/PHS-Map/main/Level2.txt', function(data) {
 		gridLvl2 = JSON.parse(data)
 	});
 	if (window.location.href.includes('?')) {
