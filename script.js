@@ -10,87 +10,198 @@ var rooms;
 
 var profiles = []
 
+// const reader = require("g-sheets-api");
+// const readerOptions = {
+//   sheetId: "1-CmQumuz5ZiOvINhphEMgfplrJacQhD623RROcOBTAg",
+//   returnAllResults: false,
+//   filter: {
+//     "key to filter on": "value to match",
+//   },
+// };
+
+// reader(readerOptions, (results) => {
+//   /* Do something amazing with the results */
+// });
+
+// function profloop() {
+// 	for (let i = 1; i < parseInt(document.getElementById("numofprof").value) + 1; i++) {
+// 		createProfile(i)
+// 	}
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function createProfile(profnum) {
 	prof = String(profnum)
-	console.log("prf"+prof)
+	console.log("prf" + prof)
 	var tempElementId = "tempProf".concat("", String(prof));
-	var tempElementIdNext = "tempProf"+ String(profnum + 1);
-	console.log("tmpprfnxt: "+ tempElementIdNext)
+	var tempElementIdNext = "tempProf" + String(profnum + 1);
+	console.log("tmpprfnxt: " + tempElementIdNext)
 	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
 	//creates html elements in the courses class
-	console.log("prf"+prof)
+	console.log("prf" + prof)
 	document.getElementById(tempElementId).innerHTML = '\
-	<input id="num'+ prof +'" type="number">\
-	<button onclick="courseLoop('+ String(profnum) +')">Submit</button>\
-	<div class="selectionbox w3-small w3-animate-right" id="temp'+prof+'1"><p>a</p></div>\
-	<button onclick="locateCourses('+profnum+')">Submit</button>\
+	<div class="txtbox w3-small w3-animate-right">\
+	<input id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
+	<button onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
+	<div class="selectionbox w3-small w3-animate-right" id="temp'+ prof + '1"><p></p></div>\
+	<button id="loccourses'+ profnum + '" onclick="locateCourses(' + profnum + ')">Submit</button>\
+	<p></p>\
+	</div>\
+	<p></p>\
+	<div class="margin" id="profspacer1"></div>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
-
+	document.getElementById("loccourses" + profnum).style.display = "none";
 }
 
 
 
 
-function createCourse(num, profnum) {
-	prof = String(profnum)
-	num = String(num)
-	numnxt = parseInt(num) + 1
-	console.log(num)
-	console.log(prof)
-	console.log("profnum: "+profnum)
-	var tempElementId = "temp"+prof+num;
-	var tempElementIdNext = "temp"+prof+numnxt;
-	console.log("tmpid: " + tempElementId)
-	console.log("tmpidnxt: " + tempElementIdNext)
-	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-	//creates html elements in the courses class
-	document.getElementById(tempElementId).innerHTML = '\
+function createCourse(num, profnum, otu) {
+	if (otu == 0) {
+		prof = String(profnum)
+		num = String(num)
+		numnxt = parseInt(num) + 1
+		console.log(num)
+		console.log(prof)
+		console.log("profnum: " + profnum)
+		var tempElementId = "temp" + prof + num;
+		var tempElementIdNext = "temp" + prof + numnxt;
+		console.log("tmpid: " + tempElementId)
+		console.log("tmpidnxt: " + tempElementIdNext)
+		// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+		//creates html elements in the courses class
+		document.getElementById(tempElementId).innerHTML = '\
 	<div id="input-con-div" class="input-container lightModeInput">\
-	<input id="cl' + num + prof +'txt" type="text" required=""/>\
-	<label id="cl' + num + prof + 'label">Class ' + num +'</label>\
+	<p>Class '+ num + '</p>\
+	<input id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
 	</div>\
 <span id="typeId' + num + prof + '">\
 	<div id="input-con-div" class="input-container lightModeInput">\
-	<input id="rmnum' + num + prof + 'txt" type="text" required=""/>\
-	<label id="rmnum' + num + prof + 'label">Room Number</label>\
+	<input class="prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
 <span id="typeId' + num + prof + '">\
 		<p> </p>\
 		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
+	} else {
+		num = String(num)
+		numnxt = parseInt(num) + 1
+		console.log(num)
+		var tempElementId = "temp" + num;
+		var tempElementIdNext = "temp" + numnxt;
+		console.log("tmpid: " + tempElementId)
+		console.log("tmpidnxt: " + tempElementIdNext)
+		// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+		//creates html elements in the courses class
+		document.getElementById(tempElementId).innerHTML = '\
+	<div id="input-con-div" class="input-container lightModeInput">\
+	<p>Class '+ num + '</p>\
+	<input id="cl' + num +'txt" type="text" required="" placeholder="Name:"/>\
+	</div>\
+<span id="typeId' + num +'">\
+	<div id="input-con-div" class="input-container lightModeInput">\
+	<input class="" id="rmnum' + num +'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
+	</div>\
+<span id="typeId' + num +'">\
+		<p> </p>\
+		<button onclick="otuPath('+ String(parseInt(num) - 1) + ')">Passing Time</button>\
+	<div class="selectionbox" id="' + tempElementIdNext + '">';
+	}
 
 }
 
+function otuPath(){
+	start = profiles[profnum][num][0]
+	end = profiles[profnum][num + 1][0]
+	x1 = rooms[start][0]
+	y1 = rooms[start][1]
+	fl1 = rooms[start][2]
+	x2 = rooms[end][0]
+	y2 = rooms[end][1]
+	fl2 = rooms[end][2]
+	console.log(fl1)
+	console.log(fl2)
+	if (fl1 == 1 && fl2 == 1) {
+		grid = gridLvl1
+		path(grid, x1, y1, x2, y2)
+	} else if (fl1 == 2 && fl2 == 2) {
+		grid = gridLvl2
+		path(grid, x1, y1, x2, y2)
+	} else {
+		stairPath(x1, y1, x2, y2, fl1)
+	}
+}
 
 
+// function createCourse(num, profnum) {
+// 	prof = String(profnum)
+// 	num = String(num)
+// 	numnxt = parseInt(num) + 1
+// 	console.log(num)
+// 	console.log(prof)
+// 	console.log("profnum: "+profnum)
+// 	var tempElementId = "temp"+prof+num;
+// 	var tempElementIdNext = "temp"+prof+numnxt;
+// 	console.log("tmpid: " + tempElementId)
+// 	console.log("tmpidnxt: " + tempElementIdNext)
+// 	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+// 	//creates html elements in the courses class
+// 	document.getElementById(tempElementId).innerHTML = '\
+// 	<div id="input-con-div" class="input-container lightModeInput">\
+// 	<input id="cl' + num + prof +'txt" type="text" required=""/>\
+// 	<label id="cl' + num + prof + 'label">Class ' + num +'</label>\
+// 	</div>\
+// <span id="typeId' + num + prof + '">\
+// 	<div id="input-con-div" class="input-container lightModeInput">\
+// 	<input class="prof'+ profnum +'" id="rmnum' + num + prof + 'txt" type="text" required=""/>\
+// 	<label id="rmnum' + num + prof + 'label">Room Number</label>\
+// 	</div>\
+// <span id="typeId' + num + prof + '">\
+// 		<p> </p>\
+// 		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button>\
+// 	<div class="selectionbox" id="' + tempElementIdNext + '">';
+
+// }
 
 
 
 
 function courseLoop(profnum) {
 	prof = String(profnum)
-	coursesAmt = parseInt(document.getElementById("num"+profnum).value) + 1
+	coursesAmt = parseInt(document.getElementById("num" + profnum).value) + 1
 	console.log(prof)
 	for (let i = 1; i < coursesAmt; i++) {
-		createCourse(i,profnum)
+		createCourse(i, profnum, 0)
 	}
+	document.getElementById("loccourses" + profnum).style.display = "block";
 }
 
 function locateCourses(profnum) {
 	console.log("profnum = " + profnum)
 	prof = String(profnum)
 	profiles[profnum] = []
-	console.log(cou)
-	for (let i = 1; i < coursesAmt; i++) {
-		profiles[profnum][i-1] = []
-		console.log("rmnum" + String(parseInt(i)+1) + prof +"txt")
-		profiles[profnum][i-1][0] = document.getElementById("rmnum" + i + prof +"txt").value
-		profiles[profnum][i-1][1] = document.getElementById("cl" + i + prof +"txt").value
+	for (let i = 1; i < document.querySelectorAll('.prof' + profnum + '').length + 1; i++) {
+		profiles[profnum][i - 1] = []
+		console.log("rmnum" + String(parseInt(i) + 1) + prof + "txt")
+		profiles[profnum][i - 1][0] = document.getElementById("rmnum" + i + prof + "txt").value
+		profiles[profnum][i - 1][1] = document.getElementById("cl" + i + prof + "txt").value
 	}
-	
+
 }
 
-function passingTime(num,profnum) {
+function passingTime(num, profnum) {
 	num = parseInt(num)
 	console.log(profnum)
 	console.log(num)
@@ -107,13 +218,13 @@ function passingTime(num,profnum) {
 	fl2 = rooms[end][2]
 	console.log(fl1)
 	console.log(fl2)
-	if (fl1 == 1 && fl2 == 1){
+	if (fl1 == 1 && fl2 == 1) {
 		grid = gridLvl1
 		path(grid, x1, y1, x2, y2)
-	} else if (fl1 == 2 && fl2 == 2){
+	} else if (fl1 == 2 && fl2 == 2) {
 		grid = gridLvl2
 		path(grid, x1, y1, x2, y2)
-	} else{
+	} else {
 		stairPath(x1, y1, x2, y2, fl1)
 	}
 }
@@ -133,28 +244,28 @@ function path(grid, x1, y1, x2, y2) {
 	}
 }
 stairs = {
-	0 : [23,13],
-	1 : [63,16],
-	2 : [103,16],
-	3 : [65,61],
-	4 : [96,61],
-	5 : [29,75],
-	6 : [64,88],
-	7 : [30,119],
-	8 : [129,119],
-	9 : [68,121],
-	10 : [92,121]
+	0: [23, 13],
+	1: [63, 16],
+	2: [103, 16],
+	3: [65, 61],
+	4: [96, 61],
+	5: [29, 75],
+	6: [64, 88],
+	7: [30, 119],
+	8: [129, 119],
+	9: [68, 121],
+	10: [92, 121]
 }
 function stairPath(x1, y1, x2, y2, fl) {
 
 	tempdist = []
 	tempdist1 = []
 	for (let i = 0; i < 10; i++) {
-		tempdist1.push(Math.abs(x1 - stairs[i][0]) +  Math.abs(y1 - stairs[i][1]))
+		tempdist1.push(Math.abs(x1 - stairs[i][0]) + Math.abs(y1 - stairs[i][1]))
 	}
 	tempdist2 = []
 	for (let i = 0; i < 10; i++) {
-		tempdist2.push(Math.abs(x2 - stairs[i][0]) +  Math.abs(y2 - stairs[i][1]))
+		tempdist2.push(Math.abs(x2 - stairs[i][0]) + Math.abs(y2 - stairs[i][1]))
 	}
 	console.log(tempdist1)
 	console.log(tempdist2)
@@ -162,18 +273,18 @@ function stairPath(x1, y1, x2, y2, fl) {
 		tempdist.push(tempdist1[i] + tempdist2[i])
 	}
 	console.log(tempdist)
-min = Math.min(...tempdist)
-indexmin = tempdist.indexOf(min)
-console.log(indexmin)
-sx1 = stairs[indexmin][0]
-sy1 = stairs[indexmin][1]
-if (fl == 2){
-	path(gridLvl2, x1, y1, sx1, sy1)
-	path(gridLvl1, sx1, sy1, x2, y2)
-} else {
-	path(gridLvl1, x1, y1, sx1, sy1)
-	path(gridLvl2, sx1, sy1, x2, y2)
-}
+	min = Math.min(...tempdist)
+	indexmin = tempdist.indexOf(min)
+	console.log(indexmin)
+	sx1 = stairs[indexmin][0]
+	sy1 = stairs[indexmin][1]
+	if (fl == 2) {
+		path(gridLvl2, x1, y1, sx1, sy1)
+		path(gridLvl1, sx1, sy1, x2, y2)
+	} else {
+		path(gridLvl1, x1, y1, sx1, sy1)
+		path(gridLvl2, sx1, sy1, x2, y2)
+	}
 
 }
 
@@ -399,10 +510,14 @@ function start() {
 	$.get('/Level2.txt', function(data) {
 		gridLvl2 = JSON.parse(data)
 	});
-	if (window.location.href.includes('?')){
+	if (window.location.href.includes('?')) {
 		urlstr = window.location.href
-		.split("?").pop()
+			.split("?").pop()
 	}
+	if (localStorage.getItem("shade") == "dark") {
+		darkMode()
+	}
+	lvl1()
 }
 
 
@@ -412,13 +527,10 @@ function start() {
 function createCanvas() {
 	canvas = document.getElementById("myCanvas");
 	ctx = canvas.getContext("2d");
-	if (window.innerHeight < window.innerWidth) {
-		size = window.innerHeight
-	} else {
-		size = window.innerWidth
-	}
+	size = document.getElementById("c").offsetWidth - 48
 	ctx.canvas.width = size;
 	ctx.canvas.height = size;
+	// ctx.imageSmoothingEnabled = false;
 	if (veiwlvl == 1) {
 		printGrid1()
 	} else if (veiwlvl == 2) {
@@ -431,13 +543,15 @@ function createCanvas() {
 
 
 
-function printGrid1() {
 
-	if (window.innerHeight < window.innerWidth) {
-		size = window.innerHeight
-	} else {
-		size = window.innerWidth
-	}
+
+
+
+
+
+
+
+function printGrid1() {
 	// ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
@@ -467,11 +581,6 @@ function printGrid1() {
 }
 
 function printGrid2() {
-	if (window.innerHeight < window.innerWidth) {
-		size = window.innerHeight
-	} else {
-		size = window.innerWidth
-	}
 	// ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
@@ -552,15 +661,10 @@ function lvl2() {
 	createCanvas()
 }
 function clearGrid() {
-	if (window.innerHeight < window.innerWidth) {
-		size = window.innerHeight
-	} else {
-		size = window.innerWidth
-	}
 	// ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size);
-	
+
 	for (let y = 0; y < gridLvl1.length; y++) {
 
 		for (let x = 0; x < gridLvl1[y].length; x++) {
@@ -582,3 +686,30 @@ function clearGrid() {
 
 
 }
+
+
+//Dark Mode
+function darkMode() {
+
+	var element = document.body;
+	element.classList.toggle("darkModebg");
+	element.classList.toggle("lightModebg");
+
+	var c = document.getElementById("c");
+	c.classList.toggle("darkMode");
+	c.classList.toggle("lightMode");
+
+	var c2 = document.getElementById("c2");
+	c2.classList.toggle("darkMode");
+	c2.classList.toggle("lightMode");
+
+	if (c.classList.contains("darkMode") == true) {
+		document.getElementById("darkModeButton").innerHTML = 'Light Mode'
+		localStorage.setItem('shade', "dark", 365);
+
+	} else if (element.classList.contains("lightMode") == false) {
+		document.getElementById("darkModeButton").innerHTML = 'Dark Mode'
+		localStorage.setItem('shade', "light", 365);
+	}
+}
+

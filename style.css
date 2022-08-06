@@ -7,3 +7,70 @@
 .margin{
 	margin-bottom: 10px;
 }
+html, body {
+  color: black;
+	min-height: 100vh;    
+	display: flex;
+	flex-direction: column;
+}
+h1 {
+  color: green;
+}
+
+h2 {
+  color: white;
+  font-size: 50px;
+}
+.phs{
+	color:green;
+}
+
+h1 {text-align: center;}
+
+footer {
+	background-color: black;
+	margin-top: auto;
+}
+.smallbutton{
+	font-size:40%;
+}
+
+.darkMode{
+	background-color: #1c1c1c;
+	color:white;
+	border-style:solid;
+	border-width: 1px;
+	border-color:#1f1f1f;
+	transition: all 0.5s ease-in-out;
+}
+.lightMode{
+	background-color:#f1f1f1;
+	color:black;
+	border-style:solid;
+	border-width: 1px;
+	border-color:#e7e7e7;
+	transition: all 0.5s ease-in-out;
+}
+.darkModebg{
+	background: #044200;
+	transition: all 0.5s ease-in-out;
+}
+.lightModebg{
+	background: #1a8f00 ;
+	/* background: linear-gradient(180deg, #067500 20%, #16bd00 31%, #1a8f00 85%); */
+	transition: all 0.5s ease-in-out;
+}
+.txtbox{
+	display: inline-block;
+  width: 215px;
+  padding: 10px 0 10px 15px;
+  font-weight: 500;
+	color: rgb(48, 48, 48);
+  background: #e7e7e7;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+}
+.lgreen{
+	color: lightgreen;
+}
