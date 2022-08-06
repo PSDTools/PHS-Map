@@ -97,13 +97,13 @@ function createCourse(num, profnum, otu) {
 		document.getElementById(tempElementId).innerHTML = '\
 	<div id="input-con-div" class="input-container lightModeInput">\
 	<p>Class '+ num + '</p>\
-	<input id="cl' + num +'txt" type="text" required="" placeholder="Name:"/>\
+	<input id="cl' + num + 'txt" type="text" required="" placeholder="Name:"/>\
 	</div>\
-<span id="typeId' + num +'">\
+<span id="typeId' + num + '">\
 	<div id="input-con-div" class="input-container lightModeInput">\
-	<input class="" id="rmnum' + num +'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
+	<input class="" id="rmnum' + num + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
-<span id="typeId' + num +'">\
+<span id="typeId' + num + '">\
 		<p> </p>\
 		<button onclick="otuPath('+ String(parseInt(num) - 1) + ')">Passing Time</button>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
@@ -111,7 +111,7 @@ function createCourse(num, profnum, otu) {
 
 }
 
-function otuPath(){
+function otuPath() {
 	start = profiles[profnum][num][0]
 	end = profiles[profnum][num + 1][0]
 	x1 = rooms[start][0]
@@ -494,12 +494,6 @@ rooms = {
 };
 
 function start() {
-	$.get('Level1.html', function(data) {
-		gridLvl1 = JSON.parse(data)
-	});
-	$.get('Level2.html', function(data) {
-		gridLvl2 = JSON.parse(data)
-	});
 	if (window.location.href.includes('?')) {
 		urlstr = window.location.href
 			.split("?").pop()
@@ -530,7 +524,7 @@ function createCanvas() {
 }
 
 
- 
+
 
 
 
@@ -652,6 +646,8 @@ function lvl2() {
 }
 function clearGrid() {
 	// ctx.globalAlpha = 0.5;
+	console.log(gridLvl1)
+	console.log(gridLvl2)
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size);
 
