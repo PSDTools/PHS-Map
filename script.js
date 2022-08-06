@@ -191,6 +191,7 @@ function locateCourses(profnum) {
 }
 
 function passingTime(num, profnum) {
+	clearGrid()
 	num = parseInt(num)
 	console.log(profnum)
 	console.log(num)
