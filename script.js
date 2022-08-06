@@ -494,10 +494,10 @@ rooms = {
 };
 
 function start() {
-	$.get('/Level1.txt', function(data) {
+	$.get('/Level1.html', function(data) {
 		gridLvl1 = JSON.parse(data)
 	});
-	$.get('/Level2.txt', function(data) {
+	$.get('/Level2.html', function(data) {
 		gridLvl2 = JSON.parse(data)
 	});
 	if (window.location.href.includes('?')) {
