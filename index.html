@@ -46,15 +46,15 @@
 			</div>
 			<button id="lvl1" onclick="lvl1()">Level 1</button>
 			<button id="lvl2" onclick="lvl2()">Level 2</button>
+			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
 		</div>
 
 		<div id="c2" class="lightMode w3-half w3-container w3-padding-16">
-			<input id="numofprof" type="number" placeholder="Number Of Schedules:">
-			<button onclick="profloop()">Submit</button>
 			<p></p>
 			<div class="" id="tempProf1"></div>
-			<p>If the github page is not functioning you can try the active development repl.it page</p>
-			<a href="https://phs-map.parkerhasenkamp.repl.co/">https://phs-map.parkerhasenkamp.repl.co/</a>
+			<button id="add" onclick="addProf()">+</button>
+			<p>Only have one place to go?</p>
+			<a href="/One-time-use.html">Try One Time Use Mode!</a>
 		</div>
 	</div>
 
@@ -146,5 +146,5 @@
 
 
 
-	
+
 </html>

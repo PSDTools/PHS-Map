@@ -22,15 +22,6 @@ function profloop() {
 
 
 
-
-
-
-
-
-
-
-
-
 function createProfile(profnum) {
 	prof = String(profnum)
 	console.log("prf" + prof)
@@ -41,11 +32,14 @@ function createProfile(profnum) {
 	//creates html elements in the courses class
 	console.log("prf" + prof)
 	document.getElementById(tempElementId).innerHTML = '\
-	<div class="txtbox w3-small w3-animate-right">\
+	<div class="prof txtbox w3-small w3-animate-right">\
+	<button id="add" onclick="remProf('+ profnum +')">-</button>\
+	<input id="nameProf'+ prof + '" type="number" placeholder="Schedule Name">\
+	<p></p>\
 	<input id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
 	<button onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
 	<div class="selectionbox w3-small w3-animate-right" id="temp'+ prof + '1"><p></p></div>\
-	<button id="loccourses'+ profnum + '" onclick="locateCourses(' + profnum + ')">Submit</button>\
+	<button id="loccourses'+ profnum + '" onclick="locateCourses(' + profnum + ')">Save Courses</button>\
 	<p></p>\
 	</div>\
 	<p></p>\
@@ -57,63 +51,36 @@ function createProfile(profnum) {
 
 
 
-function createCourse(num, profnum, otu) {
-	if (otu == 0) {
-		prof = String(profnum)
-		num = String(num)
-		numnxt = parseInt(num) + 1
-		console.log(num)
-		console.log(prof)
-		console.log("profnum: " + profnum)
-		var tempElementId = "temp" + prof + num;
-		var tempElementIdNext = "temp" + prof + numnxt;
-		console.log("tmpid: " + tempElementId)
-		console.log("tmpidnxt: " + tempElementIdNext)
-		// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-		//creates html elements in the courses class
-		document.getElementById(tempElementId).innerHTML = '\
+function createCourse(num, profnum) {
+	prof = String(profnum)
+	num = String(num)
+	numnxt = parseInt(num) + 1
+	console.log(num)
+	console.log(prof)
+	console.log("profnum: " + profnum)
+	var tempElementId = "temp" + prof + num;
+	var tempElementIdNext = "temp" + prof + numnxt;
+	console.log("tmpid: " + tempElementId)
+	console.log("tmpidnxt: " + tempElementIdNext)
+	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+	//creates html elements in the courses class
+	document.getElementById(tempElementId).innerHTML = '\
 	<div id="input-con-div" class="input-container lightModeInput">\
 	<p>Class '+ num + '</p>\
 	<input id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
 	</div>\
-<span id="typeId' + num + prof + '">\
 	<div id="input-con-div" class="input-container lightModeInput">\
 	<input class="prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
-<span id="typeId' + num + prof + '">\
 		<p> </p>\
-		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button>\
+		<span id="passing' + num + prof + '"style="display:block">\<button onclick="passingTime(' + String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button></span>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
-	} else {
-		num = String(num)
-		numnxt = parseInt(num) + 1
-		console.log(num)
-		var tempElementId = "temp" + num;
-		var tempElementIdNext = "temp" + numnxt;
-		console.log("tmpid: " + tempElementId)
-		console.log("tmpidnxt: " + tempElementIdNext)
-		// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-		//creates html elements in the courses class
-		document.getElementById(tempElementId).innerHTML = '\
-	<div id="input-con-div" class="input-container lightModeInput">\
-	<p>Class '+ num + '</p>\
-	<input id="cl' + num + 'txt" type="text" required="" placeholder="Name:"/>\
-	</div>\
-<span id="typeId' + num + '">\
-	<div id="input-con-div" class="input-container lightModeInput">\
-	<input class="" id="rmnum' + num + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
-	</div>\
-<span id="typeId' + num + '">\
-		<p> </p>\
-		<button onclick="otuPath('+ String(parseInt(num) - 1) + ')">Passing Time</button>\
-	<div class="selectionbox" id="' + tempElementIdNext + '">';
-	}
 
 }
 
 function otuPath() {
-	start = profiles[profnum][num][0]
-	end = profiles[profnum][num + 1][0]
+	start = document.getElementById("course1").value
+	end = document.getElementById("course2").value
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
@@ -130,6 +97,12 @@ function otuPath() {
 		path(grid, x1, y1, x2, y2)
 	} else {
 		stairPath(x1, y1, x2, y2, fl1)
+
+	}
+	if (fl1 == 1) {
+		lvl1()
+	} else {
+		lvl2()
 	}
 }
 
@@ -165,16 +138,43 @@ function otuPath() {
 // }
 
 
+function addProf() {
+	profnum = document.querySelectorAll('.prof').length;
+	if (profnum == 0) {
+		createProfile(profnum + 1)
+	} else {
+		locateCourses(profnum)
+		createProfile(profnum + 1)
+	}
+
+}
+
+function remProf() {
+	profnum = document.querySelectorAll('.prof').length;
+	if (profnum == 0) {
+		createProfile(profnum + 1)
+	} else {
+		locateCourses(profnum)
+		createProfile(profnum + 1)
+	}
+
+}
+
 
 
 function courseLoop(profnum) {
 	prof = String(profnum)
 	coursesAmt = parseInt(document.getElementById("num" + profnum).value) + 1
 	console.log(prof)
-	for (let i = 1; i < coursesAmt; i++) {
-		createCourse(i, profnum, 0)
+	if (coursesAmt != NaN) {
+		for (let i = 1; i < coursesAmt; i++) {
+			createCourse(i, profnum, 0)
+		}
+		console.log("passing" + String(coursesAmt - 1) + String(prof))
+		document.getElementById("passing" + String(coursesAmt - 1) + String(prof)).innerHTML = null;
+		document.getElementById("loccourses" + profnum).style.display = "block";
 	}
-	document.getElementById("loccourses" + profnum).style.display = "block";
+
 }
 
 function locateCourses(profnum) {
@@ -187,8 +187,40 @@ function locateCourses(profnum) {
 		profiles[profnum][i - 1][0] = document.getElementById("rmnum" + i + prof + "txt").value
 		profiles[profnum][i - 1][1] = document.getElementById("cl" + i + prof + "txt").value
 	}
+	localStorage.setItem("profiles", JSON.stringify(profiles))
+}
+
+
+
+function applyCookieProfiles() {
+	profiles = JSON.parse(localStorage.getItem("profiles"))
+	if (profiles == undefined) {
+		profiles = []
+	} else {
+		for (let i = 1; i < profiles.length; i++) {
+			createProfile(i)
+			for (let f = 1; f < parseInt(profiles[i].length) + 1; f++) {
+				// console.log("f = "+ f)
+				// console.log("length = " + profiles[i][f].length)
+				createCourse(f, i)
+				console.log(profiles[i][f - 1][0])
+				console.log(profiles[i][f - 1][1])
+				document.getElementById("rmnum" + f + String(i) + "txt").value = profiles[i][f - 1][0]
+				document.getElementById("cl" + f + String(i) + "txt").value = profiles[i][f - 1][1]
+			}
+			// document.getElementById("rmnum" + i + prof + "txt").value = profiles[profnum][i - 1][0]
+			// document.getElementById("cl" + i + prof + "txt").value = profiles[profnum][i - 1][1]
+		}
+	}
+
 
 }
+
+
+
+
+
+
 
 function passingTime(num, profnum) {
 	clearGrid()
@@ -216,6 +248,11 @@ function passingTime(num, profnum) {
 		path(grid, x1, y1, x2, y2)
 	} else {
 		stairPath(x1, y1, x2, y2, fl1)
+	}
+	if (fl1 == 1) {
+		lvl1()
+	} else {
+		lvl2()
 	}
 }
 
@@ -494,14 +531,28 @@ rooms = {
 };
 
 function start() {
+	lvl1()
+	applyCookieProfiles()
 	if (window.location.href.includes('?')) {
-		urlstr = window.location.href
-			.split("?").pop()
+		if (window.location.href.includes('One-time-use.html')) {
+			urlstr = window.location.href
+			attrib = urlstr.split("?").pop()
+			attriblst = attrib.split(":")
+			console.log(attriblst)
+			if (attriblst[0] == "rms") {
+				classes = attriblst[1].split("&")
+				document.getElementById("course1").value = classes[0]
+				classes[1] = classes[1].split('#')[0]
+				document.getElementById("course2").value = classes[1]
+				otuPath();
+			}
+		}
+
+
 	}
 	if (localStorage.getItem("shade") == "dark") {
 		darkMode()
 	}
-	lvl1()
 }
 
 
@@ -672,6 +723,14 @@ function clearGrid() {
 
 
 }
+
+
+download_img = function(el) {
+	var image = canvas.toDataURL("image/jpg");
+	el.href = image;
+};
+
+
 
 
 //Dark Mode

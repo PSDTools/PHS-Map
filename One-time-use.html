@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+	<script type="text/javascript" src="data/Level1.js"></script>
+	<script type="text/javascript" src="data/Level2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 	</script>
 	<title>PHS Map</title>
@@ -44,10 +46,18 @@
 			</div>
 			<button id="lvl1" onclick="lvl1()">Level 1</button>
 			<button id="lvl2" onclick="lvl2()">Level 2</button>
+			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
 		</div>
 
 		<div id="c2" class="lightMode w3-half w3-container w3-padding-16">
-			<div class="" id="temp1"></div>
+			<input id="course1" placeholder="Room Number 1:(ex: H100)"></input>
+			<p></p>
+			<input id="course2" placeholder="Room Number 2:(ex: H100)"></input>
+			<p></p>
+			<button onclick="otuPath()">Show Path</button>
+<p></p>
+				<p>Want to put in your whole schedule?</p>
+			<a href="/">Try Schedule Mode!</a>		
 		</div>
 	</div>
 
@@ -132,7 +142,7 @@
 			} // End if
 		});
 	});
-
+</script>
 
 
 
