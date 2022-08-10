@@ -10,7 +10,10 @@ var rooms;
 
 var profiles = []
 
-
+function clearAll(){
+	localStorage.setItem('profiles', null, -1);
+	localStorage.setItem('shade', null, -1);
+}
 
 function profloop() {
 	for (let i = 1; i < parseInt(document.getElementById("numofprof").value) + 1; i++) {
