@@ -45,7 +45,8 @@ function createProfile(profnum) {
 	<p></p>\
 	<div class="margin" id="profspacer1"></div>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
-	document.getElementById("loccourses" + profnum).style.display = "none";
+	document.getElementById("loccourses" + profnum).style.display = "block";
+	
 }
 
 
@@ -80,8 +81,23 @@ function createCourse(num, profnum) {
 
 function otuPath() {
 	clearGrid()
-	start = document.getElementById("course1").value
+
+	
+start = document.getElementById("course1").value
+	start = start.toUpperCase()
+
+start = start.replace("-", '');
+	start = start.replace("_", '');
+	start = start.replace("#", '');
+	start = start.replace("/", '');
+	
 	end = document.getElementById("course2").value
+	end = end.toUpperCase()
+	end = end.replace("-", '');
+	end = end.replace("_", '');
+	end = end.replace("#", '');
+	end = end.replace("/", '');
+	
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
@@ -211,6 +227,9 @@ function applyCookieProfiles() {
 			// document.getElementById("rmnum" + i + prof + "txt").value = profiles[profnum][i - 1][0]
 			// document.getElementById("cl" + i + prof + "txt").value = profiles[profnum][i - 1][1]
 		}
+
+
+		
 	}
 
 
@@ -232,6 +251,19 @@ function passingTime(num, profnum) {
 	console.log(profiles[profnum][num][0])
 	start = profiles[profnum][num][0]
 	end = profiles[profnum][num + 1][0]
+
+	start = start.toUpperCase()
+start = start.replace("-", '');
+	start = start.replace("_", '');
+	start = start.replace("#", '');
+	start = start.replace("/", '');
+	
+	end = end.toUpperCase()
+	end = end.replace("-", '');
+	end = end.replace("_", '');
+	end = end.replace("#", '');
+	end = end.replace("/", '');
+	
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
