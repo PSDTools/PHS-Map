@@ -33,7 +33,7 @@ function createProfile(profnum) {
 	console.log("prf" + prof)
 	document.getElementById(tempElementId).innerHTML = '\
 	<div class="prof txtbox w3-small w3-animate-right">\
-	<button id="add" onclick="remProf('+ profnum +')">-</button>\
+	<button id="add" onclick="remProf('+ profnum + ')">-</button>\
 	<input id="nameProf'+ prof + '" type="number" placeholder="Schedule Name">\
 	<p></p>\
 	<input id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
@@ -79,6 +79,7 @@ function createCourse(num, profnum) {
 }
 
 function otuPath() {
+	clearGrid()
 	start = document.getElementById("course1").value
 	end = document.getElementById("course2").value
 	x1 = rooms[start][0]
@@ -149,15 +150,14 @@ function addProf() {
 
 }
 
-function remProf() {
-	profnum = document.querySelectorAll('.prof').length;
-	if (profnum == 0) {
-		createProfile(profnum + 1)
-	} else {
-		locateCourses(profnum)
-		createProfile(profnum + 1)
-	}
-
+function remProf(profnum) {
+	console.log("profnum = " + profnum)
+	console.log(JSON.stringify(profiles[1]))
+	profiles.splice(profnum, 1)
+	console.log(JSON.stringify(profiles[1]))
+	document.getElementById("profiles").innerHTML = '<div class="" id="tempProf1"></div>'
+	localStorage.setItem("profiles", JSON.stringify(profiles))
+	applyCookieProfiles()
 }
 
 
@@ -278,10 +278,9 @@ stairs = {
 	4: [96, 61],
 	5: [29, 75],
 	6: [64, 88],
-	7: [30, 119],
-	8: [129, 119],
-	9: [68, 121],
-	10: [92, 121]
+	7: [129, 119],
+	8: [68, 121],
+	9: [92, 121]
 }
 function stairPath(x1, y1, x2, y2, fl) {
 
@@ -390,19 +389,19 @@ rooms = {
 	"D114": [39, 111, 1],
 	"D115": [34, 121, 1],
 	"D116": [37, 116, 1],
-	"B100": [88, 113, 1],
+	"B100": [87, 114, 1],
 	"B101": [96, 125, 1],
 	"B102": [96, 112, 1],
-	"B103": [102, 120, 1],
-	"B104": [97, 115, 1],
-	"B105": [0, 0, 0],
+	"B103": [101, 120, 1],
+	"B104": [102, 118, 1],
+	"B105": [103, 120, 1],
 	"B106": [106, 118, 1],
 	"B107": [108, 125, 1],
 	"B108": [108, 112, 1],
-	"B109": [114, 120, 1],
+	"B109": [113, 120, 1],
 	"B110": [110, 118, 1],
-	"B111": [0, 0, 0],
-	"B112": [115, 118, 1],
+	"B111": [115, 120, 1],
+	"B112": [118, 118, 1],
 	"B113": [120, 125, 1],
 	"B114": [120, 112, 1],
 	"B115": [122, 118, 1],
@@ -430,7 +429,7 @@ rooms = {
 	"F200": [76, 12, 2],
 	"F201": [81, 60, 2],
 	"F202": [80, 12, 2],
-	"F203": [0, 0, 0],
+	"F203": [81, 54, 2],
 	"F204": [89, 12, 2],//there are 2
 	"F205": [0, 0, 0],
 	"F206": [94, 12, 2],
@@ -446,14 +445,14 @@ rooms = {
 	"F216": [99, 44, 2],
 	"F217": [0, 0, 0],
 	"F218": [96, 56, 2],
-	"E200": [0, 0, 0],
+	"E200": [91, 88, 2],
 	"E201": [96, 80, 2],
 	"E202": [98, 74, 2],
-	"E203": [108, 77, 2],
+	"E203": [104, 77, 2],
 	"E204": [105, 74, 2],
-	"E205": [110, 77, 2],
+	"E205": [117, 77, 2],
 	"E206": [114, 74, 2],
-	"E207": [112, 77, 2],
+	"E207": [119, 77, 2],
 	"E208": [0, 0, 0],
 	"E209": [119, 77, 2],
 	"E210": [121, 74, 2],
@@ -476,9 +475,9 @@ rooms = {
 	"G214": [35, 73, 2],
 	"G215": [37, 77, 2],
 	"D200": [66, 118, 2],
-	"D201": [65, 119, 2],//Two of this
+	"D201": [65, 125, 2],
 	"D202": [65, 112, 2],
-	"D203": [0, 0, 2],
+	"D203": [60, 120, 2],
 	"D204": [61, 117, 2],
 	"D205": [58, 120, 2],
 	"D206": [57, 117, 2],
@@ -509,25 +508,33 @@ rooms = {
 	"B214": [122, 114, 2],
 	"B215": [124, 120, 2],
 	"B216": [124, 117, 2],
-	"C200": [0, 0, 0],
+	"C200": [85, 120, 2],
 	"C201": [0, 0, 0],
-	"C202": [0, 0, 0],
-	"C203": [0, 0, 0],
-	"C204": [0, 0, 0],
-	"C205": [0, 0, 0],
-	"C206": [0, 0, 0],
-	"C207": [79, 105, 2],
-	"C208": [0, 0, 0],
-	"C209": [0, 0, 0],
-	"C210": [0, 0, 0],
-	"C211": [0, 0, 0],
-	"C212": [79, 114, 2],
-	"C213": [0, 0, 0],
-	"C214": [82, 111, 2],
-	"C215": [0, 0, 0],
-	"C216": [0, 0, 0],
-	"C217": [0, 0, 0],
-	"C218": [0, 0, 0],
+	"C202": [80, 120, 2],
+	"C203": [76, 87, 0],
+	"C204": [89, 88, 0],
+	"C205": [80, 113, 2],
+	"C206": [80, 113, 2],
+	"C207": [80, 113, 2],
+	"C208": [80, 113, 2],
+	"C209": [80, 113, 2],
+	"C210": [80, 113, 2],
+	"C211": [80, 113, 2],
+	"C212": [80, 113, 2],
+	"C213": [80, 113, 2],
+	"C214": [80, 113, 2],
+	"C215": [80, 113, 2],
+	"C216": [80, 113, 2],
+	"C217": [80, 113, 2],
+	"C218": [80, 113, 2],
+	"C219": [80, 113, 2],
+	"C220": [80, 113, 2],
+	"C221": [80, 113, 2],
+	"C222": [80, 113, 2],
+	"C223": [80, 113, 2],
+	"C224": [80, 113, 2],
+	"C225": [80, 113, 2],
+	"C226": [80, 113, 2],
 };
 
 function start() {
@@ -587,15 +594,15 @@ function createCanvas() {
 
 
 function printGrid1() {
-	// ctx.globalAlpha = 0.5;
+	ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
 	for (let y = 0; y < gridLvl1.length; y++) {
 
 		for (let x = 0; x < gridLvl1[y].length; x++) {
 			if (gridLvl1[x][y] == "1") {
-				// ctx.fillStyle = "#000000";
-				// ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
+				ctx.fillStyle = "#000000";
+				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
 			} else if (gridLvl1[x][y] == "-2") {
 				ctx.fillStyle = "#00FFFF";
 				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
@@ -616,7 +623,7 @@ function printGrid1() {
 }
 
 function printGrid2() {
-	// ctx.globalAlpha = 0.5;
+	ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
 	for (let y = 0; y < gridLvl2.length; y++) {
@@ -624,8 +631,8 @@ function printGrid2() {
 		for (let x = 0; x < gridLvl2[y].length; x++) {
 
 			if (gridLvl2[x][y] == "1") {
-				// ctx.fillStyle = "#000000";
-				// ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
+				ctx.fillStyle = "#000000";
+				ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
 			} else if (gridLvl2[x][y] == "-2") {
 				ctx.fillStyle = "#00FFFF";
 				ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
