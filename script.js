@@ -594,15 +594,15 @@ function createCanvas() {
 
 
 function printGrid1() {
-	ctx.globalAlpha = 0.5;
+	// ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
 	for (let y = 0; y < gridLvl1.length; y++) {
 
 		for (let x = 0; x < gridLvl1[y].length; x++) {
 			if (gridLvl1[x][y] == "1") {
-				ctx.fillStyle = "#000000";
-				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
+				// ctx.fillStyle = "#000000";
+				// ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
 			} else if (gridLvl1[x][y] == "-2") {
 				ctx.fillStyle = "#00FFFF";
 				ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
@@ -623,7 +623,7 @@ function printGrid1() {
 }
 
 function printGrid2() {
-	ctx.globalAlpha = 0.5;
+	// ctx.globalAlpha = 0.5;
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size,);
 	for (let y = 0; y < gridLvl2.length; y++) {
@@ -631,8 +631,8 @@ function printGrid2() {
 		for (let x = 0; x < gridLvl2[y].length; x++) {
 
 			if (gridLvl2[x][y] == "1") {
-				ctx.fillStyle = "#000000";
-				ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
+				// ctx.fillStyle = "#000000";
+				// ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
 			} else if (gridLvl2[x][y] == "-2") {
 				ctx.fillStyle = "#00FFFF";
 				ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
