@@ -10,7 +10,7 @@ var rooms;
 
 var profiles = []
 
-function clearAll(){
+function clearAll() {
 	localStorage.setItem('profiles', null, -1);
 	localStorage.setItem('shade', null, -1);
 }
@@ -37,7 +37,7 @@ function createProfile(profnum) {
 	document.getElementById(tempElementId).innerHTML = '\
 	<div class="prof txtbox w3-small w3-animate-right">\
 	<button id="add" onclick="remProf('+ profnum + ')">-</button>\
-	<input id="nameProf'+ prof + '" type="number" placeholder="Schedule Name">\
+	<input id="nameProf'+ prof + '" placeholder="Schedule Name">\
 	<p></p>\
 	<input id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
 	<button onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
@@ -49,7 +49,7 @@ function createProfile(profnum) {
 	<div class="margin" id="profspacer1"></div>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
 	document.getElementById("loccourses" + profnum).style.display = "block";
-	
+
 }
 
 
@@ -85,22 +85,22 @@ function createCourse(num, profnum) {
 function otuPath() {
 	clearGrid()
 
-	
-start = document.getElementById("course1").value
+
+	start = document.getElementById("course1").value
 	start = start.toUpperCase()
 
-start = start.replace("-", '');
+	start = start.replace("-", '');
 	start = start.replace("_", '');
 	start = start.replace("#", '');
 	start = start.replace("/", '');
-	
+
 	end = document.getElementById("course2").value
 	end = end.toUpperCase()
 	end = end.replace("-", '');
 	end = end.replace("_", '');
 	end = end.replace("#", '');
 	end = end.replace("/", '');
-	
+
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
@@ -232,7 +232,7 @@ function applyCookieProfiles() {
 		}
 
 
-		
+
 	}
 
 
@@ -256,17 +256,17 @@ function passingTime(num, profnum) {
 	end = profiles[profnum][num + 1][0]
 
 	start = start.toUpperCase()
-start = start.replace("-", '');
+	start = start.replace("-", '');
 	start = start.replace("_", '');
 	start = start.replace("#", '');
 	start = start.replace("/", '');
-	
+
 	end = end.toUpperCase()
 	end = end.replace("-", '');
 	end = end.replace("_", '');
 	end = end.replace("#", '');
 	end = end.replace("/", '');
-	
+
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
 	fl1 = rooms[start][2]
@@ -342,6 +342,9 @@ function stairPath(x1, y1, x2, y2, fl) {
 	if (fl == 2) {
 		path(gridLvl2, x1, y1, sx1, sy1)
 		path(gridLvl1, sx1, sy1, x2, y2)
+	} else if (fl == 1) {
+		path(gridLvl1, x1, y1, sx1, sy1)
+		path(gridLvl2, sx1, sy1, x2, y2)
 	} else {
 		path(gridLvl1, x1, y1, sx1, sy1)
 		path(gridLvl2, sx1, sy1, x2, y2)
@@ -353,20 +356,16 @@ function stairPath(x1, y1, x2, y2, fl) {
 
 rooms = {
 	"H100": [68, 12, 1],
-	"H101": [0, 0, 0],
 	"H102": [58, 8, 1],
 	"H103": [58, 19, 1],
 	"H104": [58, 6, 1],
-	"H105": [0, 0, 0],
 	"H106": [56, 12, 1],
-	"H107": [0, 0, 0],
 	"H108": [48, 12, 1],
 	"H109": [46, 20, 1],
 	"H110": [46, 6, 1],
 	"H111": [40, 15, 1],
 	"H112": [39, 12, 1],
 	"H113": [38, 15, 1],
-	"H114": [0, 0, 0],
 	"H115": [33, 20, 1],
 	"H116": [33, 6, 1],
 	"H117": [33, 15, 1],
@@ -378,34 +377,25 @@ rooms = {
 	"F104": [91, 12, 1],
 	"F105": [81, 23, 1],
 	"F106": [95, 12, 1],
-	"F107": [0, 0, 0],
 	"F108": [103, 12, 1],
-	"F109": [0, 0, 0],
 	"F110": [97, 20, 1],
-	"F111": [0, 0, 0],
 	"F112": [99, 32, 1],
-	"F113": [0, 0, 0],
 	"H114": [99, 41, 1],
-	"H115": [0, 0, 0],
 	"H116": [97, 49, 1],
-	"H117": [0, 0, 0],
 	"H118": [97, 54, 1],
 	"E101": [108, 79, 1],
 	"E102": [98, 76, 1],
 	"E103": [122, 73, 1],
 	"G101": [60, 77, 1],
-	"G102": [64, 74, 0],
-	"G103": [0, 0, 0],
+	"G102": [64, 74, 1],
 	"G104": [62, 73, 1],
 	"G105": [55, 77, 1],
 	"G106": [60, 73, 1],
 	"G107": [49, 77, 1],
 	"G108": [51, 73, 1],
-	"G109": [0, 0, 0],
 	"G110": [49, 73, 1],
-	"G111": [0, 0, 0],
 	"G112": [40, 73, 1],
-	"G113": [41, 77, 0],
+	"G113": [41, 77, 1],
 	"G114": [37, 73, 1],
 	"D100": [65, 113, 1],
 	"D101": [64, 125, 1],
@@ -443,7 +433,6 @@ rooms = {
 	"B116": [126, 120, 1],
 	"E100": [100, 102, 1],
 	"H200": [68, 13, 2],
-	"H201": [0, 0, 0],
 	"H202": [59, 8, 2],
 	"H203": [58, 20, 2],
 	"H204": [58, 6, 2],
@@ -465,20 +454,14 @@ rooms = {
 	"F201": [81, 60, 2],
 	"F202": [80, 12, 2],
 	"F203": [81, 54, 2],
-	"F204": [89, 12, 2],//there are 2
-	"F205": [0, 0, 0],
+	"F204": [89, 12, 2],
 	"F206": [94, 12, 2],
-	"F207": [0, 0, 0],
 	"F208": [103, 12, 2],
 	"F209": [0, 0, 0],
 	"F210": [96, 18, 2],
 	"F211": [0, 0, 0],
 	"F212": [98, 33, 2],
-	"F213": [0, 0, 0],
-	"F214": [0, 0, 0],
-	"F215": [0, 0, 0],
 	"F216": [99, 44, 2],
-	"F217": [0, 0, 0],
 	"F218": [96, 56, 2],
 	"E200": [91, 88, 2],
 	"E201": [96, 80, 2],
@@ -488,20 +471,15 @@ rooms = {
 	"E205": [117, 77, 2],
 	"E206": [114, 74, 2],
 	"E207": [119, 77, 2],
-	"E208": [0, 0, 0],
 	"E209": [119, 77, 2],
 	"E210": [121, 74, 2],
-	"E211": [0, 0, 0],
 	"E212": [122, 73, 2],
-	"G200": [0, 0, 0],
 	"G201": [66, 84, 2],
 	"G202": [66, 72, 2],
-	"G203": [0, 0, 0],
 	"G204": [66, 66, 2],
 	"G205": [57, 81, 2],
 	"G206": [55, 72, 2],
 	"G207": [52, 79, 2],
-	"G208": [0, 0, 0],
 	"G209": [41, 77, 2],
 	"G210": [45, 71, 2],
 	"G211": [40, 81, 2],
@@ -530,24 +508,19 @@ rooms = {
 	"B201": [96, 125, 2],
 	"B202": [96, 112, 2],
 	"B203": [101, 120, 2],
-	"B204": [0, 0, 0],
 	"B205": [103, 120, 2],
 	"B206": [105, 117, 2],
-	"B207": [0, 0, 0],
 	"B208": [109, 114, 2],
 	"B209": [115, 120, 2],
-	"B210": [0, 0, 0],
-	"B211": [0, 0, 0],
 	"B212": [113, 117, 2],
 	"B213": [122, 125, 2],
 	"B214": [122, 114, 2],
 	"B215": [124, 120, 2],
 	"B216": [124, 117, 2],
 	"C200": [85, 120, 2],
-	"C201": [0, 0, 0],
 	"C202": [80, 120, 2],
-	"C203": [76, 87, 0],
-	"C204": [89, 88, 0],
+	"C203": [76, 87, 2],
+	"C204": [89, 88, 2],
 	"C205": [80, 113, 2],
 	"C206": [80, 113, 2],
 	"C207": [80, 113, 2],
@@ -570,6 +543,16 @@ rooms = {
 	"C224": [80, 113, 2],
 	"C225": [80, 113, 2],
 	"C226": [80, 113, 2],
+	"A214": [80, 113, 2],
+	"A213": [80, 113, 2],
+	"A212": [80, 113, 2],
+	"A211": [80, 113, 2],
+	"A001": [80, 113, 0],
+	"A002": [80, 113, 0],
+	"A004": [80, 113, 0],
+
+
+
 };
 
 function start() {
@@ -687,6 +670,46 @@ function printGrid2() {
 
 
 }
+
+
+
+
+
+
+// function printGrid0() {
+// 	ctx.globalAlpha = 0.5;
+// 	let img = source0
+// 	ctx.drawImage(img, 0, 0, size, size,);
+// 	var leng = gridLvl0.length
+// 	for (let y = 0; y < leng; y++) {
+
+// 		for (let x = 0; x < gridLvl0[y].length; x++) {
+
+// 			if (gridLvl0[x][y] == "1") {
+// 				ctx.fillStyle = "#000000";
+// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
+// 			} else if (gridLvl0[x][y] == "-2") {
+// 				ctx.fillStyle = "#00FFFF";
+// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
+// 			} else if (gridLvl0[x][y] == "-3") {
+// 				ctx.fillStyle = "#FF00FF";
+// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
+// 			} else if (gridLvl0[x][y] == "-4") {
+// 				ctx.fillStyle = "#F00FFF";
+// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
+// 			} else if (gridLvl0[x][y] == "-5") {
+// 				ctx.fillStyle = "#F00F0F";
+// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
+// 			}
+// 		}
+// 	}
+
+
+
+// }
+
+
+
 
 
 

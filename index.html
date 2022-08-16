@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://www.psdr3.org/images/logos/psd.png" rel="shortcut icon" type="text/css">
 	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 	<script type="text/javascript" src="data/Level1.js"></script>
@@ -36,6 +37,7 @@
 
 	<div class="w3-row">
 		<div id="c" class="lightMode w3-half w3-container w3-padding-16">
+			<img id="LVL0" src="Schooloverlayl0color.jpg" style="display:none;" />
 			<img id="LVL1" src="Schooloverlayl1color.jpg" style="display:none;" />
 			<img id="LVL2" src="Schooloverlayl2color.jpg" style="display:none;" />
 			<script src="script.js"></script>
@@ -44,19 +46,31 @@
 			<div class="item">
 				<canvas id="myCanvas" style="border:2px solid #000000;" class="" </canvas>
 			</div>
+<!-- 			<button id="lvl0" onclick="lvl0()">Level 0</button> -->
 			<button id="lvl1" onclick="lvl1()">Level 1</button>
 			<button id="lvl2" onclick="lvl2()">Level 2</button>
 			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
 		</div>
 
 		<div id="c2" class="lightMode w3-half w3-container w3-padding-16">
+			<h3>How to use!</h3>
+			<li>Press the "+" button below to add a schedule</li>
+			<li>Type in the number of classes in that schedule</li>
+			<li>Press "Submit"</li>
+			<li>Fill out the class information</li>
+			<li>Press "Save Courses"</li>
+			<li>Now use the passing time button in-bettween classes to show a path between those classes!</li>
 			<p></p>
 			<div id="profiles">
 			<div class="" id="tempProf1"></div>
 			</div>
 			<button id="add" onclick="addProf()">+</button>
+
+<p>Passing Time Currently Does Not Work for A Wing Classes</p>
+			<p>Schedule Names do not currently save</p>
+			<p></p>
 			<p>Only have one place to go?</p>
-			<a href="/One-time-use.html">Try One Time Use Mode!</a>
+			<a href="https://PHS-Map.parkerhasenkamp.repl.co/One-time-use.html">Try One Time Use Mode!</a>
 		</div>
 	</div>
 

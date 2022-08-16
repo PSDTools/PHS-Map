@@ -55,9 +55,8 @@ footer {
 	background: #044200;
 	transition: all 0.5s ease-in-out;
 }
-.lightModebg{
+.lightmodebg{
 	background: #1a8f00 ;
-	/* background: linear-gradient(180deg, #067500 20%, #16bd00 31%, #1a8f00 85%); */
 	transition: all 0.5s ease-in-out;
 }
 .txtbox{
