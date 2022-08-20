@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+	<script type="text/javascript" src="data/Level0.js"></script>
 	<script type="text/javascript" src="data/Level1.js"></script>
 	<script type="text/javascript" src="data/Level2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
@@ -36,6 +37,7 @@
 
 	<div class="w3-row">
 		<div id="c" class="lightMode w3-half w3-container w3-padding-16">
+			<img id="LVL0" src="Schooloverlayl0color.jpg" style="display:none;" />
 			<img id="LVL1" src="Schooloverlayl1color.jpg" style="display:none;" />
 			<img id="LVL2" src="Schooloverlayl2color.jpg" style="display:none;" />
 			<script src="script.js"></script>
@@ -44,6 +46,7 @@
 			<div class="item">
 				<canvas id="myCanvas" style="border:2px solid #000000;" class="" </canvas>
 			</div>
+			<button id="lvl1" onclick="lvl0()">Level 0</button>
 			<button id="lvl1" onclick="lvl1()">Level 1</button>
 			<button id="lvl2" onclick="lvl2()">Level 2</button>
 			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
@@ -55,11 +58,9 @@
 			<input id="course2" placeholder="Room Number 2:(ex: H100)"></input>
 			<p></p>
 			<button onclick="otuPath()">Show Path</button>
-<p></p>
-			<p>Passing Time Currently Does Not Work for A Wing Classes</p>
 			<p></p>
-				<p>Want to put in your whole schedule?</p>
-			<a href="/">Try Schedule Mode!</a>		
+			<p>Want to put in your whole schedule?</p>
+			<a id="OTULink" href="">Try Schedule Mode!</a>
 		</div>
 	</div>
 
@@ -151,5 +152,5 @@
 
 
 
-	
-</html >
+
+</html>

@@ -10,6 +10,7 @@
 	<link href="https://www.psdr3.org/images/logos/psd.png" rel="shortcut icon" type="text/css">
 	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+	<script type="text/javascript" src="data/Level0.js"></script>
 	<script type="text/javascript" src="data/Level1.js"></script>
 	<script type="text/javascript" src="data/Level2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
@@ -46,7 +47,7 @@
 			<div class="item">
 				<canvas id="myCanvas" style="border:2px solid #000000;" class="" </canvas>
 			</div>
-<!-- 			<button id="lvl0" onclick="lvl0()">Level 0</button> -->
+			<button id="lvl0" onclick="lvl0()">Level 0</button>
 			<button id="lvl1" onclick="lvl1()">Level 1</button>
 			<button id="lvl2" onclick="lvl2()">Level 2</button>
 			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
@@ -71,7 +72,7 @@
 			<p>Schedule Names do not currently save</p>
 			<p></p>
 			<p>Only have one place to go?</p>
-			<a href="https://PHS-Map.parkerhasenkamp.repl.co/One-time-use.html">Try One Time Use Mode!</a>
+			<a id="OTULink" href="">Try One Time Use Mode!</a>
 		</div>
 	</div>
 

@@ -87,14 +87,15 @@ function otuPath() {
 
 
 	start = document.getElementById("course1").value
-	start = start.toUpperCase()
+	end = document.getElementById("course2").value
 
+
+	start = start.toUpperCase()
 	start = start.replace("-", '');
 	start = start.replace("_", '');
 	start = start.replace("#", '');
 	start = start.replace("/", '');
 
-	end = document.getElementById("course2").value
 	end = end.toUpperCase()
 	end = end.replace("-", '');
 	end = end.replace("_", '');
@@ -103,26 +104,29 @@ function otuPath() {
 
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
-	fl1 = rooms[start][2]
+	flr1 = rooms[start][2]
 	x2 = rooms[end][0]
 	y2 = rooms[end][1]
-	fl2 = rooms[end][2]
-	console.log(fl1)
-	console.log(fl2)
-	if (fl1 == 1 && fl2 == 1) {
+	flr2 = rooms[end][2]
+	console.log(flr1)
+	console.log(flr2)
+	if (flr1 == 1 && flr2 == 1) {
 		grid = gridLvl1
 		path(grid, x1, y1, x2, y2)
-	} else if (fl1 == 2 && fl2 == 2) {
+	} else if (flr1 == 2 && flr2 == 2) {
 		grid = gridLvl2
 		path(grid, x1, y1, x2, y2)
+	} else if (flr1 != 0 && flr2 != 0) {
+		stairPath(x1, y1, x2, y2, flr1)
 	} else {
-		stairPath(x1, y1, x2, y2, fl1)
-
+		btmPath(x1, y1, x2, y2, flr1, flr2)
 	}
-	if (fl1 == 1) {
+	if (flr1 == 1) {
 		lvl1()
-	} else {
+	} else if (flr1 == 2) {
 		lvl2()
+	} else {
+		lvl0()
 	}
 }
 
@@ -269,27 +273,116 @@ function passingTime(num, profnum) {
 
 	x1 = rooms[start][0]
 	y1 = rooms[start][1]
-	fl1 = rooms[start][2]
+	flr1 = rooms[start][2]
 	x2 = rooms[end][0]
 	y2 = rooms[end][1]
-	fl2 = rooms[end][2]
-	console.log(fl1)
-	console.log(fl2)
-	if (fl1 == 1 && fl2 == 1) {
+	flr2 = rooms[end][2]
+	console.log(flr1)
+	console.log(flr2)
+	if (flr1 == 1 && flr2 == 1) {
 		grid = gridLvl1
 		path(grid, x1, y1, x2, y2)
-	} else if (fl1 == 2 && fl2 == 2) {
+	} else if (flr1 == 2 && flr2 == 2) {
 		grid = gridLvl2
 		path(grid, x1, y1, x2, y2)
+	} else if (flr1 != 0 && flr2 != 0) {
+		stairPath(x1, y1, x2, y2, flr1)
 	} else {
-		stairPath(x1, y1, x2, y2, fl1)
+		btmPath(x1, y1, x2, y2, flr1, flr2)
 	}
-	if (fl1 == 1) {
+	if (flr1 == 1) {
 		lvl1()
-	} else {
+	} else if (flr1 == 2) {
 		lvl2()
+	} else {
+		lvl0()
 	}
 }
+btmStairs = {
+	0: [90, 154],
+	1: [71, 154],
+}
+function btmPath(x1, y1, x2, y2, flr1, flr2) {
+	if (flr1 != 0) {
+		tempdist = []
+		tempdist1 = []
+		for (let i = 0; i < 2; i++) {
+			tempdist1.push(Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]))
+		}
+		tempdist2 = []
+		for (let i = 0; i < 2; i++) {
+			tempdist2.push(Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]))
+		}
+		console.log(tempdist1)
+		console.log(tempdist2)
+		for (let i = 0; i < tempdist1.length; i++) {
+			tempdist.push(tempdist1[i] + tempdist2[i])
+		}
+		console.log(tempdist)
+		min = Math.min(...tempdist)
+		indexmin = tempdist.indexOf(min)
+		console.log(indexmin)
+		sx1 = btmStairs[indexmin][0]
+		sy1 = btmStairs[indexmin][1]
+		if (flr1 == 2) {
+			path(gridLvl2, x1, y1, sx1, sy1)
+		} else if (flr1 == 1) {
+			path(gridLvl1, x1, y1, sx1, sy1)
+		}
+	} else if (flr2 != 0) {
+		tempdist = []
+		tempdist1 = []
+		for (let i = 0; i < 1; i++) {
+			tempdist1.push(Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]))
+		}
+		tempdist2 = []
+		for (let i = 0; i < 1; i++) {
+			tempdist2.push(Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]))
+		}
+		console.log(tempdist1)
+		console.log(tempdist2)
+		for (let i = 0; i < tempdist1.length; i++) {
+			tempdist.push(tempdist1[i] + tempdist2[i])
+		}
+		console.log(tempdist)
+		min = Math.min(...tempdist)
+		indexmin = tempdist.indexOf(min)
+		console.log(indexmin)
+		sx1 = btmStairs[indexmin][0]
+		sy1 = btmStairs[indexmin][1]
+		if (flr2 == 2) {
+			path(gridLvl2, x2, y2, sx1, sy1)
+		} else if (flr2 == 1) {
+			path(gridLvl1, x2, y2, sx1, sy1)
+		}
+	}
+
+	if (flr1 == 0) {
+		path(gridLvl0, x1, y1, sx1, sy1 - 8)
+		console.log(sx1)
+		console.log(sy1 - 8)
+	} else if (flr2 == 0) {
+		path(gridLvl0, x2, y2, sx1, sy1 - 8)
+		console.log("flr2")
+	}
+	if (flr1 == 1 || flr2 == 1)
+		mainToBtm(x1, y1, sx1, sy1, flr1, flr2)
+	console.log("done!")
+}
+
+function mainToBtm(x1, y1, sx1, sy1, flr1, flr2) {
+	if (flr1 == 1) {
+		stairPath(x1, y1, sx1, sy1, flr1)
+	} if (flr2 == 1) {
+		stairPath(x2, y2, sx1, sy1, flr1)
+	}
+}
+
+
+
+
+
+
 
 function path(grid, x1, y1, x2, y2) {
 	var matrix = new PF.Grid(grid);
@@ -303,6 +396,8 @@ function path(grid, x1, y1, x2, y2) {
 		printGrid1()
 	} else if (veiwlvl == 2) {
 		printGrid2()
+	} else if (veiwlvl == 0) {
+		printGrid0()
 	}
 }
 stairs = {
@@ -351,9 +446,6 @@ function stairPath(x1, y1, x2, y2, fl) {
 	}
 
 }
-
-
-
 rooms = {
 	"H100": [68, 12, 1],
 	"H102": [58, 8, 1],
@@ -547,15 +639,70 @@ rooms = {
 	"A213": [80, 113, 2],
 	"A212": [80, 113, 2],
 	"A211": [80, 113, 2],
-	"A001": [80, 113, 0],
-	"A002": [80, 113, 0],
-	"A004": [80, 113, 0],
+	"A001": [85, 156, 0],
+	"A002": [77, 160, 0],
+	"A004": [74, 149, 0],
 
 
 
 };
 
 function start() {
+	url = window.location.href
+	if (url.includes("One-time-use") != true) {
+		console.log(url)
+		url = url.replace('/#myHeader')
+		url = url.replace('#myHeader')
+		console.log(url)
+		if (url == "https://phs-map.parkerhasenkamp.repl.co" || url == "https://phs-map.parkerhasenkamp.repl.co/") {
+			document.getElementById("OTULink").href = '/One-time-use.html'
+		} else if (url == "https://parkerh27.github.io/PHS-Map/" || url == "https://parkerh27.github.io/PHS-Map") {
+			document.getElementById("OTULink").href = 'https://parkerh27.github.io/PHS-Map/One-time-use.html'
+		} else if (url == "https://parkerh27.github.io/PHS-Map/" || url == "https://parkerh27.github.io/PHS-Map") {
+			document.getElementById("OTULink").href = 'https://parkerh27.github.io/PHS-Map/One-time-use.html'
+		} else {
+			document.getElementById("OTULink").href = 'https://psdtools.github.io/PHS-Map/One-time-use.html'
+		}
+		console.log("!includes")
+	} else {
+		console.log(url)
+		url = url.replace('/#myHeader')
+		url = url.replace('#myHeader')
+		url = url.replace('/One-time-use.html', '')
+		console.log(url)
+		if (url == "https://phs-map.parkerhasenkamp.repl.co" || url == "https://phs-map.parkerhasenkamp.repl.co/") {
+			document.getElementById("OTULink").href = 'https://phs-map.parkerhasenkamp.repl.co'
+		} else if (url == "https://parkerh27.github.io/PHS-Map/" || url == "https://parkerh27.github.io/PHS-Map") {
+			document.getElementById("OTULink").href = 'https://parkerh27.github.io/PHS-Map'
+		} else if (url == "https://parkerh27.github.io/PHS-Map/" || url == "https://parkerh27.github.io/PHS-Map") {
+			document.getElementById("OTULink").href = 'https://parkerh27.github.io/PHS-Map'
+		} else {
+			document.getElementById("OTULink").href = 'https://psdtools.github.io/PHS-Map'
+		}
+		console.log("includes")
+	}
+	//PHS-Map-1.ethanarana.repl.co/One-time-use.html
+	//PHS-Map-1.ethanarana.repl.co/One-time-use.html?rms:H100&B209
+
+	// attrib = urlstr.split("?").pop()
+	// attrib = urlstr.split("").split
+	//       attrib = urlstr.split("?").pop()
+	// attriblst = attrib.split(":")
+	// console.log(attriblst)
+	// if (attriblst[0] == "rms") {
+	//   classes = attriblst[1].split("&")
+	//   document.getElementById("course1").value = classes[0]
+	//   classes[1] = classes[1].split('#')[0]
+	//   document.getElementById("course2").value = classes[1]
+	//   otuPath();
+	// }
+
+
+
+
+
+
+
 	lvl1()
 	applyCookieProfiles()
 	if (window.location.href.includes('?')) {
@@ -595,6 +742,8 @@ function createCanvas() {
 		printGrid1()
 	} else if (veiwlvl == 2) {
 		printGrid2()
+	} else if (veiwlvl == 0) {
+		printGrid0()
 	}
 
 }
@@ -606,6 +755,35 @@ function createCanvas() {
 
 
 
+
+function printGrid0() {
+	// ctx.globalAlpha = 0.5;
+	let img = source
+	ctx.drawImage(img, 0, 0, size, size,);
+	for (let y = 0; y < gridLvl0.length; y++) {
+
+		for (let x = 0; x < gridLvl0[y].length; x++) {
+			if (gridLvl0[x][y] == "1") {
+				// ctx.fillStyle = "#000000";
+				// ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
+			} else if (gridLvl0[x][y] == "-2") {
+				ctx.fillStyle = "#00FFFF";
+				ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
+			} else if (gridLvl0[x][y] == "-3") {
+				ctx.fillStyle = "#FF00FF";
+				ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
+			} else if (gridLvl0[x][y] == "-4") {
+				ctx.fillStyle = "#F00FFF";
+				ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
+			} else if (gridLvl0[x][y] == "-5") {
+				ctx.fillStyle = "#F00F0F";
+				ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
+			}
+		}
+	}
+
+
+}
 
 
 
@@ -676,46 +854,6 @@ function printGrid2() {
 
 
 
-// function printGrid0() {
-// 	ctx.globalAlpha = 0.5;
-// 	let img = source0
-// 	ctx.drawImage(img, 0, 0, size, size,);
-// 	var leng = gridLvl0.length
-// 	for (let y = 0; y < leng; y++) {
-
-// 		for (let x = 0; x < gridLvl0[y].length; x++) {
-
-// 			if (gridLvl0[x][y] == "1") {
-// 				ctx.fillStyle = "#000000";
-// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
-// 			} else if (gridLvl0[x][y] == "-2") {
-// 				ctx.fillStyle = "#00FFFF";
-// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
-// 			} else if (gridLvl0[x][y] == "-3") {
-// 				ctx.fillStyle = "#FF00FF";
-// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
-// 			} else if (gridLvl0[x][y] == "-4") {
-// 				ctx.fillStyle = "#F00FFF";
-// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
-// 			} else if (gridLvl0[x][y] == "-5") {
-// 				ctx.fillStyle = "#F00F0F";
-// 				ctx.fillRect(size / leng * y, size / leng * x, size / leng, size / leng);
-// 			}
-// 		}
-// 	}
-
-
-
-// }
-
-
-
-
-
-
-
-
-
 
 var px = 1
 var py = 1
@@ -725,6 +863,8 @@ window.onkeydown = function(f) {
 		grid = gridLvl1
 	} else if (veiwlvl == 2) {
 		grid = gridLvl2
+	} else if (veiwlvl == 0) {
+		grid = gridLvl0
 	}
 	grid[py][px] = old
 	var code = f.keyCode ? f.keyCode : f.which;
@@ -746,10 +886,15 @@ window.onkeydown = function(f) {
 		printGrid1()
 	} else if (veiwlvl == 2) {
 		printGrid2()
+	} else if (veiwlvl == 0) {
+		printGrid0()
 	}
 };
-
-
+function lvl0() {
+	veiwlvl = 0
+	source = document.getElementById("LVL0");
+	createCanvas()
+}
 function lvl1() {
 	veiwlvl = 1
 	source = document.getElementById("LVL1");
