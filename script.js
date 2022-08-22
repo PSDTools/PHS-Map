@@ -77,7 +77,7 @@ function createCourse(num, profnum) {
 	<input class="prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
 		<p> </p>\
-		<span id="passing' + num + prof + '"style="display:block">\<button onclick="passingTime(' + String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button></span>\
+		<span id="passing' + num + prof + '"style="display:block">\<button style="" onclick="passingTime(' + String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button></span>\
 	<div class="selectionbox" id="' + tempElementIdNext + '">';
 
 }
@@ -197,14 +197,17 @@ function courseLoop(profnum) {
 		document.getElementById("passing" + String(coursesAmt - 1) + String(prof)).innerHTML = null;
 		document.getElementById("loccourses" + profnum).style.display = "block";
 	}
-
 }
 
 function locateCourses(profnum) {
 	console.log("profnum = " + profnum)
 	prof = String(profnum)
 	profiles[profnum] = []
+	if (profiles[0] == null) {
+		profiles[0] = []
+	}
 	for (let i = 1; i < document.querySelectorAll('.prof' + profnum + '').length + 1; i++) {
+		profiles[0][profnum] = document.getElementById("nameProf" + profnum).value
 		profiles[profnum][i - 1] = []
 		console.log("rmnum" + String(parseInt(i) + 1) + prof + "txt")
 		profiles[profnum][i - 1][0] = document.getElementById("rmnum" + i + prof + "txt").value
@@ -222,24 +225,22 @@ function applyCookieProfiles() {
 	} else {
 		for (let i = 1; i < profiles.length; i++) {
 			createProfile(i)
+			document.getElementById("nameProf" + i).value = profiles[0][i]
 			for (let f = 1; f < parseInt(profiles[i].length) + 1; f++) {
-				// console.log("f = "+ f)
-				// console.log("length = " + profiles[i][f].length)
 				createCourse(f, i)
 				console.log(profiles[i][f - 1][0])
 				console.log(profiles[i][f - 1][1])
 				document.getElementById("rmnum" + f + String(i) + "txt").value = profiles[i][f - 1][0]
 				document.getElementById("cl" + f + String(i) + "txt").value = profiles[i][f - 1][1]
+				if (f == 1) {
+
+				} else {
+					document.getElementById("passing" + String(f - 1) + i).style = "display:block"
+				}
+				document.getElementById("passing" + String(f) + i).style = "display:none"
 			}
-			// document.getElementById("rmnum" + i + prof + "txt").value = profiles[profnum][i - 1][0]
-			// document.getElementById("cl" + i + prof + "txt").value = profiles[profnum][i - 1][1]
 		}
-
-
-
 	}
-
-
 }
 
 
@@ -911,7 +912,15 @@ function clearGrid() {
 	console.log(gridLvl2)
 	let img = source
 	ctx.drawImage(img, 0, 0, size, size);
+	for (let y = 0; y < gridLvl0.length; y++) {
 
+		for (let x = 0; x < gridLvl0[y].length; x++) {
+
+			if (gridLvl0[x][y] == "-4") {
+				gridLvl0[x][y] = 0
+			}
+		}
+	}
 	for (let y = 0; y < gridLvl1.length; y++) {
 
 		for (let x = 0; x < gridLvl1[y].length; x++) {
