@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="Manifest.appcache">
+<html>
 
 <head>
 	<meta charset="UTF-8">
@@ -10,27 +10,72 @@
 	<link href="https://www.psdr3.org/images/logos/psd.png" rel="shortcut icon" type="text/css">
 	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+	
 	<script type="text/javascript" src="data/Level0.js"></script>
 	<script type="text/javascript" src="data/Level1.js"></script>
 	<script type="text/javascript" src="data/Level2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 	</script>
 	<title>PHS Map</title>
+	<link href="bounce.css" rel="stylesheet" type="text/css" />
 	<link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body class="lightmodebg" onload="start()">
+<body class="lightmodebg" onload="start()" style="transition: background-color .5s;">
 
 	<header class="w3-container w3-theme w3-padding-16" id="myHeader">
-		<i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" style="color:white;background-color:black;font-size:36px" class="closebtn no-bounce" onclick="closeNav()"><i class="fa fa-close"></i></a>
+	<p></p>
+	<button id="darkModeButton" onclick="darkMode()" class="smallbutton w3-button w3-theme">Dark Mode</button>
+	<p></p>
+	<button class="clearDataButton smallbutton w3-button w3-theme" onclick="clearAll()">Clear All Site Data</button>
+	<p></p>
+<div class="no-bounce" style="align:center; display:inherit;">
+<div
+id="google_translate_element"></div>
+</div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<style>
+.goog-te-gadget {
+	text-align:center !important;
+	outline: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+	transform: none !important;
+	display:inherit !important;
+}
+.goog-logo-link {
+	text-align:center !important;
+	outline: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+	transform: none !important;
+	display:inherit !important;
+}
+	
+</style>
+	
+</div>
+
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
 		<div class="w3-center">
 			<h1 class="w3-animate-top phs">PHS</h1>
 			<h5 id="gradeLvl" class="w3-large w3-animate-top"></h5>
 			<h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
 			<h2 class="lgreen w3-xxlarge w3-animate-left">Schedules</h2>
 		</div>
-		<a class="w3-text-white" href="#myFooter"><span class="w3-xlarge">
-				<i class="fa fa-chevron-circle-down"></i></span></a>
+		<a class="no-bounce" style="color:white;background-color:black;" href="#myFooter"><span class="w3-xlarge">
+				<i class="fa fa-chevron-circle-down"></i>
+		</span>
+		</a>
 	</header>
 
 
@@ -55,18 +100,19 @@
 
 		<div id="c2" class="lightMode w3-half w3-container w3-padding-16">
 			<h3>How to use!</h3>
-			<li>Press the "+" button below to add a schedule</li>
+			<li>Press the <button class="lime plusbuttonsml" id="add" onclick="addProf()">&#10010;</button> button below to add a
+				schedule</li>
 			<li>Type in the number of classes in that schedule</li>
 			<li>Press "Submit"</li>
 			<li>Fill out the class information</li>
 			<li>Press "Save Courses"</li>
-			<li>Now use the passing time button in-bettween classes to show a path between those classes!</li>
-			<li>Use the "Level 1" and "Level 2" buttons below the map to view different floors</li>
-			<p></p>
+			<li>Now use the "Show Path" button in-between classes to show a path between those classes!</li>
+			<li>Use the "Level 0", "Level 1", and "Level 2" buttons below the map to view different floors</li>
+			<p style="margin:24px;"></p>
 			<div id="profiles">
-			<div class="" id="tempProf1"></div>
+				<div class="" id="tempProf1"></div>
 			</div>
-			<button id="add" onclick="addProf()">+</button>
+			<button class="lime plusbutton" id="add" onclick="addProf()">&#10010;</button>
 			<p></p>
 			<p>Only have one place to go?</p>
 			<a id="OTULink" href="">Try One Time Use Mode!</a>
@@ -80,20 +126,20 @@
 
 
 <footer class="footer w3-container w3-theme-dark w3-padding-16" id="myFooter">
-	<a class="w3-text-white" href="#myHeader"><span class="w3-xlarge">
+	<a class="no-bounce" style="color:white;background-color:black;" href="#myHeader"><span class="w3-xlarge">
 			<i class="fa fa-chevron-circle-up"></i></span></a>
 	<h3>About</h3>
 	<h5>Created by Parker Hasenkamp and Ethan Arana for the <a href="https://psdr3.org" target="_blank">Pattonville School
 			District</a></h5>
 	<h5>Found a Bug? <a href="https://forms.gle/AtFo1ixfryVuKAEU7" target="_blank"> Submit a Bug Report!</a></h5>
-	
+
 
 </footer>
 
 
 
 <!-- Side Navigation -->
-<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+<!-- <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
 	<button class="smallbutton w3-text-theme w3-padding-16" onclick="w3_close()">Close <i
 			class="fa fa-remove"></i></button>
 	<p></p>
@@ -107,7 +153,7 @@
 			new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
 		}
 // ]]></script>
-	<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+	<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
 		type="text/javascript"></script>
 	<script>
 		function w3_open() {
@@ -122,7 +168,7 @@
 		}
 	</script>
 </nav>
-
+ -->
 
 
 
