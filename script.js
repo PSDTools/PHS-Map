@@ -50,19 +50,17 @@ function createProfile(profnum) {
 	<div class="prof txtbox w3-animate-right" id="profBox'+prof+'">\
 		<div style="">\
 			<button class=" containerinpt red " style="" id="add" onclick="remProf('+ profnum + ')">&#10006;</button>\
-		<input class="cyan containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf'+ prof + '" placeholder="Schedule Name">\
+		<input class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf'+ prof + '" placeholder="Schedule Name">\
 		</div>\
 	<p></p>\
-	<input class="cyan containerinpt" style="" id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
-	<button class="cyan containerinpt" onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
+	<input class="pink containerinpt" style="" id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
+	<button class="pink containerinpt" onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
 	<div class=" selectionbox  w3-animate-right" id="temp'+ prof + '1"><p></p></div>\
-	<button class="pink containerinpt" id="loccourses'+ profnum + '" onclick="locateCourses(' + profnum + ')">Save Courses</button>\
 	<p></p>\
 	</div>\
 	<p></p>\
 	<div class="margin" id="profspacer1"></div>\
 	<div class="container" id="' + tempElementIdNext + '">';
-	document.getElementById("loccourses" + profnum).style.display = "block";
 
 }
 
@@ -86,10 +84,10 @@ function createCourse(num, profnum) {
 	document.getElementById(tempElementId).innerHTML = '\
 	<div id="input-con-div" class=" input-container lightModeInput">\
 	<p>Class '+ num + '</p>\
-	<input class="purple containerinpt" id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
+	<input onkeyup="locateCourses('+profnum+')" class="purple containerinpt" id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
 	</div>\
 	<div id="input-con-div" class="purple input-container lightModeInput">\
-	<input class="purple containerinpt prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
+	<input onkeyup="locateCourses('+profnum+')" class="purple containerinpt prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
 		<p class="inv" id="inv'+ num + prof + '"></p>\
 		<p> </p>\
@@ -122,19 +120,17 @@ function otuPath() {
 	console.log(start)
 	console.log(end)
 	if (rooms[start] == null) {
-		document.getElementById("inv" + String(num + 1) + String(profnum)).innerHTML = "Invalid Room Number"
+		document.getElementById("course1").innerHTML = "Invalid Room Number"
 		stinv1 = 1
 	} else {
-		document.getElementById("inv" + String(num + 1) + String(profnum)).innerHTML = ""
+		document.getElementById("course1").innerHTML = ""
 		stinv1 = 0
 	}
 	if (rooms[end] == null) {
-		console.log(rooms[end])
-		console.log(String(num + 2) + String(profnum))
-		document.getElementById("inv" + String(num + 2) + String(profnum)).innerHTML = "Invalid Room Number"
+		document.getElementById("course2").innerHTML = "Invalid Room Number"
 		stinv2 = 1
 	} else {
-		document.getElementById("inv" + String(num + 2) + String(profnum)).innerHTML = ""
+		document.getElementById("course2").innerHTML = ""
 		stinv2 = 0
 	}
 	if (stinv1 == 0 && stinv2 == 0) {
@@ -259,6 +255,7 @@ function locateCourses(profnum) {
 		profiles[profnum][i - 1][1] = document.getElementById("cl" + i + prof + "txt").value
 	}
 	localStorage.setItem("profiles", JSON.stringify(profiles))
+	console.log(localStorage.getItem("profiles"))
 }
 
 
@@ -758,22 +755,6 @@ function start() {
 		}
 		console.log("includes")
 	}
-	//PHS-Map-1.ethanarana.repl.co/One-time-use.html
-	//PHS-Map-1.ethanarana.repl.co/One-time-use.html?rms:H100&B209
-
-	// attrib = urlstr.split("?").pop()
-	// attrib = urlstr.split("").split
-	//       attrib = urlstr.split("?").pop()
-	// attriblst = attrib.split(":")
-	// console.log(attriblst)
-	// if (attriblst[0] == "rms") {
-	//   classes = attriblst[1].split("&")
-	//   document.getElementById("course1").value = classes[0]
-	//   classes[1] = classes[1].split('#')[0]
-	//   document.getElementById("course2").value = classes[1]
-	//   otuPath();
-	// }
-
 
 
 
@@ -1073,3 +1054,5 @@ function darkMode() {
 //     //     keys += "1"
 //     // }
 // };
+
+
