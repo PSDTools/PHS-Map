@@ -50,7 +50,7 @@ function createProfile(profnum) {
 	<div class="prof txtbox w3-animate-right" id="profBox'+prof+'">\
 		<div style="">\
 			<button class=" containerinpt red " style="" id="add" onclick="remProf('+ profnum + ')">&#10006;</button>\
-		<input class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf'+ prof + '" placeholder="Schedule Name">\
+		<input onkeyup="locateCourses('+profnum+')" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf'+ prof + '" placeholder="Schedule Name">\
 		</div>\
 	<p></p>\
 	<input class="pink containerinpt" style="" id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
@@ -351,15 +351,19 @@ function passingTime(num, profnum) {
 		console.log(flr2)
 
 		if (flr1 == 1 && flr2 == 1) {
+			console.log("pth")
 			grid = gridLvl1
 			path(grid, x1, y1, x2, y2)
 		} else if (flr1 == 2 && flr2 == 2) {
 			grid = gridLvl2
 			path(grid, x1, y1, x2, y2)
+			console.log("pth")
 		} else if (flr1 != 0 && flr2 != 0) {
 			stairPath(x1, y1, x2, y2, flr1)
+			console.log("strpth")
 		} else {
 			btmPath(x1, y1, x2, y2, flr1, flr2)
+			console.log("btmpth")
 		}
 		if (flr1 == 1) {
 			lvl1()

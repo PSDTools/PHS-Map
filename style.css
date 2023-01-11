@@ -1,110 +1,129 @@
-.crd{
+.crd {
 	width: inherit;
 }
-.item{
-  margin-bottom: 1px;
-/* 	position: absolute;
+
+.item {
+	margin-bottom: 1px;
+	/* 	position: absolute;
 	top: 0;
 	left: 0; */
 }
-.margin{
+
+.margin {
 	margin-bottom: 32px;
 }
-html, body {
-  color: black;
-	min-height: 100vh;    
+
+html,
+body {
+	color: black;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	border-style:none;
+	border-style: none;
 }
+
 h1 {
-  color: green;
+	color: green;
 }
 
 h2 {
-  color: white;
-  font-size: 50px;
-}
-.phs{
-	color:green;
+	color: white;
+	font-size: 50px;
 }
 
-h1 {text-align: center;}
+.phs {
+	color: green;
+}
+
+h1 {
+	text-align: center;
+}
 
 footer {
 	background-color: black;
 	margin-top: auto;
 }
-.smallbutton{
+
+.smallbutton {
 	/* 	font-size:40%; */
 	width: inherit
 }
 
 
-.darkMode{
+.darkMode {
 	background-color: #000000;
-	color:white;
-	border-style:solid;
+	color: white;
+	border-style: solid;
 	border-width: 1px;
-	border-color:#1f1f1f;
+	border-color: #1f1f1f;
 	transition: all 0.5s ease-in-out;
 }
-.lightMode{
-	background-color:#f1f1f1;
-	color:black;
-	border-style:solid;
+
+.lightMode {
+	background-color: #f1f1f1;
+	color: black;
+	border-style: solid;
 	border-width: 1px;
-	border-color:#e7e7e7;
+	border-color: #e7e7e7;
 	transition: all 0.5s ease-in-out;
 }
-.darkModebg{
+
+.darkModebg {
 	background: #1a8f00;
 	transition: all 0.5s ease-in-out;
 }
-.lightmodebg{
-	background: #1a8f00 ;
+
+.lightmodebg {
+	background: #1a8f00;
 	transition: all 0.5s ease-in-out;
 }
+
 /* light */
-.txtbox{
-  width: inherit;
-  padding: 10px 0 10px 15px;
-  font-weight: 500;
+.txtbox {
+	width: inherit;
+	padding: 10px 0 10px 15px;
+	font-weight: 500;
 	color: rgb(0, 0, 0);
-  background: #e3e3e3;
-  border: 0;
-  border-radius: 3px;
-  outline: 0;
+	background: #e3e3e3;
+	border: 0;
+	border-radius: 3px;
+	outline: 0;
 }
-.lgreen{
+
+.lgreen {
 	color: lightgreen;
 }
-.inv{
-  color: #ad0000
+
+.inv {
+	color: #ad0000
 }
-.xbutton{
-	color:#1b1b1b;
-	background-color:#f54242;
+
+.xbutton {
+	color: #1b1b1b;
+	background-color: #f54242;
 	border: 1;
 	border-radius: 3px;
-	border-color:#4b4b4b;
+	border-color: #4b4b4b;
 	width: 100%;
 }
-.plusbuttonsml{
-	color:#1b1b1b;
-	background-color:#42f54e;
+
+.plusbuttonsml {
+	color: #1b1b1b;
+	background-color: #42f54e;
 	border: 1;
 	border-radius: 3px;
-	border-color:#4b4b4b;
+	border-color: #4b4b4b;
 }
-.plusbutton{
-	color:#1b1b1b;
-	background-color:#42f54e;
+
+.plusbutton {
+	color: #1b1b1b;
+	background-color: #42f54e;
 	border: 1;
 	border-radius: 3px;
-	border-color:#4b4b4b;
+	border-color: #4b4b4b;
 	width: 100%;
 }
+
 /* .showpth{
 	color:#1b1b1b;
 	background-color:#949bff;
@@ -112,25 +131,28 @@ footer {
 	border-radius: 3px;
 	border-color:#4b4b4b;
 } */
-.containerinpt{
-	width:97%;
-/* 	background-color:#ffffff;
+.containerinpt {
+	width: 97%;
+	/* 	background-color:#ffffff;
 	border-radius: 3px;
 	border-color:#000000; */
 }
-.btninpt{
-	width:100%;
+
+.btninpt {
+	width: 100%;
 }
-.txtboxdark{
-  width: inherit;
-  padding: 10px 0 10px 15px;
-  font-weight: 500;
+
+.txtboxdark {
+	width: inherit;
+	padding: 10px 0 10px 15px;
+	font-weight: 500;
 	color: rgb(255, 255, 255);
-  background: #202124;
-  border: 0;
-  border-radius: 3px;
-  outline: 0;
+	background: #202124;
+	border: 0;
+	border-radius: 3px;
+	outline: 0;
 }
+
 /* dark */
 /* .txtbox{
   width: inherit;
@@ -192,47 +214,51 @@ footer {
 
 
 
-
 .sidenav {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
 }
 
 .sidenav a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+	color: #f1f1f1;
 }
 
 .sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
 }
 
 #main {
-  transition: margin-left .5s;
-  padding: 16px;
+	transition: margin-left .5s;
+	padding: 16px;
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+	.sidenav {
+		padding-top: 15px;
+	}
+
+	.sidenav a {
+		font-size: 18px;
+	}
 }
