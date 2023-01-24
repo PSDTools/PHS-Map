@@ -766,7 +766,7 @@ rooms = {
 
 function start() {
   url = window.location.href;
-  if (url.includes("One-time-use") != true) {
+  if (url.includes("one-time-use") != true) {
     console.log(url);
     url = url.replace("/#myHeader");
     url = url.replace("#myHeader");
@@ -775,29 +775,29 @@ function start() {
       url == "https://phs-map.parkerhasenkamp.repl.co" ||
       url == "https://phs-map.parkerhasenkamp.repl.co/"
     ) {
-      document.getElementById("OTULink").href = "/One-time-use.html";
+      document.getElementById("OTULink").href = "/one-time-use.html";
     } else if (
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
       document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map/One-time-use.html";
+        "https://parkerh27.github.io/PHS-Map/one-time-use.html";
     } else if (
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
       document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map/One-time-use.html";
+        "https://parkerh27.github.io/PHS-Map/one-time-use.html";
     } else {
       document.getElementById("OTULink").href =
-        "https://psdtools.github.io/PHS-Map/One-time-use.html";
+        "https://psdtools.github.io/PHS-Map/one-time-use.html";
     }
     console.log("!includes");
   } else {
     console.log(url);
     url = url.replace("/#myHeader");
     url = url.replace("#myHeader");
-    url = url.replace("/One-time-use.html", "");
+    url = url.replace("/one-time-use.html", "");
     console.log(url);
     if (
       url == "https://phs-map.parkerhasenkamp.repl.co" ||
@@ -827,7 +827,7 @@ function start() {
   lvl1();
   applyCookieProfiles();
   if (window.location.href.includes("?")) {
-    if (window.location.href.includes("One-time-use.html")) {
+    if (window.location.href.includes("one-time-use.html")) {
       urlstr = window.location.href;
       attrib = urlstr.split("?").pop();
       attriblst = attrib.split(":");
