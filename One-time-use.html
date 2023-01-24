@@ -1,158 +1,197 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="pathing/pathfinding-browser.js"
+    ></script>
+    <link
+      href="https://www.psdr3.org/images/logos/psd.png"
+      rel="shortcut icon"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.w3schools.com/lib/w3-theme-black.css"
+    />
+    <script type="text/javascript" src="data/Level0.js"></script>
+    <script type="text/javascript" src="data/Level1.js"></script>
+    <script type="text/javascript" src="data/Level2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>PHS Map</title>
+    <link href="bounce.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script type="text/javascript" src="pathing/pathfinding-browser.js"></script>
-	<link href="https://www.psdr3.org/images/logos/psd.png" rel="shortcut icon" type="text/css">
-	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-	<script type="text/javascript" src="data/Level0.js"></script>
-	<script type="text/javascript" src="data/Level1.js"></script>
-	<script type="text/javascript" src="data/Level2.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-	</script>
-	<title>PHS Map</title>
-	<link href="bounce.css" rel="stylesheet" type="text/css" />
-	<link href="style.css" rel="stylesheet" type="text/css" />
-</head>
+  <body class="lightmodebg" onload="start()">
+    <header class="w3-container w3-theme w3-padding-16" id="myHeader">
+      <i
+        onclick="w3_open()"
+        class="fa fa-bars w3-xlarge w3-button w3-theme"
+      ></i>
+      <div class="w3-center">
+        <h1 class="w3-animate-top phs">PHS</h1>
+        <h5 id="gradeLvl" class="w3-large w3-animate-top"></h5>
+        <h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
+        <h2 class="lgreen w3-xxlarge w3-animate-left">One Time Use</h2>
+      </div>
+      <a class="w3-text-white" href="#myFooter"
+        ><span class="w3-xlarge">
+          <i class="fa fa-chevron-circle-down"></i></span
+      ></a>
+    </header>
 
-<body class="lightmodebg" onload="start()">
+    <div class="w3-row">
+      <div id="c" class="lightMode w3-half w3-container w3-padding-16">
+        <img id="LVL0" src="Schooloverlayl0color.jpg" style="display: none" />
+        <img id="LVL1" src="Schooloverlayl1color.jpg" style="display: none" />
+        <img id="LVL2" src="Schooloverlayl2color.jpg" style="display: none" />
+        <script src="script.js"></script>
 
-	<header class="w3-container w3-theme w3-padding-16" id="myHeader">
-		<i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
-		<div class="w3-center">
-			<h1 class="w3-animate-top phs">PHS</h1>
-			<h5 id="gradeLvl" class="w3-large w3-animate-top"></h5>
-			<h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
-			<h2 class="lgreen w3-xxlarge w3-animate-left">One Time Use</h2>
-		</div>
-		<a class="w3-text-white" href="#myFooter"><span class="w3-xlarge">
-				<i class="fa fa-chevron-circle-down"></i></span></a>
-	</header>
+        <div class="item">
+          <canvas
+            id="myCanvas"
+            style="border: 2px solid #000000"
+            class=""
+          ></canvas>
+        </div>
+        <button id="lvl1" onclick="lvl0()">Level 0</button>
+        <button id="lvl1" onclick="lvl1()">Level 1</button>
+        <button id="lvl2" onclick="lvl2()">Level 2</button>
+        <a
+          id="download"
+          download="PHS-Map.jpg"
+          href=""
+          onclick="download_img(this);"
+          >Download Current Map</a
+        >
+      </div>
 
+      <div id="c2" class="lightMode w3-half w3-container w3-padding-16">
+        <input id="course1" placeholder="Room Number 1:(ex: H100)" />
+        <p></p>
+        <input id="course2" placeholder="Room Number 2:(ex: H100)" />
+        <p></p>
+        <button onclick="otuPath()">Show Path</button>
+        <p></p>
+        <p>Want to put in your whole schedule?</p>
+        <a id="OTULink" href="">Try Schedule Mode!</a>
+      </div>
+    </div>
+  </body>
 
+  <footer class="footer w3-container w3-theme-dark w3-padding-16" id="myFooter">
+    <a class="w3-text-white" href="#myHeader"
+      ><span class="w3-xlarge"> <i class="fa fa-chevron-circle-up"></i></span
+    ></a>
+    <h3>About</h3>
+    <h5>
+      Created by Parker Hasenkamp and Ethan Arana for the
+      <a href="https://psdr3.org" target="_blank"
+        >Pattonville School District</a
+      >
+    </h5>
+  </footer>
 
+  <!-- Side Navigation -->
+  <nav
+    class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center"
+    style="display: none"
+    id="mySidebar"
+  >
+    <button
+      class="smallbutton w3-text-theme w3-padding-16"
+      onclick="w3_close()"
+    >
+      Close <i class="fa fa-remove"></i>
+    </button>
+    <p></p>
+    <button
+      id="darkModeButton"
+      onclick="darkMode()"
+      class="smallbutton w3-button w3-theme"
+    >
+      Dark Mode
+    </button>
+    <p></p>
+    <button
+      class="clearDataButton smallbutton w3-button w3-theme"
+      onclick="clearAll()"
+    >
+      Clear All Site Data
+    </button>
+    <p></p>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+      // <![CDATA[
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+      // ]]>
+    </script>
+    <script
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      type="text/javascript"
+    ></script>
+    <script>
+      function w3_open() {
+        var x = document.getElementById("mySidebar");
+        x.style.width = "30%";
+        x.style.fontSize = "40px";
+        x.style.paddingTop = "10%";
+        x.style.display = "block";
+      }
+      function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+      }
+    </script>
+  </nav>
 
-	<div class="w3-row">
-		<div id="c" class="lightMode w3-half w3-container w3-padding-16">
-			<img id="LVL0" src="Schooloverlayl0color.jpg" style="display:none;" />
-			<img id="LVL1" src="Schooloverlayl1color.jpg" style="display:none;" />
-			<img id="LVL2" src="Schooloverlayl2color.jpg" style="display:none;" />
-			<script src="script.js"></script>
+  <!--Smooth Scroll Buttons-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Add smooth scrolling to all links
+      $("a").on("click", function (event) {
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== "") {
+          // Prevent default anchor click behavior
+          event.preventDefault();
 
+          // Store hash
+          var hash = this.hash;
 
-			<div class="item">
-				<canvas id="myCanvas" style="border:2px solid #000000;" class="" </canvas>
-			</div>
-			<button id="lvl1" onclick="lvl0()">Level 0</button>
-			<button id="lvl1" onclick="lvl1()">Level 1</button>
-			<button id="lvl2" onclick="lvl2()">Level 2</button>
-			<a id="download" download="PHS-Map.jpg" href="" onclick="download_img(this);">Download Current Map</a>
-		</div>
-
-		<div id="c2" class="lightMode w3-half w3-container w3-padding-16">
-			<input id="course1" placeholder="Room Number 1:(ex: H100)"></input>
-			<p></p>
-			<input id="course2" placeholder="Room Number 2:(ex: H100)"></input>
-			<p></p>
-			<button onclick="otuPath()">Show Path</button>
-			<p></p>
-			<p>Want to put in your whole schedule?</p>
-			<a id="OTULink" href="">Try Schedule Mode!</a>
-		</div>
-	</div>
-
-
-
-
-
-
-
-</body>
-
-
-<footer class="footer w3-container w3-theme-dark w3-padding-16" id="myFooter">
-	<a class="w3-text-white" href="#myHeader"><span class="w3-xlarge">
-			<i class="fa fa-chevron-circle-up"></i></span></a>
-	<h3>About</h3>
-	<h5>Created by Parker Hasenkamp and Ethan Arana for the <a href="https://psdr3.org" target="_blank">Pattonville School
-			District</a></h5>
-
-</footer>
-
-
-
-<!-- Side Navigation -->
-<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
-	<button class="smallbutton w3-text-theme w3-padding-16" onclick="w3_close()">Close <i
-			class="fa fa-remove"></i></button>
-	<p></p>
-	<button id="darkModeButton" onclick="darkMode()" class="smallbutton w3-button w3-theme">Dark Mode</button>
-	<p></p>
-	<button class="clearDataButton smallbutton w3-button w3-theme" onclick="clearAll()">Clear All Site Data</button>
-	<p></p>
-	<div id="google_translate_element"></div>
-	<script type="text/javascript">// <![CDATA[
-		function googleTranslateElementInit() {
-			new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-		}
-// ]]></script>
-	<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-		type="text/javascript"></script>
-	<script>
-		function w3_open() {
-			var x = document.getElementById("mySidebar");
-			x.style.width = "30%";
-			x.style.fontSize = "40px";
-			x.style.paddingTop = "10%";
-			x.style.display = "block";
-		}
-		function w3_close() {
-			document.getElementById("mySidebar").style.display = "none";
-		}
-	</script>
-</nav>
-
-
-
-
-<!--Smooth Scroll Buttons-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-	$(document).ready(function () {
-		// Add smooth scrolling to all links
-		$("a").on('click', function (event) {
-
-			// Make sure this.hash has a value before overriding default behavior
-			if (this.hash !== "") {
-				// Prevent default anchor click behavior
-				event.preventDefault();
-
-				// Store hash
-				var hash = this.hash;
-
-				// Using jQuery's animate() method to add smooth page scroll
-				// The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-				$('html, body').animate({
-					scrollTop: $(hash).offset().top
-				}, 1000, function () {
-
-					// Add hash (#) to URL when done scrolling (default click behavior)
-					window.location.hash = hash;
-				});
-			} // End if
-		});
-	});
-</script>
-
-
-
-
-
-
-
+          // Using jQuery's animate() method to add smooth page scroll
+          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+          $("html, body").animate(
+            {
+              scrollTop: $(hash).offset().top,
+            },
+            1000,
+            function () {
+              // Add hash (#) to URL when done scrolling (default click behavior)
+              window.location.hash = hash;
+            }
+          );
+        } // End if
+      });
+    });
+  </script>
 </html>
