@@ -221,36 +221,64 @@
   </footer>
 
   <!-- Side Navigation -->
-  <!-- <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
-	<button class="smallbutton w3-text-theme w3-padding-16" onclick="w3_close()">Close <i
-			class="fa fa-remove"></i></button>
-	<p></p>
-	<button id="darkModeButton" onclick="darkMode()" class="smallbutton w3-button w3-theme">Dark Mode</button>
-	<p></p>
-	<button class="clearDataButton smallbutton w3-button w3-theme" onclick="clearAll()">Clear All Site Data</button>
-	<p></p>
-	<div id="google_translate_element"></div>
-	<script type="text/javascript">// <![CDATA[
-		function googleTranslateElementInit() {
-			new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-		}
-// ]]></script>
-	<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-		type="text/javascript"></script>
-	<script>
-		function w3_open() {
-			var x = document.getElementById("mySidebar");
-			x.style.width = "30%";
-			x.style.fontSize = "40px";
-			x.style.paddingTop = "10%";
-			x.style.display = "block";
-		}
-		function w3_close() {
-			document.getElementById("mySidebar").style.display = "none";
-		}
-	</script>
-</nav>
- -->
+  <nav
+    class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center"
+    style="display: none"
+    id="mySidebar"
+  >
+    <button
+      class="smallbutton w3-text-theme w3-padding-16"
+      onclick="w3_close()"
+    >
+      Close <i class="fa fa-remove"></i>
+    </button>
+    <p></p>
+    <button
+      id="darkModeButton"
+      onclick="darkMode()"
+      class="smallbutton w3-button w3-theme"
+    >
+      Dark Mode
+    </button>
+    <p></p>
+    <button
+      class="clearDataButton smallbutton w3-button w3-theme"
+      onclick="clearAll()"
+    >
+      Clear All Site Data
+    </button>
+    <p></p>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+      // <![CDATA[
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+      // ]]>
+    </script>
+    <script
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      type="text/javascript"
+    ></script>
+    <script>
+      function w3_open() {
+        var x = document.getElementById("mySidebar");
+        x.style.width = "30%";
+        x.style.fontSize = "40px";
+        x.style.paddingTop = "10%";
+        x.style.display = "block";
+      }
+      function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+      }
+    </script>
+  </nav>
 
   <!--Smooth Scroll Buttons-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
