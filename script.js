@@ -10,6 +10,18 @@ var rooms;
 
 var profiles = []
 
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+  document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  document.body.style.backgroundColor = "white";
+}
+
 function clearAll() {
 	localStorage.setItem('profiles', null, -1);
 	localStorage.setItem('shade', null, -1);
@@ -35,20 +47,20 @@ function createProfile(profnum) {
 	//creates html elements in the courses class
 	console.log("prf" + prof)
 	document.getElementById(tempElementId).innerHTML = '\
-	<div class="prof txtbox w3-small w3-animate-right">\
-	<button id="add" onclick="remProf('+ profnum + ')">-</button>\
-	<input id="nameProf'+ prof + '" placeholder="Schedule Name">\
+	<div class="prof txtbox w3-animate-right" id="profBox'+prof+'">\
+		<div style="">\
+			<button class=" containerinpt red " style="" id="add" onclick="remProf('+ profnum + ')">&#10006;</button>\
+		<input onkeyup="locateCourses('+profnum+')" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf'+ prof + '" placeholder="Schedule Name">\
+		</div>\
 	<p></p>\
-	<input id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
-	<button onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
-	<div class="selectionbox w3-small w3-animate-right" id="temp'+ prof + '1"><p></p></div>\
-	<button id="loccourses'+ profnum + '" onclick="locateCourses(' + profnum + ')">Save Courses</button>\
+	<input class="pink containerinpt" style="" id="num'+ prof + '" type="number" placeholder="Num of classes in schedule">\
+	<button class="pink containerinpt" onclick="courseLoop('+ String(profnum) + ')">Submit</button>\
+	<div class=" selectionbox  w3-animate-right" id="temp'+ prof + '1"><p></p></div>\
 	<p></p>\
 	</div>\
 	<p></p>\
 	<div class="margin" id="profspacer1"></div>\
-	<div class="selectionbox" id="' + tempElementIdNext + '">';
-	document.getElementById("loccourses" + profnum).style.display = "block";
+	<div class="container" id="' + tempElementIdNext + '">';
 
 }
 
@@ -68,17 +80,21 @@ function createCourse(num, profnum) {
 	console.log("tmpidnxt: " + tempElementIdNext)
 	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
 	//creates html elements in the courses class
+	console.log("inv" + num + prof)
 	document.getElementById(tempElementId).innerHTML = '\
-	<div id="input-con-div" class="input-container lightModeInput">\
+	<div id="input-con-div" class=" input-container lightModeInput">\
 	<p>Class '+ num + '</p>\
-	<input id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
+	<input onkeyup="locateCourses('+profnum+')" class="purple containerinpt" id="cl' + num + prof + 'txt" type="text" required="" placeholder="Name:"/>\
 	</div>\
-	<div id="input-con-div" class="input-container lightModeInput">\
-	<input class="prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
+	<div id="input-con-div" class="purple input-container lightModeInput">\
+	<input onkeyup="locateCourses('+profnum+')" class="purple containerinpt prof'+ profnum + '" id="rmnum' + num + prof + 'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
 	</div>\
+		<p class="inv" id="inv'+ num + prof + '"></p>\
 		<p> </p>\
-		<span id="passing' + num + prof + '"style="display:block">\<button style="" onclick="passingTime(' + String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button></span>\
-	<div class="selectionbox" id="' + tempElementIdNext + '">';
+		<div class="">\
+		<span class="containerinpt" id="passing' + num + prof + '"style="display:block">\<button style="" class="purple btninpt showpth" onclick="passingTime(' + String(parseInt(num) - 1) + "," + String(profnum) + ')">Show Path <span style="font-size:120%;">⇩</span></button></span>\
+		</div>\
+	<div class=" selectionbox" id="' + tempElementIdNext + '">';
 
 }
 
@@ -101,32 +117,50 @@ function otuPath() {
 	end = end.replace("_", '');
 	end = end.replace("#", '');
 	end = end.replace("/", '');
-
-	x1 = rooms[start][0]
-	y1 = rooms[start][1]
-	flr1 = rooms[start][2]
-	x2 = rooms[end][0]
-	y2 = rooms[end][1]
-	flr2 = rooms[end][2]
-	console.log(flr1)
-	console.log(flr2)
-	if (flr1 == 1 && flr2 == 1) {
-		grid = gridLvl1
-		path(grid, x1, y1, x2, y2)
-	} else if (flr1 == 2 && flr2 == 2) {
-		grid = gridLvl2
-		path(grid, x1, y1, x2, y2)
-	} else if (flr1 != 0 && flr2 != 0) {
-		stairPath(x1, y1, x2, y2, flr1)
+	console.log(start)
+	console.log(end)
+	if (rooms[start] == null) {
+		document.getElementById("course1").innerHTML = "Invalid Room Number"
+		stinv1 = 1
 	} else {
-		btmPath(x1, y1, x2, y2, flr1, flr2)
+		document.getElementById("course1").innerHTML = ""
+		stinv1 = 0
 	}
-	if (flr1 == 1) {
-		lvl1()
-	} else if (flr1 == 2) {
-		lvl2()
+	if (rooms[end] == null) {
+		document.getElementById("course2").innerHTML = "Invalid Room Number"
+		stinv2 = 1
 	} else {
-		lvl0()
+		document.getElementById("course2").innerHTML = ""
+		stinv2 = 0
+	}
+	if (stinv1 == 0 && stinv2 == 0) {
+		x1 = rooms[start][0]
+		y1 = rooms[start][1]
+		flr1 = rooms[start][2]
+		x2 = rooms[end][0]
+		y2 = rooms[end][1]
+		flr2 = rooms[end][2]
+		console.log(flr1)
+		console.log(flr2)
+
+		if (flr1 == 1 && flr2 == 1) {
+			grid = gridLvl1
+			path(grid, x1, y1, x2, y2)
+		} else if (flr1 == 2 && flr2 == 2) {
+			grid = gridLvl2
+			path(grid, x1, y1, x2, y2)
+		} else if (flr1 != 0 && flr2 != 0) {
+			stairPath(x1, y1, x2, y2, flr1)
+		} else {
+			btmPath(x1, y1, x2, y2, flr1, flr2)
+		}
+		if (flr1 == 1) {
+			lvl1()
+		} else if (flr1 == 2) {
+			lvl2()
+		} else {
+			lvl0()
+		}
 	}
 }
 
@@ -156,7 +190,7 @@ function otuPath() {
 // 	</div>\
 // <span id="typeId' + num + prof + '">\
 // 		<p> </p>\
-// 		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Passing Time</button>\
+// 		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Show Path</button>\
 // 	<div class="selectionbox" id="' + tempElementIdNext + '">';
 
 // }
@@ -174,13 +208,20 @@ function addProf() {
 }
 
 function remProf(profnum) {
+	console.log("___SPLICING___")
 	console.log("profnum = " + profnum)
-	console.log(JSON.stringify(profiles[1]))
+	
+	console.log(JSON.stringify(profiles))
+	
 	profiles.splice(profnum, 1)
-	console.log(JSON.stringify(profiles[1]))
+	profiles[0].splice(profnum, 1)
+	
 	document.getElementById("profiles").innerHTML = '<div class="" id="tempProf1"></div>'
+	
 	localStorage.setItem("profiles", JSON.stringify(profiles))
+	
 	applyCookieProfiles()
+	console.log("___END___")
 }
 
 
@@ -214,6 +255,7 @@ function locateCourses(profnum) {
 		profiles[profnum][i - 1][1] = document.getElementById("cl" + i + prof + "txt").value
 	}
 	localStorage.setItem("profiles", JSON.stringify(profiles))
+	console.log(localStorage.getItem("profiles"))
 }
 
 
@@ -252,11 +294,11 @@ function applyCookieProfiles() {
 function passingTime(num, profnum) {
 	clearGrid()
 	num = parseInt(num)
-	console.log(profnum)
-	console.log(num)
-	console.log(profiles[profnum])
-	console.log(profiles[profnum][num])
-	console.log(profiles[profnum][num][0])
+	// console.log(profnum)
+	// console.log(num)
+	// console.log(profiles[profnum])
+	// console.log(profiles[profnum][num])
+	// console.log(profiles[profnum][num][0])
 	start = profiles[profnum][num][0]
 	end = profiles[profnum][num + 1][0]
 
@@ -271,37 +313,73 @@ function passingTime(num, profnum) {
 	end = end.replace("_", '');
 	end = end.replace("#", '');
 	end = end.replace("/", '');
+	console.log("inv" + String(num) + String(profnum))
+	console.log(rooms[start])
+	console.log(String(num + 1) + String(profnum))
+	console.log(rooms[end])
+	console.log(String(num + 2) + String(profnum))
 
-	x1 = rooms[start][0]
-	y1 = rooms[start][1]
-	flr1 = rooms[start][2]
-	x2 = rooms[end][0]
-	y2 = rooms[end][1]
-	flr2 = rooms[end][2]
-	console.log(flr1)
-	console.log(flr2)
-	if (flr1 == 1 && flr2 == 1) {
-		grid = gridLvl1
-		path(grid, x1, y1, x2, y2)
-	} else if (flr1 == 2 && flr2 == 2) {
-		grid = gridLvl2
-		path(grid, x1, y1, x2, y2)
-	} else if (flr1 != 0 && flr2 != 0) {
-		stairPath(x1, y1, x2, y2, flr1)
+
+	if (rooms[start] == null) {
+		document.getElementById("inv" + String(num + 1) + String(profnum)).innerHTML = "Invalid Room Number"
+		stinv1 = 1
 	} else {
-		btmPath(x1, y1, x2, y2, flr1, flr2)
+		document.getElementById("inv" + String(num + 1) + String(profnum)).innerHTML = ""
+		stinv1 = 0
 	}
-	if (flr1 == 1) {
-		lvl1()
-	} else if (flr1 == 2) {
-		lvl2()
+	if (rooms[end] == null) {
+		console.log(rooms[end])
+		console.log(String(num + 2) + String(profnum))
+		document.getElementById("inv" + String(num + 2) + String(profnum)).innerHTML = "Invalid Room Number"
+		stinv2 = 1
 	} else {
-		lvl0()
+		document.getElementById("inv" + String(num + 2) + String(profnum)).innerHTML = ""
+		stinv2 = 0
 	}
-}
-btmStairs = {
-	0: [90, 154],
-	1: [71, 154],
+
+
+	console.log(stinv1)
+	console.log(stinv2)
+	if (stinv1 == 0 && stinv2 == 0) {
+		x1 = rooms[start][0]
+		y1 = rooms[start][1]
+		flr1 = rooms[start][2]
+		x2 = rooms[end][0]
+		y2 = rooms[end][1]
+		flr2 = rooms[end][2]
+		console.log(flr1)
+		console.log(flr2)
+
+		if (flr1 == 1 && flr2 == 1) {
+			console.log("pth")
+			grid = gridLvl1
+			path(grid, x1, y1, x2, y2)
+		} else if (flr1 == 2 && flr2 == 2) {
+			grid = gridLvl2
+			path(grid, x1, y1, x2, y2)
+			console.log("pth")
+		} else if (flr1 != 0 && flr2 != 0) {
+			stairPath(x1, y1, x2, y2, flr1)
+			console.log("strpth")
+		} else {
+			btmPath(x1, y1, x2, y2, flr1, flr2)
+			console.log("btmpth")
+		}
+		if (flr1 == 1) {
+			lvl1()
+		} else if (flr1 == 2) {
+			lvl2()
+		} else {
+			lvl0()
+		}
+		btmStairs = {
+			0: [90, 154],
+			1: [71, 154],
+		}
+	} else {
+
+	}
+
 }
 function btmPath(x1, y1, x2, y2, flr1, flr2) {
 	if (flr1 != 0) {
@@ -407,21 +485,19 @@ stairs = {
 	2: [103, 16],
 	3: [65, 61],
 	4: [96, 61],
-	5: [29, 75],
-	6: [64, 88],
-	7: [129, 119],
-	8: [68, 121],
-	9: [92, 121]
+	5: [129, 119],
+	6: [68, 121],
+	7: [92, 121]
 }
 function stairPath(x1, y1, x2, y2, fl) {
 
 	tempdist = []
 	tempdist1 = []
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 8; i++) {
 		tempdist1.push(Math.abs(x1 - stairs[i][0]) + Math.abs(y1 - stairs[i][1]))
 	}
 	tempdist2 = []
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 8; i++) {
 		tempdist2.push(Math.abs(x2 - stairs[i][0]) + Math.abs(y2 - stairs[i][1]))
 	}
 	console.log(tempdist1)
@@ -453,6 +529,7 @@ rooms = {
 	"H103": [58, 19, 1],
 	"H104": [58, 6, 1],
 	"H106": [56, 12, 1],
+	"H107": [53, 15, 1],
 	"H108": [48, 12, 1],
 	"H109": [46, 20, 1],
 	"H110": [46, 6, 1],
@@ -636,10 +713,10 @@ rooms = {
 	"C224": [80, 113, 2],
 	"C225": [80, 113, 2],
 	"C226": [80, 113, 2],
-	"A214": [80, 113, 2],
-	"A213": [80, 113, 2],
+	"A214": [80, 130, 2],
+	"A213": [80, 137, 2],
 	"A212": [80, 113, 2],
-	"A211": [80, 113, 2],
+	"A211": [80, 143, 2],
 	"A001": [85, 156, 0],
 	"A002": [77, 160, 0],
 	"A004": [74, 149, 0],
@@ -682,22 +759,6 @@ function start() {
 		}
 		console.log("includes")
 	}
-	//PHS-Map-1.ethanarana.repl.co/One-time-use.html
-	//PHS-Map-1.ethanarana.repl.co/One-time-use.html?rms:H100&B209
-
-	// attrib = urlstr.split("?").pop()
-	// attrib = urlstr.split("").split
-	//       attrib = urlstr.split("?").pop()
-	// attriblst = attrib.split(":")
-	// console.log(attriblst)
-	// if (attriblst[0] == "rms") {
-	//   classes = attriblst[1].split("&")
-	//   document.getElementById("course1").value = classes[0]
-	//   classes[1] = classes[1].split('#')[0]
-	//   document.getElementById("course2").value = classes[1]
-	//   otuPath();
-	// }
-
 
 
 
@@ -782,8 +843,11 @@ function printGrid0() {
 			}
 		}
 	}
-
-
+	ctx.fillStyle = "#FFFFFF";
+	ctx.fillRect(size / 8 * 7, size, size / 8, size / 17 * -1);
+	ctx.fillStyle = "#000000";
+	ctx.font = size / 35 + "px Arial";
+	ctx.fillText("Level 0", size / 8 * 7 + size / 100, size / 50 * 49);
 }
 
 
@@ -815,8 +879,11 @@ function printGrid1() {
 			}
 		}
 	}
-
-
+	ctx.fillStyle = "#FFFFFF";
+	ctx.fillRect(size / 8 * 7, size, size / 8, size / 17 * -1);
+	ctx.fillStyle = "#000000";
+	ctx.font = size / 35 + "px Arial";
+	ctx.fillText("Level 1", size / 8 * 7 + size / 100, size / 50 * 49);
 }
 
 function printGrid2() {
@@ -845,9 +912,11 @@ function printGrid2() {
 			}
 		}
 	}
-
-
-
+	ctx.fillStyle = "#FFFFFF";
+	ctx.fillRect(size / 8 * 7, size, size / 8, size / 17 * -1);
+	ctx.fillStyle = "#000000";
+	ctx.font = size / 35 + "px Arial";
+	ctx.fillText("Level 2", size / 8 * 7 + size / 100, size / 50 * 49);
 }
 
 
@@ -943,7 +1012,6 @@ function clearGrid() {
 
 }
 
-
 download_img = function(el) {
 	var image = canvas.toDataURL("image/jpg");
 	el.href = image;
@@ -967,6 +1035,13 @@ function darkMode() {
 	c2.classList.toggle("darkMode");
 	c2.classList.toggle("lightMode");
 
+	for (let i = 0; i < profiles.length; i++) {
+		document.getElementById("profBox"+i);
+	c2.classList.toggle("textboxdark");
+	c2.classList.toggle("textbox");
+
+	}
+
 	if (c.classList.contains("darkMode") == true) {
 		document.getElementById("darkModeButton").innerHTML = 'Light Mode'
 		localStorage.setItem('shade', "dark", 365);
@@ -976,4 +1051,12 @@ function darkMode() {
 		localStorage.setItem('shade', "light", 365);
 	}
 }
+
+// window.onkeyup = function (e) {
+//     var code = e.keyCode ? e.keyCode : e.which;
+//     // if (code === 38) { //up key
+//     //     keys += "1"
+//     // }
+// };
+
 
