@@ -711,25 +711,14 @@ function start() {
     url = url.replace("#myHeader");
     console.log(url);
     if (
-      url == "https://phs-map.parkerhasenkamp.repl.co" ||
-      url == "https://phs-map.parkerhasenkamp.repl.co/"
-    ) {
-      document.getElementById("OTULink").href = "/one-time-use.html";
-    } else if (
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
       document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map/one-time-use.html";
-    } else if (
-      url == "https://parkerh27.github.io/PHS-Map/" ||
-      url == "https://parkerh27.github.io/PHS-Map"
-    ) {
-      document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map/one-time-use.html";
+        "/PHS-Map/one-time-use.html";
     } else {
       document.getElementById("OTULink").href =
-        "https://psdtools.github.io/PHS-Map/one-time-use.html";
+        "/one-time-use.html";
     }
     console.log("!includes");
   } else {
@@ -739,26 +728,14 @@ function start() {
     url = url.replace("/one-time-use.html", "");
     console.log(url);
     if (
-      url == "https://phs-map.parkerhasenkamp.repl.co" ||
-      url == "https://phs-map.parkerhasenkamp.repl.co/"
-    ) {
-      document.getElementById("OTULink").href =
-        "https://phs-map.parkerhasenkamp.repl.co";
-    } else if (
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
       document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map";
-    } else if (
-      url == "https://parkerh27.github.io/PHS-Map/" ||
-      url == "https://parkerh27.github.io/PHS-Map"
-    ) {
-      document.getElementById("OTULink").href =
-        "https://parkerh27.github.io/PHS-Map";
+        "/PHS-Map";
     } else {
       document.getElementById("OTULink").href =
-        "https://psdtools.github.io/PHS-Map";
+        "/";
     }
     console.log("includes");
   }
