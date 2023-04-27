@@ -39,45 +39,32 @@ function profloop() {
 
 function createProfile(profnum) {
   prof = String(profnum);
-  console.log("prf" + prof);
-  var tempElementId = "tempProf".concat("", String(prof));
-  var tempElementIdNext = "tempProf" + String(profnum + 1);
-  console.log("tmpprfnxt: " + tempElementIdNext);
+  console.log(`prf${prof}`);
+  var tempElementId = `tempProf${String(prof)}`;
+  var tempElementIdNext = `tempProf${String(profnum + 1)}`;
+  console.log(`tmpprfnxt: ${tempElementIdNext}`);
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
   console.log("prf" + prof);
-  document.getElementById(tempElementId).innerHTML =
-    '\
-	<div class="prof txtbox w3-animate-right" id="profBox' +
-    prof +
-    '">\
-		<div style="">\
-			<button class=" containerinpt red " style="" id="add" onclick="remProf(' +
-    profnum +
-    ')">&#10006;</button>\
-		<input onkeyup="locateCourses(' +
-    profnum +
-    ')" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf' +
-    prof +
-    '" placeholder="Schedule Name">\
-		</div>\
-	<p></p>\
-	<input class="pink containerinpt" style="" id="num' +
-    prof +
-    '" type="number" placeholder="Num of classes in schedule">\
-	<button class="pink containerinpt" onclick="courseLoop(' +
-    String(profnum) +
-    ')">Submit</button>\
-	<div class=" selectionbox  w3-animate-right" id="temp' +
-    prof +
-    '1"><p></p></div>\
-	<p></p>\
-	</div>\
-	<p></p>\
-	<div class="margin" id="profspacer1"></div>\
-	<div class="container" id="' +
-    tempElementIdNext +
-    '">';
+  document.getElementById(tempElementId).innerHTML = `
+	<div class="prof txtbox w3-animate-right" id="profBox${prof}">\
+		<div style="">
+			<button class="containerinpt red" id="add" onclick="remProf(${profnum})">&#10006;</button>
+		  <input onkeyup="locateCourses(${profnum})" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf${prof}" placeholder="Schedule Name">
+		</div>
+    <p></p>
+    <input class="pink containerinpt"id="num${prof}" type="number" placeholder="Num of classes in schedule">
+    <button class="pink containerinpt" onclick="courseLoop(${String(profnum)})">
+    Submit
+    </button>
+    <div class="selectionbox w3-animate-right" id="temp${prof}1">
+      <p></p>
+    </div>
+    <p></p>
+  </div>
+  <p></p>
+  <div class="margin" id="profspacer1"></div>
+  <div class="container" id="${tempElementIdNext}">'`;
 }
 
 function createCourse(num, profnum) {
@@ -86,55 +73,37 @@ function createCourse(num, profnum) {
   numnxt = parseInt(num) + 1;
   console.log(num);
   console.log(prof);
-  console.log("profnum: " + profnum);
-  var tempElementId = "temp" + prof + num;
-  var tempElementIdNext = "temp" + prof + numnxt;
-  console.log("tmpid: " + tempElementId);
-  console.log("tmpidnxt: " + tempElementIdNext);
+  console.log(`profnum: ${profnum}`);
+  var tempElementId = `temp${prof}${num}`;
+  var tempElementIdNext = `temp${prof}${numnxt}`;
+  console.log(`tmpid: ${tempElementId}`);
+  console.log(`tmpidnxt: ${tempElementIdNext}`);
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
-  console.log("inv" + num + prof);
-  document.getElementById(tempElementId).innerHTML =
-    '\
-	<div id="input-con-div" class=" input-container lightModeInput">\
-	<p>Class ' +
-    num +
-    '</p>\
-	<input onkeyup="locateCourses(' +
-    profnum +
-    ')" class="purple containerinpt" id="cl' +
-    num +
-    prof +
-    'txt" type="text" required="" placeholder="Name:"/>\
-	</div>\
-	<div id="input-con-div" class="purple input-container lightModeInput">\
-	<input onkeyup="locateCourses(' +
-    profnum +
-    ')" class="purple containerinpt prof' +
-    profnum +
-    '" id="rmnum' +
-    num +
-    prof +
-    'txt" type="text" required="" placeholder="Room Number:(ex: H100)"/>\
-	</div>\
-		<p class="inv" id="inv' +
-    num +
-    prof +
-    '"></p>\
-		<p> </p>\
-		<div class="">\
-		<span class="containerinpt" id="passing' +
-    num +
-    prof +
-    '"style="display:block"><button style="" class="purple btninpt showpth" onclick="passingTime(' +
-    String(parseInt(num) - 1) +
-    "," +
-    String(profnum) +
-    ')">Show Path <span style="font-size:120%;">⇩</span></button></span>\
-		</div>\
-	<div class=" selectionbox" id="' +
-    tempElementIdNext +
-    '">';
+  console.log(`inv${num}${prof}`);
+  document.getElementById(tempElementId).innerHTML = `
+  <div id="input-con-div" class=" input-container lightModeInput">
+    <p>Class ${num}</p>
+    <input onkeyup="locateCourses(${profnum})" class="purple containerinpt" id="cl${num}${prof}txt" type="text" placeholder="Name:"/>
+	</div>
+	<div id="input-con-div" class="purple input-container lightModeInput">
+	  <input onkeyup="locateCourses(${profnum})" class="purple containerinpt prof${profnum}" id="rmnum${num}${prof}txt" type="text" placeholder="Room Number:(ex: H100)"/>
+	</div>
+		<p class="inv" id="inv${num}${prof}"></p>
+		<p></p>
+		<div>
+		<span class="containerinpt" id="passing${num}${prof}"style="display: block">
+      <button class="purple btninpt showpth" onclick="passingTime(${String(
+        parseInt(num) - 1
+      )}, ${String(profnum)})">
+        Show Path 
+        <span style="font-size:120%;">
+          ⇩
+        </span>
+      </button>
+    </span>
+	</div>
+	<div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
 function otuPath() {
@@ -200,36 +169,6 @@ function otuPath() {
     }
   }
 }
-
-// function createCourse(num, profnum) {
-// 	prof = String(profnum)
-// 	num = String(num)
-// 	numnxt = parseInt(num) + 1
-// 	console.log(num)
-// 	console.log(prof)
-// 	console.log("profnum: "+profnum)
-// 	var tempElementId = "temp"+prof+num;
-// 	var tempElementIdNext = "temp"+prof+numnxt;
-// 	console.log("tmpid: " + tempElementId)
-// 	console.log("tmpidnxt: " + tempElementIdNext)
-// 	// var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-// 	//creates html elements in the courses class
-// 	document.getElementById(tempElementId).innerHTML = '\
-// 	<div id="input-con-div" class="input-container lightModeInput">\
-// 	<input id="cl' + num + prof +'txt" type="text" required=""/>\
-// 	<label id="cl' + num + prof + 'label">Class ' + num +'</label>\
-// 	</div>\
-// <span id="typeId' + num + prof + '">\
-// 	<div id="input-con-div" class="input-container lightModeInput">\
-// 	<input class="prof'+ profnum +'" id="rmnum' + num + prof + 'txt" type="text" required=""/>\
-// 	<label id="rmnum' + num + prof + 'label">Room Number</label>\
-// 	</div>\
-// <span id="typeId' + num + prof + '">\
-// 		<p> </p>\
-// 		<button onclick="passingTime('+ String(parseInt(num) - 1) + "," + String(profnum) + ')">Show Path</button>\
-// 	<div class="selectionbox" id="' + tempElementIdNext + '">';
-
-// }
 
 function addProf() {
   profnum = document.querySelectorAll(".prof").length;
