@@ -64,7 +64,7 @@ function createProfile(profnum) {
   </div>
   <p></p>
   <div class="margin" id="profspacer1"></div>
-  <div class="container" id="${tempElementIdNext}">'`;
+  <div class="container" id="${tempElementIdNext}">`;
 }
 
 function createCourse(num, profnum) {
@@ -190,7 +190,7 @@ function remProf(profnum) {
   profiles[0].splice(profnum, 1);
 
   document.getElementById("profiles").innerHTML =
-    '<div class="" id="tempProf1"></div>';
+    `<div class="" id="tempProf1"></div>`;
 
   localStorage.setItem("profiles", JSON.stringify(profiles));
 
