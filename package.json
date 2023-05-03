@@ -1,5 +1,27 @@
 {
+  "name": "phs-map",
+  "private": true,
+  "version": "2.0.0-alpha.2",
+  "description": "A map of Pattonville High School.",
+  "repository": {
+    "type": "git",
+    "url": "github:PSDTools/app"
+  },
+  "markdown": "github",
+  "author": {
+    "name": "Parker Hasenkamp"
+  },
+  "readme": "README.md",
+  "contributors": [
+    {
+      "name": "Eli",
+      "email": "88557639+lishaduck@users.noreply.github.com"
+    }
+  ],
   "dependencies": {
     "pathfinding": "^0.4.18"
+  },
+  "devDependencies": {
+    "bower": "^1.8.14"
   }
 }

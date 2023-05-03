@@ -14,7 +14,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
       rel="stylesheet"
       integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw=="
-      crossorigin="anonymous"
     />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css"
@@ -35,7 +34,6 @@
       rel="stylesheet"
       href="https://www.w3schools.com/lib/w3-theme-black.css"
     />
-
     <script type="text/javascript" src="data/Level0.js"></script>
     <script type="text/javascript" src="data/Level1.js"></script>
     <script type="text/javascript" src="data/Level2.js"></script>
@@ -45,93 +43,22 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
 
-  <body
-    class="lightmodebg"
-    onload="start()"
-    style="transition: background-color 0.5s"
-  >
+  <body class="lightmodebg" onload="start()">
     <header class="w3-container w3-theme w3-padding-16" id="myHeader">
-      <div id="mySidenav" class="sidenav">
-        <a
-          href="javascript:void(0)"
-          style="color: white; background-color: black; font-size: 36px"
-          class="closebtn no-bounce"
-          onclick="closeNav()"
-          ><i class="fa-solid fa-xmark"></i
-        ></a>
-        <p></p>
-        <button
-          id="darkModeButton"
-          onclick="darkMode()"
-          class="smallbutton w3-button w3-theme"
-        >
-          Dark Mode
-        </button>
-        <p></p>
-        <button
-          class="clearDataButton smallbutton w3-button w3-theme"
-          onclick="clearAll()"
-        >
-          Clear All Site Data
-        </button>
-        <p></p>
-        <div class="no-bounce" style="text-align: center; display: inherit">
-          <div id="google_translate_element"></div>
-        </div>
-        <script type="text/javascript">
-          function googleTranslateElementInit() {
-            new google.translate.TranslateElement(
-              {
-                pageLanguage: "en",
-              },
-              "google_translate_element"
-            );
-          }
-        </script>
-
-        <script
-          type="text/javascript"
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        ></script>
-
-        <style>
-          .goog-te-gadget {
-            text-align: center !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            transform: none !important;
-            display: inherit !important;
-          }
-
-          .goog-logo-link {
-            text-align: center !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            transform: none !important;
-            display: inherit !important;
-          }
-        </style>
-      </div>
-
-      <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
-        >&#9776;</span
-      >
+      <i
+        onclick="w3_open()"
+        class="fa-solid fa-bars w3-xlarge w3-button w3-theme"
+      ></i>
       <div class="w3-center">
         <h1 class="w3-animate-top phs">PHS</h1>
         <h5 id="gradeLvl" class="w3-large w3-animate-top"></h5>
         <h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
-        <h2 class="lgreen w3-xxlarge w3-animate-left">Schedules</h2>
+        <h2 class="lgreen w3-xxlarge w3-animate-left">One Time Use</h2>
       </div>
-      <a
-        class="no-bounce"
-        style="color: white; background-color: black"
-        href="#myFooter"
+      <a class="w3-text-white" href="#myFooter"
         ><span class="w3-xlarge">
-          <i class="fa-solid fa-circle-chevron-down"></i>
-        </span>
-      </a>
+          <i class="fa-solid fa-circle-chevron-down"></i></span
+      ></a>
     </header>
 
     <div class="w3-row">
@@ -148,7 +75,7 @@
             class=""
           ></canvas>
         </div>
-        <button id="lvl0" onclick="lvl0()">Level 0</button>
+        <button id="lvl1" onclick="lvl0()">Level 0</button>
         <button id="lvl1" onclick="lvl1()">Level 1</button>
         <button id="lvl2" onclick="lvl2()">Level 2</button>
         <a
@@ -161,58 +88,20 @@
       </div>
 
       <div id="c2" class="lightMode w3-half w3-container w3-padding-16">
-        <h3>How to use!</h3>
-        <li>
-          Press the
-          <button class="lime plusbuttonsml" id="add" onclick="addProf()">
-            &#10010;
-          </button>
-          button below to add a schedule
-        </li>
-        <li>Type in the number of classes in that schedule</li>
-        <li>Press "Submit"</li>
-        <li>Fill out the class information</li>
-        <li>Press "Save Courses"</li>
-        <li>
-          Now use the passing time button in-bettween classes to show a path
-          between those classes!
-        </li>
-        <li>
-          Use the "Level 1" and "Level 2" buttons below the map to view
-          different floors
-        </li>
-        <a
-          href="https://drive.google.com/file/d/1i5vZrMjG_jptY4Fs-r54Wgd_pd4jF10U/view?usp=sharing"
-          >Click Here for a Video Tutorial!</a
-        >
+        <input id="course1" placeholder="Room Number 1:(ex: H100)" />
         <p></p>
-        <li>
-          Now use the "Show Path" button in-between classes to show a path
-          between those classes!
-        </li>
-        <li>
-          Use the "Level 0", "Level 1", and "Level 2" buttons below the map to
-          view different floors
-        </li>
-        <p style="margin: 24px"></p>
-        <div id="profiles">
-          <div class="" id="tempProf1"></div>
-        </div>
-        <button class="lime plusbutton" id="add" onclick="addProf()">
-          &#10010;
-        </button>
+        <input id="course2" placeholder="Room Number 2:(ex: H100)" />
         <p></p>
-        <p>Only have one place to go?</p>
-        <a id="OTULink" href="">Try One Time Use Mode!</a>
+        <button onclick="otuPath()">Show Path</button>
+        <p></p>
+        <p>Want to put in your whole schedule?</p>
+        <a id="OTULink" href="">Try Schedule Mode!</a>
       </div>
     </div>
   </body>
 
   <footer class="footer w3-container w3-theme-dark w3-padding-16" id="myFooter">
-    <a
-      class="no-bounce"
-      style="color: white; background-color: black"
-      href="#myHeader"
+    <a class="w3-text-white" href="#myHeader"
       ><span class="w3-xlarge">
         <i class="fa-solid fa-circle-chevron-up"></i></span
     ></a>
@@ -221,12 +110,6 @@
       Created by Parker Hasenkamp and Ethan Arana for the
       <a href="https://psdr3.org" target="_blank"
         >Pattonville School District</a
-      >
-    </h5>
-    <h5>
-      Found a Bug?
-      <a href="https://forms.gle/AtFo1ixfryVuKAEU7" target="_blank">
-        Submit a Bug Report!</a
       >
     </h5>
   </footer>
@@ -241,7 +124,7 @@
       class="smallbutton w3-text-theme w3-padding-16"
       onclick="w3_close()"
     >
-      Close <i class="fa-solid fa-xmark"></i>
+      Close <i class="fa-solid fa-remove"></i>
     </button>
     <p></p>
     <button
@@ -271,7 +154,10 @@
         );
       }
     </script>
-
+    <script
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      type="text/javascript"
+    ></script>
     <script>
       function w3_open() {
         var x = document.getElementById("mySidebar");
