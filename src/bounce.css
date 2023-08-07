@@ -1,16 +1,16 @@
 @font-face {
   font-family: "Clash Display Bold";
-  src: url("fonts/clash-display/ClashDisplay-Bold.otf");
+  src: url("../fonts/clash-display/ClashDisplay-Bold.otf");
 }
 
 @font-face {
   font-family: "Clash Display Semibold";
-  src: url("fonts/clash-display/ClashDisplay-Semibold.otf");
+  src: url("../fonts/clash-display/ClashDisplay-Semibold.otf");
 }
 
 @font-face {
   font-family: "Clash Grotesk Medium";
-  src: url("fonts/clash-grotesk/ClashGrotesk-Medium.otf");
+  src: url("../fonts/clash-grotesk/ClashGrotesk-Medium.otf");
 }
 
 :root {
