@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/GPA_Calculator/dev-sw.js?dev-sw', { scope: '/GPA_Calculator/', type: 'module' })
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/PHS-Map/dev-sw.js?dev-sw', { scope: '/PHS-Map/', type: 'module' })
