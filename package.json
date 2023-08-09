@@ -33,7 +33,7 @@
     "vite-plugin-webfont-dl": "^3.7.6",
     "workbox-build": "^7.0.0",
     "workbox-core": "^7.0.0",
-    "workbox-precaching": "^6.5.2"
+    "workbox-precaching": "^7.0.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.16",
