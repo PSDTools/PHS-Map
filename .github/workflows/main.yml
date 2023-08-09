@@ -1,0 +1,80 @@
+---
+name: Deploy to GitHub Pages
+
+env:
+  CI: true
+
+on:
+  # Runs on pushes to the default branch
+  push:
+    branches:
+      - main
+
+  # Runs on PRs targeting the default branch
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_job:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.0
+        with:
+          submodules: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: "16"
+          cache: "npm"
+
+      - name: Cache node_modules
+        id: cache-node_modules
+        uses: actions/cache@v3.3.1
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package.json', 'package-lock.json') }}
+
+      - name: Install NPM Dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Vite Build
+        run: npm run vite # build # TODO: use ts, so build works, but w/type-checking
+
+      - name: Redirect 404 to Index for SPA
+        run: cp dist/index.html dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3.0.5
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v1.0.8
+        with:
+          path: "./dist/"
+
+  deploy_job:
+    name: Deploy
+    needs: [build_job]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v2.0.0
