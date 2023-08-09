@@ -65,16 +65,6 @@ function clearAll() {
 }
 window.clearAll = clearAll;
 
-function profloop() {
-  for (
-    let i = 1;
-    i < parseInt(document.getElementById("numofprof").value) + 1;
-    i++
-  ) {
-    createProfile(i);
-  }
-}
-
 function createProfile(profNum) {
   prof = String(profNum);
   console.log(`prf${prof}`);
