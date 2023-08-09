@@ -24,7 +24,6 @@ let grid;
 let canvas;
 let ctx;
 let coursesAmt;
-let courses;
 let stairs;
 let rooms;
 let viewLvl;
@@ -44,10 +43,17 @@ let x2;
 let y2;
 let flr2;
 let btmStairs;
+let tempdist;
+let tempdist1;
+let tempdist2;
+let min;
+let indexmin;
+let sx1;
+let sy1;
 
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
+  // document.getElementById("main").style.marginLeft = "250px"; // doesn't do anything
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
 window.openNav = openNav;
