@@ -1,31 +1,69 @@
-var grid;
-var canvas;
-var ctx;
-var coursesAmt;
-var courses;
-var gridLvl1;
-var gridLvl2;
-var stairs;
-var rooms;
+import { gridLvl0 } from "./data/level0.js";
+import { gridLvl1 } from "./data/level1.js";
+import { gridLvl2 } from "./data/level2.js";
+import * as PF from "pathfinding";
 
-var profiles = [];
+// declare global {
+//   interface Window {
+//     start: () => void;
+//     darkMode: () => void;
+//     clearAll: () => void;
+//     closeNav: () => void;
+//     openNav: () => void;
+//     lvl0: () => void;
+//     lvl1: () => void;
+//     lvl2: () => void;
+//     addProf: () => void;
+//     w3_close: () => void;
+//     locateCourses: () => void;
+//     courseLoop: () => void;
+//   }
+// }
+
+let grid;
+let canvas;
+let ctx;
+let coursesAmt;
+let courses;
+let stairs;
+let rooms;
+let viewLvl;
+let profiles = [];
+let source;
+let size;
+let profNum;
+let prof;
+let numNext;
+let end;
+let stinv1;
+let stinv2;
+let x1;
+let y1;
+let flr1;
+let x2;
+let y2;
+let flr2;
+let btmStairs;
 
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
   document.getElementById("main").style.marginLeft = "250px";
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
+window.openNav = openNav;
 
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
   document.body.style.backgroundColor = "white";
 }
+window.closeNav = closeNav;
 
 function clearAll() {
   localStorage.setItem("profiles", null, -1);
   localStorage.setItem("shade", null, -1);
 }
+window.clearAll = clearAll;
 
 function profloop() {
   for (
@@ -37,11 +75,11 @@ function profloop() {
   }
 }
 
-function createProfile(profnum) {
-  prof = String(profnum);
+function createProfile(profNum) {
+  prof = String(profNum);
   console.log(`prf${prof}`);
   var tempElementId = `tempProf${String(prof)}`;
-  var tempElementIdNext = `tempProf${String(profnum + 1)}`;
+  var tempElementIdNext = `tempProf${String(profNum + 1)}`;
   console.log(`tmpprfnxt: ${tempElementIdNext}`);
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
@@ -49,12 +87,12 @@ function createProfile(profnum) {
   document.getElementById(tempElementId).innerHTML = `
 	<div class="prof txtbox w3-animate-right" id="profBox${prof}">\
 		<div style="">
-			<button class="containerinpt red" id="add" onclick="remProf(${profnum})">&#10006;</button>
-		  <input onkeyup="locateCourses(${profnum})" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf${prof}" placeholder="Schedule Name">
+			<button class="containerinpt red" id="add" onclick="remProf(${profNum})">&#10006;</button>
+		  <input onkeyup="locateCourses(${profNum})" class="pink containerinpt" style="border-radius: 4px;border-color:#000000;" type="text" id="nameProf${prof}" placeholder="Schedule Name">
 		</div>
     <p></p>
     <input class="pink containerinpt"id="num${prof}" type="number" placeholder="Num of classes in schedule">
-    <button class="pink containerinpt" onclick="courseLoop(${String(profnum)})">
+    <button class="pink containerinpt" onclick="courseLoop(${String(profNum)})">
     Submit
     </button>
     <div class="selectionbox w3-animate-right" id="temp${prof}1">
@@ -67,15 +105,15 @@ function createProfile(profnum) {
   <div class="container" id="${tempElementIdNext}">`;
 }
 
-function createCourse(num, profnum) {
-  prof = String(profnum);
+function createCourse(num, profNum) {
+  prof = String(profNum);
   num = String(num);
-  numnxt = parseInt(num) + 1;
+  numNext = parseInt(num) + 1;
   console.log(num);
   console.log(prof);
-  console.log(`profnum: ${profnum}`);
+  console.log(`profNum: ${profNum}`);
   var tempElementId = `temp${prof}${num}`;
-  var tempElementIdNext = `temp${prof}${numnxt}`;
+  var tempElementIdNext = `temp${prof}${numNext}`;
   console.log(`tmpid: ${tempElementId}`);
   console.log(`tmpidnxt: ${tempElementIdNext}`);
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
@@ -84,10 +122,10 @@ function createCourse(num, profnum) {
   document.getElementById(tempElementId).innerHTML = `
   <div id="input-con-div" class=" input-container lightModeInput">
     <p>Class ${num}</p>
-    <input onkeyup="locateCourses(${profnum})" class="purple containerinpt" id="cl${num}${prof}txt" type="text" placeholder="Name:"/>
+    <input onkeyup="locateCourses(${profNum})" class="purple containerinpt" id="cl${num}${prof}txt" type="text" placeholder="Name:"/>
 	</div>
 	<div id="input-con-div" class="purple input-container lightModeInput">
-	  <input onkeyup="locateCourses(${profnum})" class="purple containerinpt prof${profnum}" id="rmnum${num}${prof}txt" type="text" placeholder="Room Number:(ex: H100)"/>
+	  <input onkeyup="locateCourses(${profNum})" class="purple containerinpt prof${profNum}" id="rmnum${num}${prof}txt" type="text" placeholder="Room Number:(ex: H100)"/>
 	</div>
 		<p class="inv" id="inv${num}${prof}"></p>
 		<p></p>
@@ -95,8 +133,8 @@ function createCourse(num, profnum) {
 		<span class="containerinpt" id="passing${num}${prof}"style="display: block">
       <button class="purple btninpt showpth" onclick="passingTime(${String(
         parseInt(num) - 1
-      )}, ${String(profnum)})">
-        Show Path 
+      )}, ${String(profNum)})">
+        Show Path
         <span style="font-size:120%;">
           ⇩
         </span>
@@ -171,74 +209,79 @@ function otuPath() {
 }
 
 function addProf() {
-  profnum = document.querySelectorAll(".prof").length;
-  if (profnum == 0) {
-    createProfile(profnum + 1);
+  profNum = document.querySelectorAll(".prof").length;
+  if (profNum == 0) {
+    createProfile(profNum + 1);
   } else {
-    locateCourses(profnum);
-    createProfile(profnum + 1);
+    locateCourses(profNum);
+    createProfile(profNum + 1);
   }
 }
+window.addProf = addProf;
 
-function remProf(profnum) {
+function remProf(profNum) {
   console.log("___SPLICING___");
-  console.log("profnum = " + profnum);
+  console.log("profNum = " + profNum);
 
   console.log(JSON.stringify(profiles));
 
-  profiles.splice(profnum, 1);
-  profiles[0].splice(profnum, 1);
+  profiles.splice(profNum, 1);
+  profiles[0].splice(profNum, 1);
 
-  document.getElementById("profiles").innerHTML =
-    `<div class="" id="tempProf1"></div>`;
+  document.getElementById(
+    "profiles"
+  ).innerHTML = `<div class="" id="tempProf1"></div>`;
 
   localStorage.setItem("profiles", JSON.stringify(profiles));
 
   applyCookieProfiles();
   console.log("___END___");
 }
+window.remProf = remProf;
 
-function courseLoop(profnum) {
-  prof = String(profnum);
-  coursesAmt = parseInt(document.getElementById("num" + profnum).value) + 1;
+function courseLoop(profNum) {
+  prof = String(profNum);
+  coursesAmt = parseInt(document.getElementById("num" + profNum).value) + 1;
   console.log(prof);
   if (coursesAmt != NaN) {
     for (let i = 1; i < coursesAmt; i++) {
-      createCourse(i, profnum, 0);
+      createCourse(i, profNum, 0);
     }
     console.log("passing" + String(coursesAmt - 1) + String(prof));
     document.getElementById(
       "passing" + String(coursesAmt - 1) + String(prof)
     ).innerHTML = null;
-    document.getElementById("loccourses" + profnum).style.display = "block";
+    // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
   }
 }
+window.courseLoop = courseLoop;
 
-function locateCourses(profnum) {
-  console.log("profnum = " + profnum);
-  prof = String(profnum);
-  profiles[profnum] = [];
+function locateCourses(profNum) {
+  console.log("profNum = " + profNum);
+  prof = String(profNum);
+  profiles[profNum] = [];
   if (profiles[0] == null) {
     profiles[0] = [];
   }
   for (
     let i = 1;
-    i < document.querySelectorAll(".prof" + profnum + "").length + 1;
+    i < document.querySelectorAll(".prof" + profNum + "").length + 1;
     i++
   ) {
-    profiles[0][profnum] = document.getElementById("nameProf" + profnum).value;
-    profiles[profnum][i - 1] = [];
+    profiles[0][profNum] = document.getElementById("nameProf" + profNum).value;
+    profiles[profNum][i - 1] = [];
     console.log("rmnum" + String(parseInt(i) + 1) + prof + "txt");
-    profiles[profnum][i - 1][0] = document.getElementById(
+    profiles[profNum][i - 1][0] = document.getElementById(
       "rmnum" + i + prof + "txt"
     ).value;
-    profiles[profnum][i - 1][1] = document.getElementById(
+    profiles[profNum][i - 1][1] = document.getElementById(
       "cl" + i + prof + "txt"
     ).value;
   }
   localStorage.setItem("profiles", JSON.stringify(profiles));
   console.log(localStorage.getItem("profiles"));
 }
+window.locateCourses = locateCourses;
 
 function applyCookieProfiles() {
   profiles = JSON.parse(localStorage.getItem("profiles"));
@@ -268,16 +311,16 @@ function applyCookieProfiles() {
   }
 }
 
-function passingTime(num, profnum) {
+function passingTime(num, profNum) {
   clearGrid();
   num = parseInt(num);
-  // console.log(profnum)
+  // console.log(profNum)
   // console.log(num)
-  // console.log(profiles[profnum])
-  // console.log(profiles[profnum][num])
-  // console.log(profiles[profnum][num][0])
-  start = profiles[profnum][num][0];
-  end = profiles[profnum][num + 1][0];
+  // console.log(profiles[profNum])
+  // console.log(profiles[profNum][num])
+  // console.log(profiles[profNum][num][0])
+  start = profiles[profNum][num][0];
+  end = profiles[profNum][num + 1][0];
 
   start = start.toUpperCase();
   start = start.replace("-", "");
@@ -290,33 +333,33 @@ function passingTime(num, profnum) {
   end = end.replace("_", "");
   end = end.replace("#", "");
   end = end.replace("/", "");
-  console.log("inv" + String(num) + String(profnum));
+  console.log("inv" + String(num) + String(profNum));
   console.log(rooms[start]);
-  console.log(String(num + 1) + String(profnum));
+  console.log(String(num + 1) + String(profNum));
   console.log(rooms[end]);
-  console.log(String(num + 2) + String(profnum));
+  console.log(String(num + 2) + String(profNum));
 
   if (rooms[start] == null) {
     document.getElementById(
-      "inv" + String(num + 1) + String(profnum)
+      "inv" + String(num + 1) + String(profNum)
     ).innerHTML = "Invalid Room Number";
     stinv1 = 1;
   } else {
     document.getElementById(
-      "inv" + String(num + 1) + String(profnum)
+      "inv" + String(num + 1) + String(profNum)
     ).innerHTML = "";
     stinv1 = 0;
   }
   if (rooms[end] == null) {
     console.log(rooms[end]);
-    console.log(String(num + 2) + String(profnum));
+    console.log(String(num + 2) + String(profNum));
     document.getElementById(
-      "inv" + String(num + 2) + String(profnum)
+      "inv" + String(num + 2) + String(profNum)
     ).innerHTML = "Invalid Room Number";
     stinv2 = 1;
   } else {
     document.getElementById(
-      "inv" + String(num + 2) + String(profnum)
+      "inv" + String(num + 2) + String(profNum)
     ).innerHTML = "";
     stinv2 = 0;
   }
@@ -362,6 +405,8 @@ function passingTime(num, profnum) {
   } else {
   }
 }
+window.passingTime = passingTime;
+
 function btmPath(x1, y1, x2, y2, flr1, flr2) {
   if (flr1 != 0) {
     tempdist = [];
@@ -454,11 +499,11 @@ function path(grid, x1, y1, x2, y2) {
     grid[directions[i][1]][directions[i][0]] = -4;
   }
   console.log(JSON.stringify(grid));
-  if (veiwlvl == 1) {
+  if (viewLvl == 1) {
     printGrid1();
-  } else if (veiwlvl == 2) {
+  } else if (viewLvl == 2) {
     printGrid2();
-  } else if (veiwlvl == 0) {
+  } else if (viewLvl == 0) {
     printGrid0();
   }
 }
@@ -704,9 +749,8 @@ rooms = {
 };
 
 function start() {
-  url = window.location.href;
+  let url = window.location.href;
   if (url.includes("one-time-use") != true) {
-    console.log(url);
     url = url.replace("/#myHeader");
     url = url.replace("#myHeader");
     console.log(url);
@@ -714,15 +758,12 @@ function start() {
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
-      document.getElementById("OTULink").href =
-        "/PHS-Map/one-time-use.html";
+      document.getElementById("OTULink").href = "/PHS-Map/one-time-use.html";
     } else {
-      document.getElementById("OTULink").href =
-        "/one-time-use.html";
+      document.getElementById("OTULink").href = "/one-time-use.html";
     }
-    console.log("!includes");
+    // console.log("!includes");
   } else {
-    console.log(url);
     url = url.replace("/#myHeader");
     url = url.replace("#myHeader");
     url = url.replace("/one-time-use.html", "");
@@ -731,13 +772,11 @@ function start() {
       url == "https://parkerh27.github.io/PHS-Map/" ||
       url == "https://parkerh27.github.io/PHS-Map"
     ) {
-      document.getElementById("OTULink").href =
-        "/PHS-Map";
+      document.getElementById("OTULink").href = "/PHS-Map";
     } else {
-      document.getElementById("OTULink").href =
-        "/";
+      document.getElementById("OTULink").href = "/";
     }
-    console.log("includes");
+    // console.log("includes");
   }
 
   lvl1();
@@ -761,6 +800,7 @@ function start() {
     darkMode();
   }
 }
+window.start = start;
 
 function createCanvas() {
   canvas = document.getElementById("myCanvas");
@@ -769,11 +809,11 @@ function createCanvas() {
   ctx.canvas.width = size;
   ctx.canvas.height = size;
   // ctx.imageSmoothingEnabled = false;
-  if (veiwlvl == 1) {
+  if (viewLvl == 1) {
     printGrid1();
-  } else if (veiwlvl == 2) {
+  } else if (viewLvl == 2) {
     printGrid2();
-  } else if (veiwlvl == 0) {
+  } else if (viewLvl == 0) {
     printGrid0();
   }
 }
@@ -934,12 +974,12 @@ function printGrid2() {
 var px = 1;
 var py = 1;
 var old;
-window.onkeydown = function (f) {
-  if (veiwlvl == 1) {
+function onKeyDown(f) {
+  if (viewLvl == 1) {
     grid = gridLvl1;
-  } else if (veiwlvl == 2) {
+  } else if (viewLvl == 2) {
     grid = gridLvl2;
-  } else if (veiwlvl == 0) {
+  } else if (viewLvl == 0) {
     grid = gridLvl0;
   }
   grid[py][px] = old;
@@ -963,29 +1003,37 @@ window.onkeydown = function (f) {
   old = grid[py][px];
   grid[py][px] = -5;
 
-  if (veiwlvl == 1) {
+  if (viewLvl == 1) {
     printGrid1();
-  } else if (veiwlvl == 2) {
+  } else if (viewLvl == 2) {
     printGrid2();
-  } else if (veiwlvl == 0) {
+  } else if (viewLvl == 0) {
     printGrid0();
   }
-};
+}
+window.onkeydown = onKeyDown;
+
 function lvl0() {
-  veiwlvl = 0;
+  viewLvl = 0;
   source = document.getElementById("LVL0");
   createCanvas();
 }
+window.lvl0 = lvl0;
+
 function lvl1() {
-  veiwlvl = 1;
+  viewLvl = 1;
   source = document.getElementById("LVL1");
   createCanvas();
 }
+window.lvl1 = lvl1;
+
 function lvl2() {
-  veiwlvl = 2;
+  viewLvl = 2;
   source = document.getElementById("LVL2");
   createCanvas();
 }
+window.lvl2 = lvl2;
+
 function clearGrid() {
   // ctx.globalAlpha = 0.5;
   console.log(gridLvl1);
@@ -1015,12 +1063,14 @@ function clearGrid() {
   }
 }
 
-download_img = function (el) {
+function download_img(el) {
   var image = canvas.toDataURL("image/jpg");
   el.href = image;
-};
+}
 
-//Dark Mode
+/**
+ * Dark Mode
+ */
 function darkMode() {
   var element = document.body;
   element.classList.toggle("darkModebg");
@@ -1048,10 +1098,18 @@ function darkMode() {
     localStorage.setItem("shade", "light", 365);
   }
 }
+window.darkMode = darkMode;
 
-// window.onkeyup = function (e) {
-//     var code = e.keyCode ? e.keyCode : e.which;
-//     // if (code === 38) { //up key
-//     //     keys += "1"
-//     // }
-// };
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "30%";
+  x.style.fontSize = "40px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+window.w3_close = w3_close;
+
+export {};

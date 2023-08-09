@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/GPA_Calculator/dev-sw.js?dev-sw', { scope: '/GPA_Calculator/', type: 'module' })

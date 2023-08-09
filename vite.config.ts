@@ -4,7 +4,7 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/GPA_Calculator/",
+  base: "/PHS-Map/",
   build: {
     sourcemap: true,
     assetsDir: "code",
@@ -30,14 +30,14 @@ export default defineConfig({
         type: "module",
       },
       manifest: {
-        id: "/GPA_Calculator/",
-        scope: "/GPA_Calculator/",
-        name: "Pattonville GPA Calculator",
+        id: "/PHS-Map/",
+        scope: "/PHS-Map/",
+        name: "Pattonville Senior High School Map",
         display: "standalone",
-        start_url: "/GPA_Calculator/",
-        short_name: "GPA Calculator",
+        start_url: "/PHS-Map/",
+        short_name: "PHS Map",
         theme_color: "#00843e",
-        description: "GPA Calculator for Pattonville",
+        description: "Pattonville Senior High School Map",
         dir: "ltr",
         orientation: "any",
         background_color: "#000000",
@@ -46,7 +46,7 @@ export default defineConfig({
         display_override: ["window-controls-overlay"],
         icons: [
           {
-            src: "/GPA_Calculator/psdr3-icon.png",
+            src: "/PHS-Map/psdr3-icon.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any",

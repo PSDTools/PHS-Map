@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/PHS-Map/dev-sw.js?dev-sw', { scope: '/PHS-Map/', type: 'module' })

@@ -1,16 +1,16 @@
 @font-face {
   font-family: "Clash Display Bold";
-  src: url("../public/fonts/clash-display/ClashDisplay-Bold.otf");
+  src: url("../fonts/clash-display/ClashDisplay-Bold.otf");
 }
 
 @font-face {
   font-family: "Clash Display Semibold";
-  src: url("../public/fonts/clash-display/ClashDisplay-Semibold.otf");
+  src: url("../fonts/clash-display/ClashDisplay-Semibold.otf");
 }
 
 @font-face {
   font-family: "Clash Grotesk Medium";
-  src: url("../public/fonts/clash-grotesk/ClashGrotesk-Medium.otf");
+  src: url("../fonts/clash-grotesk/ClashGrotesk-Medium.otf");
 }
 
 :root {
@@ -242,6 +242,7 @@ ol li.purple::before {
 }
 
 mark {
+  width: -moz-fit-content;
   width: fit-content;
   padding: 2px;
   line-height: 20px;
@@ -464,6 +465,7 @@ a {
   border-radius: 2px;
   transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
+  width: -moz-fit-content;
   width: fit-content;
   background: var(--white);
   line-height: 20px;
@@ -547,6 +549,7 @@ input {
   background: var(--light-gray);
   transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
+  width: -moz-fit-content;
   width: fit-content;
   margin: 8px 0 8px 0;
   border: none;
@@ -616,6 +619,7 @@ input:disabled::placeholder {
   gap: 8px;
   margin: 8px 0 8px 0;
   align-items: center;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -783,6 +787,7 @@ input:disabled::placeholder {
   gap: 8px;
   margin: 8px 0 8px 0;
   align-items: center;
+  width: -moz-fit-content;
   width: fit-content;
 }
 

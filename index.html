@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +9,6 @@
     <link
       href="/AppImages/android/android-launchericon-512-512.png"
       rel="shortcut icon"
-      type="text/css"
     />
     <link
       rel="stylesheet"
@@ -30,20 +29,13 @@
     <link
       href="https://www.psdr3.org/images/logos/psd.png"
       rel="shortcut icon"
-      type="text/css"
     />
-    <script
-      type="text/javascript"
-      src="pathing/pathfinding-browser.js"
-    ></script>
     <link
       rel="stylesheet"
       href="https://www.w3schools.com/lib/w3-theme-black.css"
     />
 
-    <script type="text/javascript" src="src/data/Level0.js"></script>
-    <script type="text/javascript" src="src/data/Level1.js"></script>
-    <script type="text/javascript" src="src/data/Level2.js"></script>
+    <script src="src/script.js" type="module"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>PHS Map</title>
     <link href="src/bounce.css" rel="stylesheet" type="text/css" />
@@ -144,7 +136,6 @@
         <img id="LVL0" src="Schooloverlayl0color.jpg" style="display: none" />
         <img id="LVL1" src="Schooloverlayl1color.jpg" style="display: none" />
         <img id="LVL2" src="Schooloverlayl2color.jpg" style="display: none" />
-        <script src="src/script.js"></script>
 
         <div class="item">
           <canvas
@@ -179,7 +170,7 @@
         <li>Fill out the class information</li>
         <li>Press "Save Courses"</li>
         <li>
-          Now use the passing time button in-bettween classes to show a path
+          Now use the passing time button in-between classes to show a path
           between those classes!
         </li>
         <li>
@@ -224,15 +215,11 @@
     <h3>About</h3>
     <h5>
       Created by Parker Hasenkamp and Ethan Arana for the
-      <a href="https://psdr3.org" target="_blank"
-        >Pattonville School District</a
-      >
+      <a href="https://psdr3.org">Pattonville School District</a>
     </h5>
     <h5>
       Found a Bug?
-      <a href="https://forms.gle/AtFo1ixfryVuKAEU7" target="_blank">
-        Submit a Bug Report!</a
-      >
+      <a href="https://forms.gle/AtFo1ixfryVuKAEU7"> Submit a Bug Report!</a>
     </h5>
   </footer>
 
@@ -277,18 +264,6 @@
       }
     </script>
 
-    <script>
-      function w3_open() {
-        var x = document.getElementById("mySidebar");
-        x.style.width = "30%";
-        x.style.fontSize = "40px";
-        x.style.paddingTop = "10%";
-        x.style.display = "block";
-      }
-      function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-      }
-    </script>
   </nav>
 
   <!--Smooth Scroll Buttons-->

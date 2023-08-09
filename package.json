@@ -5,7 +5,7 @@
   "description": "(Formerly) A starter kit for building PWAs!",
   "repository": {
     "type": "git",
-    "url": "github:PSDTools/GPA_Calculator"
+    "url": "github:PSDTools/PHS-Map"
   },
   "markdown": "github",
   "author": {
@@ -19,19 +19,23 @@
     }
   ],
   "type": "module",
-  "exports": ["./src/app-index.js", "./src/script.js"],
+  "exports": [
+    "./src/app-index.js",
+    "./src/script.js"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@shoelace-style/shoelace": "^2.4.0",
     "@vaadin/router": "^1.7.5",
     "jquery": "^3.7.0",
     "lit": "^2.7.4",
-        "pathfinding": "^0.4.18",
+    "pathfinding": "^0.4.18",
     "workbox-build": "^7.0.0",
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^6.5.2"
   },
   "devDependencies": {
+    "@types/pathfinding": "^0.0.6",
     "eslint": "^8.45.0",
     "eslint-config-sheriff": "^12.1.0",
     "eslint-define-config": "^1.20.0",
