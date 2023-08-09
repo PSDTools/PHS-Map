@@ -4,27 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="/AppImages/android/android-launchericon-512-512.png"
       rel="shortcut icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Lato"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
-      rel="stylesheet"
-      integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw=="
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css"
-      rel="stylesheet"
-      integrity="sha512-yDUXOUWwbHH4ggxueDnC5vJv4tmfySpVdIcN1LksGZi8W8EVZv4uKGrQc0pVf66zS7LDhFJM7Zdeow1sw1/8Jw=="
-      crossorigin="anonymous"
     />
     <link
       href="https://www.psdr3.org/images/logos/psd.png"
@@ -36,10 +18,7 @@
     />
 
     <script src="src/script.js" type="module"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>PHS Map</title>
-    <link href="src/bounce.css" rel="stylesheet" type="text/css" />
-    <link href="src/style.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body
@@ -112,9 +91,8 @@
         </style>
       </div>
 
-      <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
-        >&#9776;</span
-      >
+      <i class="fa-solid fa-bars" onclick="openNav()"></i>
+
       <div class="w3-center">
         <h1 class="w3-animate-top phs">PHS</h1>
         <h5 id="gradeLvl" class="w3-large w3-animate-top"></h5>
@@ -197,9 +175,6 @@
         <button class="lime plusbutton" id="add" onclick="addProf()">
           &#10010;
         </button>
-        <p></p>
-        <p>Only have one place to go?</p>
-        <a id="OTULink" href="">Try One Time Use Mode!</a>
       </div>
     </div>
   </body>
@@ -263,37 +238,5 @@
         );
       }
     </script>
-
   </nav>
-
-  <!--Smooth Scroll Buttons-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      // Add smooth scrolling to all links
-      $("a").on("click", function (event) {
-        // Make sure this.hash has a value before overriding default behavior
-        if (this.hash !== "") {
-          // Prevent default anchor click behavior
-          event.preventDefault();
-
-          // Store hash
-          var hash = this.hash;
-
-          // Using jQuery's animate() method to add smooth page scroll
-          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-          $("html, body").animate(
-            {
-              scrollTop: $(hash).offset().top,
-            },
-            1000,
-            function () {
-              // Add hash (#) to URL when done scrolling (default click behavior)
-              window.location.hash = hash;
-            }
-          );
-        } // End if
-      });
-    });
-  </script>
 </html>
