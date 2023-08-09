@@ -39,7 +39,7 @@
     "@types/jquery": "^3.5.16",
     "@types/pathfinding": "^0.0.6",
     "eslint": "^8.45.0",
-    "eslint-config-sheriff": "^12.1.0",
+    "eslint-config-sheriff": "^14.3.0",
     "eslint-define-config": "^1.20.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
