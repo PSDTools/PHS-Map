@@ -1,4 +1,4 @@
-import "./style.css";
+import "./styles/style.css";
 import "@fortawesome/fontawesome-free/js/fontawesome.js";
 import "@fortawesome/fontawesome-free/js/solid.js";
 import jQuery from "jquery";
