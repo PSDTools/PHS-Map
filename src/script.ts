@@ -1,6 +1,12 @@
 import "./styles/style.css";
-import "@fortawesome/fontawesome-free/js/fontawesome.js";
-import "@fortawesome/fontawesome-free/js/solid.js";
+import { dom, library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faXmark,
+  faBars,
+  faCircleChevronDown,
+  faCircleChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
+
 import jQuery from "jquery";
 import gridLvl0 from "./data/level0.json";
 import gridLvl1 from "./data/level1.json";
@@ -9,73 +15,80 @@ import rooms from "./data/rooms.json";
 import stairs from "./data/stairs.json";
 import * as PF from "pathfinding";
 
-// declare global {
-//   interface Window {
-//     start: () => void;
-//     darkMode: () => void;
-//     clearAll: () => void;
-//     closeNav: () => void;
-//     openNav: () => void;
-//     lvl0: () => void;
-//     lvl1: () => void;
-//     lvl2: () => void;
-//     addProf: () => void;
-//     w3_close: () => void;
-//     locateCourses: () => void;
-//     courseLoop: () => void;
-//   }
-// }
+declare global {
+  interface Window {
+    startApp: () => void;
+    darkMode: () => void;
+    clearAll: () => void;
+    closeNav: () => void;
+    openNav: () => void;
+    lvl0: () => void;
+    lvl1: () => void;
+    lvl2: () => void;
+    addProf: () => void;
+    w3_close: () => void;
+    locateCourses: (profNum: number) => void;
+    courseLoop: (profNum: number) => void;
+    remProf: (profNum: number) => void;
+    passingTime: (num: number, profNum: number) => void;
+    downloadImg: (el: HTMLAnchorElement) => void;
+  }
+}
 
-let grid;
-let canvas;
-let ctx;
-let coursesAmt;
-let viewLvl;
-let profiles = [];
-let source;
-let size;
-let profNum;
-let prof;
-let numNext;
-let end;
-let stinv1;
-let stinv2;
-let x1;
-let y1;
-let flr1;
-let x2;
-let y2;
-let flr2;
-let btmStairs;
-let tempdist;
-let tempdist1;
-let tempdist2;
-let min;
-let indexmin;
-let sx1;
-let sy1;
+let grid: number[][];
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D;
+let coursesAmt: number;
+let viewLvl: number;
+let profiles: string[][][] = [];
+let source: HTMLImageElement;
+let size: number;
+let profNum: number;
+let prof: string;
+let numNext: number;
+let end: string;
+let stinv1: number;
+let stinv2: number;
+let x1: number;
+let y1: number;
+let flr1: number;
+let x2: number;
+let y2: number;
+let flr2: number;
+let btmStairs: Record<number, number[]>;
+let tempdist: number[];
+let tempdist1: number[];
+let tempdist2: number[];
+let min: number;
+let indexmin: number;
+let sx1: number;
+let sy1: number;
+let start: string;
+
+library.add(faXmark, faBars, faCircleChevronDown, faCircleChevronUp);
+dom.watch();
 
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("mySidenav")!.style.width = "250px";
   // document.getElementById("main").style.marginLeft = "250px"; // doesn't do anything
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
 window.openNav = openNav;
 
 function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("mySidenav")!.style.width = "0";
   // document.getElementById("main").style.marginLeft = "0"; // doesn't do anything
   document.body.style.backgroundColor = "white";
 }
 window.closeNav = closeNav;
 
 function clearAll() {
-  localStorage.setItem("profiles", null, -1);
-  localStorage.setItem("shade", null, -1);
+  localStorage.removeItem("profiles");
+  localStorage.removeItem("shade");
 }
 window.clearAll = clearAll;
 
-function createProfile(profNum) {
+function createProfile(profNum: number) {
   prof = String(profNum);
   console.log(`prf${prof}`);
   var tempElementId = `tempProf${String(prof)}`;
@@ -84,7 +97,7 @@ function createProfile(profNum) {
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
   console.log("prf" + prof);
-  document.getElementById(tempElementId).innerHTML = ` <div
+  document.getElementById(tempElementId)!.innerHTML = ` <div
       class="prof txtbox w3-animate-right"
       id="profBox${prof}"
     >
@@ -127,9 +140,9 @@ function createProfile(profNum) {
     <div class="container" id="${tempElementIdNext}"></div>`;
 }
 
-function createCourse(num, profNum) {
+function createCourse(numnum: number, profNum: number) {
   prof = String(profNum);
-  num = String(num);
+  let num = String(numnum);
   numNext = parseInt(num) + 1;
   console.log(num);
   console.log(prof);
@@ -141,7 +154,7 @@ function createCourse(num, profNum) {
   // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
   console.log(`inv${num}${prof}`);
-  document.getElementById(tempElementId).innerHTML = ` <div
+  document.getElementById(tempElementId)!.innerHTML = ` <div
       id="input-con-div"
       class=" input-container lightModeInput"
     >
@@ -185,70 +198,6 @@ function createCourse(num, profNum) {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-function otuPath() {
-  clearGrid();
-
-  start = document.getElementById("course1").value;
-  end = document.getElementById("course2").value;
-
-  start = start.toUpperCase();
-  start = start.replace("-", "");
-  start = start.replace("_", "");
-  start = start.replace("#", "");
-  start = start.replace("/", "");
-
-  end = end.toUpperCase();
-  end = end.replace("-", "");
-  end = end.replace("_", "");
-  end = end.replace("#", "");
-  end = end.replace("/", "");
-  console.log(start);
-  console.log(end);
-  if (rooms[start] == null) {
-    document.getElementById("course1").innerHTML = "Invalid Room Number";
-    stinv1 = 1;
-  } else {
-    document.getElementById("course1").innerHTML = "";
-    stinv1 = 0;
-  }
-  if (rooms[end] == null) {
-    document.getElementById("course2").innerHTML = "Invalid Room Number";
-    stinv2 = 1;
-  } else {
-    document.getElementById("course2").innerHTML = "";
-    stinv2 = 0;
-  }
-  if (stinv1 == 0 && stinv2 == 0) {
-    x1 = rooms[start][0];
-    y1 = rooms[start][1];
-    flr1 = rooms[start][2];
-    x2 = rooms[end][0];
-    y2 = rooms[end][1];
-    flr2 = rooms[end][2];
-    console.log(flr1);
-    console.log(flr2);
-
-    if (flr1 == 1 && flr2 == 1) {
-      grid = gridLvl1;
-      path(grid, x1, y1, x2, y2);
-    } else if (flr1 == 2 && flr2 == 2) {
-      grid = gridLvl2;
-      path(grid, x1, y1, x2, y2);
-    } else if (flr1 != 0 && flr2 != 0) {
-      stairPath(x1, y1, x2, y2, flr1);
-    } else {
-      btmPath(x1, y1, x2, y2, flr1, flr2);
-    }
-    if (flr1 == 1) {
-      lvl1();
-    } else if (flr1 == 2) {
-      lvl2();
-    } else {
-      lvl0();
-    }
-  }
-}
-
 function addProf() {
   profNum = document.querySelectorAll(".prof").length;
   if (profNum == 0) {
@@ -260,7 +209,7 @@ function addProf() {
 }
 window.addProf = addProf;
 
-function remProf(profNum) {
+function remProf(profNum: number) {
   console.log("___SPLICING___");
   console.log("profNum = " + profNum);
 
@@ -269,7 +218,7 @@ function remProf(profNum) {
   profiles.splice(profNum, 1);
   profiles[0].splice(profNum, 1);
 
-  document.getElementById("profiles").innerHTML = `<div
+  document.getElementById("profiles")!.innerHTML = `<div
     class=""
     id="tempProf1"
   ></div>`;
@@ -281,24 +230,27 @@ function remProf(profNum) {
 }
 window.remProf = remProf;
 
-function courseLoop(profNum) {
+function courseLoop(profNum: number) {
   prof = String(profNum);
-  coursesAmt = parseInt(document.getElementById("num" + profNum).value) + 1;
+  coursesAmt =
+    parseInt(
+      (document.getElementById("num" + profNum) as HTMLInputElement).value
+    ) + 1;
   console.log(prof);
-  if (coursesAmt != NaN) {
+  if (!Number.isNaN(coursesAmt)) {
     for (let i = 1; i < coursesAmt; i++) {
-      createCourse(i, profNum, 0);
+      createCourse(i, profNum);
     }
     console.log("passing" + String(coursesAmt - 1) + String(prof));
     document.getElementById(
       "passing" + String(coursesAmt - 1) + String(prof)
-    ).innerHTML = null;
+    )!.innerHTML = "";
     // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
   }
 }
 window.courseLoop = courseLoop;
 
-function locateCourses(profNum) {
+function locateCourses(profNum: number) {
   console.log("profNum = " + profNum);
   prof = String(profNum);
   profiles[profNum] = [];
@@ -310,14 +262,16 @@ function locateCourses(profNum) {
     i < document.querySelectorAll(".prof" + profNum + "").length + 1;
     i++
   ) {
-    profiles[0][profNum] = document.getElementById("nameProf" + profNum).value;
-    profiles[profNum][i - 1] = [];
-    console.log("rmnum" + String(parseInt(i) + 1) + prof + "txt");
-    profiles[profNum][i - 1][0] = document.getElementById(
-      "rmnum" + i + prof + "txt"
+    profiles[0][profNum][0] = (
+      document.getElementById("nameProf" + profNum) as HTMLInputElement
     ).value;
-    profiles[profNum][i - 1][1] = document.getElementById(
-      "cl" + i + prof + "txt"
+    profiles[profNum][i - 1] = [];
+    console.log("rmnum" + String(i + 1) + prof + "txt");
+    profiles[profNum][i - 1][0] = (
+      document.getElementById("rmnum" + i + prof + "txt") as HTMLInputElement
+    ).value;
+    profiles[profNum][i - 1][1] = (
+      document.getElementById("cl" + i + prof + "txt") as HTMLInputElement
     ).value;
   }
   localStorage.setItem("profiles", JSON.stringify(profiles));
@@ -326,36 +280,43 @@ function locateCourses(profNum) {
 window.locateCourses = locateCourses;
 
 function applyCookieProfiles() {
-  profiles = JSON.parse(localStorage.getItem("profiles"));
+  profiles = JSON.parse(localStorage.getItem("profiles")!);
   if (profiles == undefined) {
     profiles = [];
   } else {
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
-      document.getElementById("nameProf" + i).value = profiles[0][i];
-      for (let f = 1; f < parseInt(profiles[i].length) + 1; f++) {
+      (document.getElementById("nameProf" + i) as HTMLInputElement).value =
+        profiles[0][i].toString();
+      for (let f = 1; f < profiles[i].length + 1; f++) {
         createCourse(f, i);
         console.log(profiles[i][f - 1][0]);
         console.log(profiles[i][f - 1][1]);
-        document.getElementById("rmnum" + f + String(i) + "txt").value =
-          profiles[i][f - 1][0];
-        document.getElementById("cl" + f + String(i) + "txt").value =
-          profiles[i][f - 1][1];
+        (
+          document.getElementById(
+            "rmnum" + f + String(i) + "txt"
+          ) as HTMLInputElement
+        ).value = profiles[i][f - 1][0];
+        (
+          document.getElementById(
+            "cl" + f + String(i) + "txt"
+          ) as HTMLInputElement
+        ).value = profiles[i][f - 1][1];
         if (f == 1) {
         } else {
-          document.getElementById("passing" + String(f - 1) + i).style =
-            "display:block";
+          document.getElementById(
+            "passing" + String(f - 1) + i
+          )!.style.display = "block";
         }
-        document.getElementById("passing" + String(f) + i).style =
-          "display:none";
+        document.getElementById("passing" + String(f) + i)!.style.display =
+          "none";
       }
     }
   }
 }
 
-function passingTime(num, profNum) {
+function passingTime(num: number, profNum: number) {
   clearGrid();
-  num = parseInt(num);
   // console.log(profNum)
   // console.log(num)
   // console.log(profiles[profNum])
@@ -384,12 +345,12 @@ function passingTime(num, profNum) {
   if (rooms[start] == null) {
     document.getElementById(
       "inv" + String(num + 1) + String(profNum)
-    ).innerHTML = "Invalid Room Number";
+    )!.innerHTML = "Invalid Room Number";
     stinv1 = 1;
   } else {
     document.getElementById(
       "inv" + String(num + 1) + String(profNum)
-    ).innerHTML = "";
+    )!.innerHTML = "";
     stinv1 = 0;
   }
   if (rooms[end] == null) {
@@ -397,12 +358,12 @@ function passingTime(num, profNum) {
     console.log(String(num + 2) + String(profNum));
     document.getElementById(
       "inv" + String(num + 2) + String(profNum)
-    ).innerHTML = "Invalid Room Number";
+    )!.innerHTML = "Invalid Room Number";
     stinv2 = 1;
   } else {
     document.getElementById(
       "inv" + String(num + 2) + String(profNum)
-    ).innerHTML = "";
+    )!.innerHTML = "";
     stinv2 = 0;
   }
 
@@ -449,7 +410,14 @@ function passingTime(num, profNum) {
 }
 window.passingTime = passingTime;
 
-function btmPath(x1, y1, x2, y2, flr1, flr2) {
+function btmPath(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  flr1: number,
+  flr2: number
+) {
   if (flr1 != 0) {
     tempdist = [];
     tempdist1 = [];
@@ -524,7 +492,14 @@ function btmPath(x1, y1, x2, y2, flr1, flr2) {
   console.log("done!");
 }
 
-function mainToBtm(x1, y1, sx1, sy1, flr1, flr2) {
+function mainToBtm(
+  x1: number,
+  y1: number,
+  sx1: number,
+  sy1: number,
+  flr1: number,
+  flr2: number
+) {
   if (flr1 == 1) {
     stairPath(x1, y1, sx1, sy1, flr1);
   }
@@ -533,7 +508,13 @@ function mainToBtm(x1, y1, sx1, sy1, flr1, flr2) {
   }
 }
 
-function path(grid, x1, y1, x2, y2) {
+function path(
+  grid: number[][],
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+) {
   var matrix = new PF.Grid(grid);
   var finder = new PF.AStarFinder();
   var directions = finder.findPath(x1, y1, x2, y2, matrix);
@@ -550,7 +531,7 @@ function path(grid, x1, y1, x2, y2) {
   }
 }
 
-function stairPath(x1, y1, x2, y2, fl) {
+function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   tempdist = [];
   tempdist1 = [];
   for (let i = 0; i < 8; i++) {
@@ -583,7 +564,7 @@ function stairPath(x1, y1, x2, y2, fl) {
   }
 }
 
-function start() {
+function startApp() {
   lvl1();
   applyCookieProfiles();
 
@@ -591,12 +572,12 @@ function start() {
     darkMode();
   }
 }
-window.start = start;
+window.startApp = startApp;
 
 function createCanvas() {
-  canvas = document.getElementById("myCanvas");
+  canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
   ctx = canvas.getContext("2d");
-  size = document.getElementById("c").offsetWidth - 48;
+  size = document.getElementById("c")!.offsetWidth - 48;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
   // ctx.imageSmoothingEnabled = false;
@@ -615,10 +596,10 @@ function printGrid0() {
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
     for (let x = 0; x < gridLvl0[y].length; x++) {
-      if (gridLvl0[x][y] == "1") {
+      if (gridLvl0[x][y] == 1) {
         // ctx.fillStyle = "#000000";
         // ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
-      } else if (gridLvl0[x][y] == "-2") {
+      } else if (gridLvl0[x][y] == -2) {
         ctx.fillStyle = "#00FFFF";
         ctx.fillRect(
           (size / gridLvl0.length) * y,
@@ -626,7 +607,7 @@ function printGrid0() {
           size / gridLvl0.length,
           size / gridLvl0.length
         );
-      } else if (gridLvl0[x][y] == "-3") {
+      } else if (gridLvl0[x][y] == -3) {
         ctx.fillStyle = "#FF00FF";
         ctx.fillRect(
           (size / gridLvl0.length) * y,
@@ -634,7 +615,7 @@ function printGrid0() {
           size / gridLvl0.length,
           size / gridLvl0.length
         );
-      } else if (gridLvl0[x][y] == "-4") {
+      } else if (gridLvl0[x][y] == -4) {
         ctx.fillStyle = "#F00FFF";
         ctx.fillRect(
           (size / gridLvl0.length) * y,
@@ -642,7 +623,7 @@ function printGrid0() {
           size / gridLvl0.length,
           size / gridLvl0.length
         );
-      } else if (gridLvl0[x][y] == "-5") {
+      } else if (gridLvl0[x][y] == -5) {
         ctx.fillStyle = "#F00F0F";
         ctx.fillRect(
           (size / gridLvl0.length) * y,
@@ -666,10 +647,10 @@ function printGrid1() {
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl1.length; y++) {
     for (let x = 0; x < gridLvl1[y].length; x++) {
-      if (gridLvl1[x][y] == "1") {
+      if (gridLvl1[x][y] == 1) {
         // ctx.fillStyle = "#000000";
         // ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
-      } else if (gridLvl1[x][y] == "-2") {
+      } else if (gridLvl1[x][y] == -2) {
         ctx.fillStyle = "#00FFFF";
         ctx.fillRect(
           (size / gridLvl1.length) * y,
@@ -677,7 +658,7 @@ function printGrid1() {
           size / gridLvl1.length,
           size / gridLvl1.length
         );
-      } else if (gridLvl1[x][y] == "-3") {
+      } else if (gridLvl1[x][y] == -3) {
         ctx.fillStyle = "#FF00FF";
         ctx.fillRect(
           (size / gridLvl1.length) * y,
@@ -685,7 +666,7 @@ function printGrid1() {
           size / gridLvl1.length,
           size / gridLvl1.length
         );
-      } else if (gridLvl1[x][y] == "-4") {
+      } else if (gridLvl1[x][y] == -4) {
         ctx.fillStyle = "#F00FFF";
         ctx.fillRect(
           (size / gridLvl1.length) * y,
@@ -693,7 +674,7 @@ function printGrid1() {
           size / gridLvl1.length,
           size / gridLvl1.length
         );
-      } else if (gridLvl1[x][y] == "-5") {
+      } else if (gridLvl1[x][y] == -5) {
         ctx.fillStyle = "#F00F0F";
         ctx.fillRect(
           (size / gridLvl1.length) * y,
@@ -717,10 +698,10 @@ function printGrid2() {
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl2.length; y++) {
     for (let x = 0; x < gridLvl2[y].length; x++) {
-      if (gridLvl2[x][y] == "1") {
+      if (gridLvl2[x][y] == 1) {
         // ctx.fillStyle = "#000000";
         // ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
-      } else if (gridLvl2[x][y] == "-2") {
+      } else if (gridLvl2[x][y] == -2) {
         ctx.fillStyle = "#00FFFF";
         ctx.fillRect(
           (size / gridLvl2.length) * y,
@@ -728,7 +709,7 @@ function printGrid2() {
           size / gridLvl2.length,
           size / gridLvl2.length
         );
-      } else if (gridLvl2[x][y] == "-3") {
+      } else if (gridLvl2[x][y] == -3) {
         ctx.fillStyle = "#FF00FF";
         ctx.fillRect(
           (size / gridLvl2.length) * y,
@@ -736,7 +717,7 @@ function printGrid2() {
           size / gridLvl2.length,
           size / gridLvl2.length
         );
-      } else if (gridLvl2[x][y] == "-4") {
+      } else if (gridLvl2[x][y] == -4) {
         ctx.fillStyle = "#F00FFF";
         ctx.fillRect(
           (size / gridLvl2.length) * y,
@@ -744,7 +725,7 @@ function printGrid2() {
           size / gridLvl2.length,
           size / gridLvl2.length
         );
-      } else if (gridLvl2[x][y] == "-5") {
+      } else if (gridLvl2[x][y] == -5) {
         ctx.fillStyle = "#F00F0F";
         ctx.fillRect(
           (size / gridLvl2.length) * y,
@@ -764,8 +745,8 @@ function printGrid2() {
 
 var px = 1;
 var py = 1;
-var old;
-function onKeyDown(f) {
+var old: any;
+function onKeyDown(this: GlobalEventHandlers, ev: KeyboardEvent) {
   if (viewLvl == 1) {
     grid = gridLvl1;
   } else if (viewLvl == 2) {
@@ -774,7 +755,7 @@ function onKeyDown(f) {
     grid = gridLvl0;
   }
   grid[py][px] = old;
-  var code = f.keyCode ? f.keyCode : f.which;
+  var code = ev.keyCode ? ev.keyCode : ev.which;
   if (code === 38) {
     //up key
     py--;
@@ -806,21 +787,21 @@ window.onkeydown = onKeyDown;
 
 function lvl0() {
   viewLvl = 0;
-  source = document.getElementById("LVL0");
+  source = document.getElementById("LVL0") as HTMLImageElement;
   createCanvas();
 }
 window.lvl0 = lvl0;
 
 function lvl1() {
   viewLvl = 1;
-  source = document.getElementById("LVL1");
+  source = document.getElementById("LVL1") as HTMLImageElement;
   createCanvas();
 }
 window.lvl1 = lvl1;
 
 function lvl2() {
   viewLvl = 2;
-  source = document.getElementById("LVL2");
+  source = document.getElementById("LVL2") as HTMLImageElement;
   createCanvas();
 }
 window.lvl2 = lvl2;
@@ -833,31 +814,32 @@ function clearGrid() {
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
     for (let x = 0; x < gridLvl0[y].length; x++) {
-      if (gridLvl0[x][y] == "-4") {
+      if (gridLvl0[x][y] == -4) {
         gridLvl0[x][y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl1.length; y++) {
     for (let x = 0; x < gridLvl1[y].length; x++) {
-      if (gridLvl1[x][y] == "-4") {
+      if (gridLvl1[x][y] == -4) {
         gridLvl1[x][y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl2.length; y++) {
     for (let x = 0; x < gridLvl2[y].length; x++) {
-      if (gridLvl2[x][y] == "-4") {
+      if (gridLvl2[x][y] == -4) {
         gridLvl2[x][y] = 0;
       }
     }
   }
 }
 
-function download_img(el) {
+function downloadImg(el: HTMLAnchorElement) {
   var image = canvas.toDataURL("image/jpg");
   el.href = image;
 }
+window.downloadImg = downloadImg;
 
 /**
  * Dark Mode
@@ -867,11 +849,11 @@ function darkMode() {
   element.classList.toggle("darkModebg");
   element.classList.toggle("lightModebg");
 
-  var c = document.getElementById("c");
+  var c = document.getElementById("c")!;
   c.classList.toggle("darkMode");
   c.classList.toggle("lightMode");
 
-  var c2 = document.getElementById("c2");
+  var c2 = document.getElementById("c2")!;
   c2.classList.toggle("darkMode");
   c2.classList.toggle("lightMode");
 
@@ -882,24 +864,17 @@ function darkMode() {
   }
 
   if (c.classList.contains("darkMode") == true) {
-    document.getElementById("darkModeButton").innerHTML = "Light Mode";
-    localStorage.setItem("shade", "dark", 365);
+    document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
+    localStorage.setItem("shade", "dark");
   } else if (element.classList.contains("lightMode") == false) {
-    document.getElementById("darkModeButton").innerHTML = "Dark Mode";
-    localStorage.setItem("shade", "light", 365);
+    document.getElementById("darkModeButton")!.innerHTML = "Dark Mode";
+    localStorage.setItem("shade", "light");
   }
 }
 window.darkMode = darkMode;
 
-function w3_open() {
-  var x = document.getElementById("mySidebar");
-  x.style.width = "30%";
-  x.style.fontSize = "40px";
-  x.style.paddingTop = "10%";
-  x.style.display = "block";
-}
 function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("mySidebar")!.style.display = "none";
 }
 window.w3_close = w3_close;
 
@@ -907,22 +882,22 @@ window.w3_close = w3_close;
 jQuery(function ($) {
   // Add smooth scrolling to all links
   $("a").on("click", function (event) {
+    // Store hash
+    var hash = (this as HTMLAnchorElement).hash;
+
     // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
+    if (hash !== "") {
       // Prevent default anchor click behavior
       event.preventDefault();
-
-      // Store hash
-      var hash = this.hash;
 
       // Using jQuery's animate() method to add smooth page scroll
       // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
       $("html, body").animate(
         {
-          scrollTop: $(hash).offset().top,
+          scrollTop: ($(hash).offset() as JQuery.Coordinates).top,
         },
         1000,
-        function () {
+        () => {
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
         }

@@ -18,13 +18,13 @@
     />
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <script src="src/script.js" type="module"></script>
+    <script src="src/script.ts" type="module"></script>
     <title>PHS Map</title>
   </head>
 
   <body
     class="lightmodebg"
-    onload="start()"
+    onload="startApp()"
     style="transition: background-color 0.5s"
   >
     <header class="w3-container w3-theme w3-padding-16" id="myHeader">
@@ -96,7 +96,7 @@
           id="download"
           download="PHS-Map.jpg"
           href=""
-          onclick="download_img(this);"
+          onclick="downloadImg(this);"
           >Download Current Map</a
         >
       </div>
