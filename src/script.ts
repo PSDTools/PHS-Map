@@ -11,8 +11,8 @@ import jQuery from "jquery";
 import gridLvl0 from "./data/level0.json";
 import gridLvl1 from "./data/level1.json";
 import gridLvl2 from "./data/level2.json";
-import rooms from "./data/rooms.json";
-import stairs from "./data/stairs.json";
+import jsonRooms from "./data/rooms.json";
+import jsonStairs from "./data/stairs.json";
 import * as PF from "pathfinding";
 
 declare global {
@@ -64,6 +64,9 @@ let indexmin: number;
 let sx1: number;
 let sy1: number;
 let start: string;
+
+let rooms = jsonRooms as Record<string, number[]>;
+let stairs = jsonStairs as Record<string, number[]>;
 
 library.add(faXmark, faBars, faCircleChevronDown, faCircleChevronUp);
 dom.watch();
@@ -576,7 +579,7 @@ window.startApp = startApp;
 
 function createCanvas() {
   canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-  ctx = canvas.getContext("2d");
+  ctx = canvas.getContext("2d")!;
   size = document.getElementById("c")!.offsetWidth - 48;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
