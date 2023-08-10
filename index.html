@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="https://www.w3schools.com/lib/w3-theme-black.css"
     />
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script src="src/script.js" type="module"></script>
     <title>PHS Map</title>
@@ -51,44 +52,10 @@
           Clear All Site Data
         </button>
         <p></p>
-        <div class="no-bounce" style="text-align: center; display: inherit">
-          <div id="google_translate_element"></div>
-        </div>
-        <script type="text/javascript">
-          function googleTranslateElementInit() {
-            new google.translate.TranslateElement(
-              {
-                pageLanguage: "en",
-              },
-              "google_translate_element"
-            );
-          }
-        </script>
-
-        <script
-          type="text/javascript"
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        ></script>
-
-        <style>
-          .goog-te-gadget {
-            text-align: center !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            transform: none !important;
-            display: inherit !important;
-          }
-
-          .goog-logo-link {
-            text-align: center !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            transform: none !important;
-            display: inherit !important;
-          }
-        </style>
+        <div
+          class="no-bounce"
+          style="text-align: center; display: inherit"
+        ></div>
       </div>
 
       <i class="fa-solid fa-bars" onclick="openNav()"></i>
@@ -136,43 +103,45 @@
 
       <div id="c2" class="lightMode w3-half w3-container w3-padding-16">
         <h3>How to use!</h3>
-        <li>
-          Press the
-          <button class="lime plusbuttonsml" id="add" onclick="addProf()">
-            &#10010;
-          </button>
-          button below to add a schedule
-        </li>
-        <li>Type in the number of classes in that schedule</li>
-        <li>Press "Submit"</li>
-        <li>Fill out the class information</li>
-        <li>Press "Save Courses"</li>
-        <li>
-          Now use the passing time button in-between classes to show a path
-          between those classes!
-        </li>
-        <li>
-          Use the "Level 1" and "Level 2" buttons below the map to view
-          different floors
-        </li>
-        <a
-          href="https://drive.google.com/file/d/1i5vZrMjG_jptY4Fs-r54Wgd_pd4jF10U/view?usp=sharing"
-          >Click Here for a Video Tutorial!</a
-        >
-        <p></p>
-        <li>
-          Now use the "Show Path" button in-between classes to show a path
-          between those classes!
-        </li>
-        <li>
-          Use the "Level 0", "Level 1", and "Level 2" buttons below the map to
-          view different floors
-        </li>
+        <ol>
+          <li>
+            Press the
+            <button class="lime plusbuttonsml add" onclick="addProf()">
+              &#10010;
+            </button>
+            button below to add a schedule
+          </li>
+          <li>Type in the number of classes in that schedule</li>
+          <li>Press "Submit"</li>
+          <li>Fill out the class information</li>
+          <li>Press "Save Courses"</li>
+          <li>
+            Now use the passing time button in-between classes to show a path
+            between those classes!
+          </li>
+          <li>
+            Use the "Level 1" and "Level 2" buttons below the map to view
+            different floors
+          </li>
+          <a
+            href="https://drive.google.com/file/d/1i5vZrMjG_jptY4Fs-r54Wgd_pd4jF10U/view?usp=sharing"
+            >Click Here for a Video Tutorial!</a
+          >
+          <p></p>
+          <li>
+            Now use the "Show Path" button in-between classes to show a path
+            between those classes!
+          </li>
+          <li>
+            Use the "Level 0", "Level 1", and "Level 2" buttons below the map to
+            view different floors
+          </li>
+        </ol>
         <p style="margin: 24px"></p>
         <div id="profiles">
           <div class="" id="tempProf1"></div>
         </div>
-        <button class="lime plusbutton" id="add" onclick="addProf()">
+        <button class="lime plusbutton add" onclick="addProf()">
           &#10010;
         </button>
       </div>

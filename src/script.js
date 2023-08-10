@@ -64,7 +64,7 @@ window.openNav = openNav;
 
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
+  // document.getElementById("main").style.marginLeft = "0"; // doesn't do anything
   document.body.style.backgroundColor = "white";
 }
 window.closeNav = closeNav;
@@ -90,8 +90,7 @@ function createProfile(profNum) {
     >
       <div style="">
         <button
-          class="containerinpt red"
-          id="add"
+          class="containerinpt red add"
           onclick="remProf(${profNum})"
         >
           &#10006;
