@@ -51,6 +51,7 @@ footer {
 .smallbutton {
   /* 	font-size:40%; */
   width: inherit;
+  background-color: #111 !important;
 }
 
 .darkMode {

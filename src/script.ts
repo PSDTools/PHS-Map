@@ -69,14 +69,14 @@ library.add(faXmark, faBars, faCircleChevronDown, faCircleChevronUp);
 dom.watch();
 
 function openNav() {
-  document.getElementById("mySidenav")!.style.width = "250px";
+  document.getElementById("my-sidenav")!.style.width = "250px";
   // document.getElementById("main").style.marginLeft = "250px"; // doesn't do anything
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
 window.openNav = openNav;
 
 function closeNav() {
-  document.getElementById("mySidenav")!.style.width = "0";
+  document.getElementById("my-sidenav")!.style.width = "0";
   // document.getElementById("main").style.marginLeft = "0"; // doesn't do anything
   document.body.style.backgroundColor = "white";
 }

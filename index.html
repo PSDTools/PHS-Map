@@ -28,7 +28,8 @@
     style="transition: background-color 0.5s"
   >
     <header class="w3-container w3-theme w3-padding-16" id="myHeader">
-      <div id="mySidenav" class="sidenav">
+      <!-- Side Navigation -->
+      <nav id="my-sidenav" class="sidenav">
         <a
           href="javascript:void(0)"
           style="color: white; background-color: black; font-size: 36px"
@@ -56,7 +57,7 @@
           class="no-bounce"
           style="text-align: center; display: inherit"
         ></div>
-      </div>
+      </nav>
 
       <i class="fa-solid fa-bars" onclick="openNav()"></i>
 
@@ -146,66 +147,26 @@
         </button>
       </div>
     </div>
+    <footer
+      class="footer w3-container w3-theme-dark w3-padding-16"
+      id="myFooter"
+    >
+      <a
+        class="no-bounce"
+        style="color: white; background-color: black"
+        href="#myHeader"
+        ><span class="w3-xlarge">
+          <i class="fa-solid fa-circle-chevron-up"></i></span
+      ></a>
+      <h3>About</h3>
+      <h5>
+        Created by Parker Hasenkamp and Ethan Arana for the
+        <a href="https://psdr3.org">Pattonville School District</a>
+      </h5>
+      <h5>
+        Found a Bug?
+        <a href="https://forms.gle/AtFo1ixfryVuKAEU7"> Submit a Bug Report!</a>
+      </h5>
+    </footer>
   </body>
-
-  <footer class="footer w3-container w3-theme-dark w3-padding-16" id="myFooter">
-    <a
-      class="no-bounce"
-      style="color: white; background-color: black"
-      href="#myHeader"
-      ><span class="w3-xlarge">
-        <i class="fa-solid fa-circle-chevron-up"></i></span
-    ></a>
-    <h3>About</h3>
-    <h5>
-      Created by Parker Hasenkamp and Ethan Arana for the
-      <a href="https://psdr3.org">Pattonville School District</a>
-    </h5>
-    <h5>
-      Found a Bug?
-      <a href="https://forms.gle/AtFo1ixfryVuKAEU7"> Submit a Bug Report!</a>
-    </h5>
-  </footer>
-
-  <!-- Side Navigation -->
-  <nav
-    class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center"
-    style="display: none"
-    id="mySidebar"
-  >
-    <button
-      class="smallbutton w3-text-theme w3-padding-16"
-      onclick="w3_close()"
-    >
-      Close <i class="fa-solid fa-xmark"></i>
-    </button>
-    <p></p>
-    <button
-      id="darkModeButton"
-      onclick="darkMode()"
-      class="smallbutton w3-button w3-theme"
-    >
-      Dark Mode
-    </button>
-    <p></p>
-    <button
-      class="clearDataButton smallbutton w3-button w3-theme"
-      onclick="clearAll()"
-    >
-      Clear All Site Data
-    </button>
-    <p></p>
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          },
-          "google_translate_element"
-        );
-      }
-    </script>
-  </nav>
 </html>
