@@ -26,10 +26,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
-    "@shoelace-style/shoelace": "^2.4.0",
-    "@vaadin/router": "^1.7.5",
     "jquery": "^3.7.0",
-    "lit": "^2.7.4",
     "pathfinding": "^0.4.18",
     "vite-plugin-webfont-dl": "^3.7.6",
     "workbox-build": "^7.0.0",

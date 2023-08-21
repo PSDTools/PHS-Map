@@ -1,0 +1,12 @@
+{
+  "trailingComma": "all",
+  "singleQuote": false,
+  "semicolon": true,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
+}
