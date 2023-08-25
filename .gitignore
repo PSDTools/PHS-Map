@@ -1,6 +1,7 @@
 dev-dist
 build
 types
+.turbo
 
 # Logs
 logs

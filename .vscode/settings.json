@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"]
+  "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"],
+  "eslint.experimental.useFlatConfig": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": ".prettierc, .prettierignore, pnpm-lock.yaml, eslint.config.js, turbo.json",
+    "README*": "*.${capture}",
+    ".replit": "replit.*"
+  },
+  "prettier.trailingComma": "all"
 }

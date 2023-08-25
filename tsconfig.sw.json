@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/sw.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "lib": ["ESNext", "WebWorker"],
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.sw.json"
+  }
+}

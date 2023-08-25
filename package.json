@@ -39,17 +39,24 @@
     "eslint": "^8.47.0",
     "eslint-config-sheriff": "^14.4.0",
     "eslint-define-config": "^1.20.0",
+    "prettier": "^3.0.2",
+    "turbo": "^1.10.13",
     "typescript": "^5.2.2",
     "vite": "^4.3.9",
     "vite-plugin-pwa": "^0.16.4"
   },
   "scripts": {
-    "dev-server": "vite",
-    "dev": "npm run dev-server -- --open",
-    "deploy": "npx @azure/static-web-apps-cli login --no-use-keychain && npx @azure/static-web-apps-cli deploy",
-    "build": "npm run type-check && npm run vite",
-    "type-check": "tsc",
+    "dev": "vite --open",
     "vite": "vite build",
-    "start": "npm run dev-server -- --host"
-  }
+    "typecheck:src": "tsc",
+    "typecheck:sw": "tsc -p tsconfig.sw.json",
+    "typecheck:extra": "tsc -p tsconfig.eslint.json",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.6.12"
 }

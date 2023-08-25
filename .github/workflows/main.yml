@@ -28,25 +28,21 @@ jobs:
         with:
           submodules: true
 
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 8.6.12
+
       - name: Setup Node
         uses: actions/setup-node@v3.6.0
         with:
-          node-version: "16"
-          cache: "npm"
-
-      - name: Cache node_modules
-        id: cache-node_modules
-        uses: actions/cache@v3.3.1
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('package.json', 'package-lock.json') }}
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install NPM Dependencies
-        if: steps.cache-node_modules.outputs.cache-hit != 'true'
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Vite Build
-        run: npm run vite # build # TODO: use ts, so build works, but w/type-checking
+      - name: Lint & Vite Build
+        run: pnpm exec turbo build
 
       - name: Redirect 404 to Index for SPA
         run: cp dist/index.html dist/404.html

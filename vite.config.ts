@@ -1,6 +1,6 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import { resolve } from "path";
 import webfontDownload from "vite-plugin-webfont-dl";
 
 // https://vitejs.dev/config/
@@ -8,7 +8,6 @@ export default defineConfig({
   base: "/PHS-Map/",
   build: {
     sourcemap: true,
-    assetsDir: "code",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),

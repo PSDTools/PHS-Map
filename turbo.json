@@ -1,0 +1,60 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["vite", "typecheck", "lint", "format:check"]
+    },
+    "vite": {
+      "inputs": ["src/**", "public/**", "vite.config.ts", "index.html"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "inputs": ["src/**", "vite.config.ts"]
+    },
+    "typecheck": {
+      "dependsOn": ["typecheck:src", "typecheck:sw", "typecheck:extra"]
+    },
+    "typecheck:src": {
+      "outputs": ["node_modules/.cache/tsbuildinfo.json"],
+      "inputs": ["src/**", "!src/sw.ts", "tsconfig.json"]
+    },
+    "typecheck:sw": {
+      "outputs": ["node_modules/.cache/tsbuildinfo.sw.json"],
+      "inputs": ["src/sw.ts", "tsconfig.json"]
+    },
+    "typecheck:extra": {
+      "outputs": ["node_modules/.cache/tsbuildinfo.extra.json"],
+      "inputs": ["vite.config.ts"]
+    },
+    "format": {
+      "outputs": ["node_modules/.cache/prettier/**"],
+      "inputs": [
+        "**.html",
+        "**.ts",
+        "**.md",
+        "**.json",
+        "**.js",
+        "**.css",
+        ".prettierc"
+      ]
+    },
+    "format:check": {
+      "outputs": ["node_modules/.cache/prettier/**"],
+      "inputs": [
+        "**.html",
+        "**.ts",
+        "**.md",
+        "**.json",
+        "**.js",
+        "**.css",
+        ".prettierc"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "inputs": ["src/**", "public/**", "vite.config.ts", "index.html"],
+      "outputs": ["node_modules/.vite/**", "dev-dist/**"]
+    }
+  }
+}

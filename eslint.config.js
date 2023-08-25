@@ -1,18 +1,25 @@
 import sheriff from "eslint-config-sheriff";
 import { defineFlatConfig } from "eslint-define-config";
 
-const sheriffOptions = {
-  react: false,
-  lodash: false,
-  next: false,
-  playwright: false,
-  jest: false,
-  vitest: true,
-};
+function sheriffOptions(files, customTSConfigPath) {
+  return {
+    files: files,
+    react: false,
+    lodash: false,
+    next: false,
+    playwright: false,
+    jest: false,
+    vitest: true,
+    customTSConfigPath: customTSConfigPath,
+  };
+}
 
 export default defineFlatConfig([
-  ...sheriff(sheriffOptions),
+  ...sheriff(sheriffOptions(["src/script.ts"], "./tsconfig.json")),
+  ...sheriff(sheriffOptions(["src/sw.ts"], "./tsconfig.sw.json")),
+  ...sheriff(sheriffOptions(["vite.config.ts"], "./tsconfig.eslint.json")),
   {
+    files: ["**/*.ts"],
     rules: {
       "padding-line-between-statements": "off",
       "@typescript-eslint/naming-convention": "off",
@@ -24,13 +31,6 @@ export default defineFlatConfig([
       "fp/no-class": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "no-console": "warn",
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_" },
-      ],
     },
-  },
-  {
-    ignores: ["src/sw.ts"],
   },
 ]);
