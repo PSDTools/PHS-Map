@@ -183,8 +183,8 @@ function createCourse(numnum: number, profNum: number) {
         <button
           class="purple btninpt showpth"
           onclick="passingTime(${String(parseInt(num) - 1)}, ${String(
-    profNum
-  )})"
+            profNum,
+          )})"
         >
           Show Path
           <span style="font-size:120%;"> ⇩ </span>
@@ -224,14 +224,14 @@ function courseLoop(profNum: number) {
   prof = String(profNum);
   coursesAmt =
     parseInt(
-      (document.getElementById(`num${profNum}`) as HTMLInputElement).value
+      (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
     for (let i = 1; i < coursesAmt; i++) {
       createCourse(i, profNum);
     }
     document.getElementById(
-      `passing${String(coursesAmt - 1)}${String(prof)}`
+      `passing${String(coursesAmt - 1)}${String(prof)}`,
     )!.innerHTML = "";
     // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
   }
@@ -308,24 +308,24 @@ function passingTime(num: number, profNum: number) {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (rooms[start] === null) {
     document.getElementById(
-      `inv${String(num + 1)}${String(profNum)}`
+      `inv${String(num + 1)}${String(profNum)}`,
     )!.innerHTML = "Invalid Room Number";
     stinv1 = 1;
   } else {
     document.getElementById(
-      `inv${String(num + 1)}${String(profNum)}`
+      `inv${String(num + 1)}${String(profNum)}`,
     )!.innerHTML = "";
     stinv1 = 0;
   }
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (rooms[end] === null) {
     document.getElementById(
-      `inv${String(num + 2)}${String(profNum)}`
+      `inv${String(num + 2)}${String(profNum)}`,
     )!.innerHTML = "Invalid Room Number";
     stinv2 = 1;
   } else {
     document.getElementById(
-      `inv${String(num + 2)}${String(profNum)}`
+      `inv${String(num + 2)}${String(profNum)}`,
     )!.innerHTML = "";
     stinv2 = 0;
   }
@@ -370,20 +370,20 @@ function btmPath(
   x2: number,
   y2: number,
   flr1: number,
-  flr2: number
+  flr2: number,
 ) {
   if (flr1 !== 0) {
     tempdist = [];
     tempdist1 = [];
     for (let i = 0; i < 2; i++) {
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1])
+        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 2; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1])
+        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
@@ -403,13 +403,13 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 1; i++) {
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1])
+        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 1; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1])
+        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
@@ -442,7 +442,7 @@ function mainToBtm(
   sx1: number,
   sy1: number,
   flr1: number,
-  flr2: number
+  flr2: number,
 ) {
   if (flr1 === 1) {
     stairPath(x1, y1, sx1, sy1, flr1);
@@ -457,7 +457,7 @@ function path(
   x1: number,
   y1: number,
   x2: number,
-  y2: number
+  y2: number,
 ) {
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
@@ -569,7 +569,7 @@ function printGrid0() {
             (size / gridLvl0.length) * y,
             (size / gridLvl0.length) * x,
             size / gridLvl0.length,
-            size / gridLvl0.length
+            size / gridLvl0.length,
           );
 
           break;
@@ -580,7 +580,7 @@ function printGrid0() {
             (size / gridLvl0.length) * y,
             (size / gridLvl0.length) * x,
             size / gridLvl0.length,
-            size / gridLvl0.length
+            size / gridLvl0.length,
           );
 
           break;
@@ -591,7 +591,7 @@ function printGrid0() {
             (size / gridLvl0.length) * y,
             (size / gridLvl0.length) * x,
             size / gridLvl0.length,
-            size / gridLvl0.length
+            size / gridLvl0.length,
           );
 
           break;
@@ -602,7 +602,7 @@ function printGrid0() {
             (size / gridLvl0.length) * y,
             (size / gridLvl0.length) * x,
             size / gridLvl0.length,
-            size / gridLvl0.length
+            size / gridLvl0.length,
           );
 
           break;
@@ -638,7 +638,7 @@ function printGrid1() {
             (size / gridLvl1.length) * y,
             (size / gridLvl1.length) * x,
             size / gridLvl1.length,
-            size / gridLvl1.length
+            size / gridLvl1.length,
           );
 
           break;
@@ -649,7 +649,7 @@ function printGrid1() {
             (size / gridLvl1.length) * y,
             (size / gridLvl1.length) * x,
             size / gridLvl1.length,
-            size / gridLvl1.length
+            size / gridLvl1.length,
           );
 
           break;
@@ -660,7 +660,7 @@ function printGrid1() {
             (size / gridLvl1.length) * y,
             (size / gridLvl1.length) * x,
             size / gridLvl1.length,
-            size / gridLvl1.length
+            size / gridLvl1.length,
           );
 
           break;
@@ -671,7 +671,7 @@ function printGrid1() {
             (size / gridLvl1.length) * y,
             (size / gridLvl1.length) * x,
             size / gridLvl1.length,
-            size / gridLvl1.length
+            size / gridLvl1.length,
           );
 
           break;
@@ -707,7 +707,7 @@ function printGrid2() {
             (size / gridLvl2.length) * y,
             (size / gridLvl2.length) * x,
             size / gridLvl2.length,
-            size / gridLvl2.length
+            size / gridLvl2.length,
           );
 
           break;
@@ -718,7 +718,7 @@ function printGrid2() {
             (size / gridLvl2.length) * y,
             (size / gridLvl2.length) * x,
             size / gridLvl2.length,
-            size / gridLvl2.length
+            size / gridLvl2.length,
           );
 
           break;
@@ -729,7 +729,7 @@ function printGrid2() {
             (size / gridLvl2.length) * y,
             (size / gridLvl2.length) * x,
             size / gridLvl2.length,
-            size / gridLvl2.length
+            size / gridLvl2.length,
           );
 
           break;
@@ -740,7 +740,7 @@ function printGrid2() {
             (size / gridLvl2.length) * y,
             (size / gridLvl2.length) * x,
             size / gridLvl2.length,
-            size / gridLvl2.length
+            size / gridLvl2.length,
           );
 
           break;
@@ -953,7 +953,7 @@ jQuery(($) => {
         () => {
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
-        }
+        },
       );
     } // End if
   });

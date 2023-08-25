@@ -278,7 +278,8 @@ button {
   border-radius: 2px;
   outline: 2px solid var(--black);
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
 
   background: var(--white);
@@ -315,72 +316,104 @@ button.lime {
 button:hover,
 button:focus-visible {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 button.cyan:hover,
 button.cyan:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--cyan-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--cyan-dark),
+    -5px 5px 0 2px var(--black);
 }
 
 button.pink:hover,
 button.pink:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--pink-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--pink-dark),
+    -5px 5px 0 2px var(--black);
 }
 
 button.yellow:hover,
 button.yellow:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--yellow-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--yellow-dark),
+    -5px 5px 0 2px var(--black);
 }
 
 button.blue:hover,
 button.blue:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--blue-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--blue-dark),
+    -5px 5px 0 2px var(--black);
 }
 
 button.purple:hover,
 button.purple:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--purple-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--purple-dark),
+    -5px 5px 0 2px var(--black);
 }
 button.red:hover,
 button.red:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--red-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--red-dark),
+    -5px 5px 0 2px var(--black);
 }
 button.lime:hover,
 button.lime:focus-visible {
-  box-shadow: -5px 5px 0 0 var(--lime-dark), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--lime-dark),
+    -5px 5px 0 2px var(--black);
 }
 
 button:active {
   transform: translateX(2px) translateY(-2px);
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 2px var(--black);
 }
 
 button.cyan:active {
-  box-shadow: -3px 3px 0 0 var(--cyan-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--cyan-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button.pink:active {
-  box-shadow: -3px 3px 0 0 var(--pink-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--pink-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button.yellow:active {
-  box-shadow: -3px 3px 0 0 var(--yellow-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--yellow-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button.blue:active {
-  box-shadow: -3px 3px 0 0 var(--blue-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--blue-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button.purple:active {
-  box-shadow: -3px 3px 0 0 var(--purple-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--purple-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button.red:active {
-  box-shadow: -3px 3px 0 0 var(--red-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--red-dark),
+    -3px 3px 0 2px var(--black);
 }
 button.lime:active {
-  box-shadow: -3px 3px 0 0 var(--lime-dark), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--lime-dark),
+    -3px 3px 0 2px var(--black);
 }
 
 button:disabled,
@@ -463,7 +496,8 @@ a {
   font-size: 16px;
   padding: 2px 4px;
   border-radius: 2px;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   width: -moz-fit-content;
   width: fit-content;
@@ -477,62 +511,81 @@ a:hover,
 a:focus-visible {
   outline: 1px solid var(--black);
   transform: translateX(3px) translateY(-3px);
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
 }
 
 a.cyan:hover,
 a.cyan:focus-visible {
-  box-shadow: -3px 3px 0 0 var(--cyan-normal), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--cyan-normal),
+    -3px 3px 0 1px var(--black);
 }
 
 a.pink:hover,
 a.pink:focus-visible {
-  box-shadow: -3px 3px 0 0 var(--pink-normal), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--pink-normal),
+    -3px 3px 0 1px var(--black);
 }
 
 a.yellow:hover,
 a.yellow:focus-visible {
-  box-shadow: -3px 3px 0 0 var(--yellow-normal), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--yellow-normal),
+    -3px 3px 0 1px var(--black);
 }
 
 a.blue:hover,
 a.blue:focus-visible {
-  box-shadow: -3px 3px 0 0 var(--blue-normal), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--blue-normal),
+    -3px 3px 0 1px var(--black);
 }
 
 a.purple:hover,
 a.purple:focus-visible {
-  box-shadow: -3px 3px 0 0 var(--purple-normal), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--purple-normal),
+    -3px 3px 0 1px var(--black);
 }
 
 a:active {
   outline: 1px solid var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
-  box-shadow: -1.5px 1.5px 0 0 var(--gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--gray),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 a.cyan:active {
-  box-shadow: -1.5px 1.5px 0 0 var(--cyan-normal),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--cyan-normal),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 a.pink:active {
-  box-shadow: -1.5px 1.5px 0 0 var(--pink-normal),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--pink-normal),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 a.yellow:active {
-  box-shadow: -1.5px 1.5px 0 0 var(--yellow-normal),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--yellow-normal),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 a.blue:active {
-  box-shadow: -1.5px 1.5px 0 0 var(--blue-normal),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--blue-normal),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 a.purple:active {
-  box-shadow: -1.5px 1.5px 0 0 var(--purple-normal),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--purple-normal),
     -1.5px 1.5px 0 1px var(--black);
 }
 
@@ -547,7 +600,8 @@ input {
   outline: 2px solid var(--gray);
   cursor: pointer;
   background: var(--light-gray);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   width: -moz-fit-content;
   width: fit-content;
@@ -558,18 +612,24 @@ input {
 input:hover {
   transform: translateX(5px) translateY(-5px);
   outline: 2px solid var(--black);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 input:active {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 2px var(--black) !important;
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 2px var(--black) !important;
   transform: translateX(2px) translateY(-2px) !important;
   outline: 2px solid var(--black) !important;
 }
 
 input:focus-visible {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 input.cyan:focus-visible {
@@ -637,22 +697,29 @@ input:disabled::placeholder {
   background-color: var(--white);
   outline: 1px solid var(--black);
   border-radius: 2px;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
 }
 
 .checkbox-container input[type="checkbox"]:focus-visible ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
   transform: translateX(3px) translateY(-3px);
 }
 
 .checkbox-container:hover checkmark {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
   transform: translateX(3px) translateY(-3px);
 }
 
 .checkbox-container:active checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
@@ -682,42 +749,54 @@ input:disabled::placeholder {
 
 .checkbox-container:hover input:checked ~ checkmark,
 .checkbox-container input[type="checkbox"]:checked:focus-visible ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--dark-gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--dark-gray),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container.cyan:hover input:checked ~ checkmark,
 .checkbox-container.cyan
   input[type="checkbox"]:checked:focus-visible
   ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--cyan-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--cyan-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container.pink:hover input:checked ~ checkmark,
 .checkbox-container.pink
   input[type="checkbox"]:checked:focus-visible
   ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--pink-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--pink-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container.yellow:hover input:checked ~ checkmark,
 .checkbox-container.yellow
   input[type="checkbox"]:checked:focus-visible
   ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--yellow-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--yellow-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container.blue:hover input:checked ~ checkmark,
 .checkbox-container.blue
   input[type="checkbox"]:checked:focus-visible
   ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--blue-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--blue-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container.purple:hover input:checked ~ checkmark,
 .checkbox-container.purple
   input[type="checkbox"]:checked:focus-visible
   ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--purple-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--purple-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .checkbox-container:active input:checked ~ checkmark,
@@ -725,29 +804,39 @@ input:disabled::placeholder {
 .checkbox-container
   input[type="checkbox"]:checked:focus-visible:active
   ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--dark-gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--dark-gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
 .checkbox-container.cyan:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--cyan-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--cyan-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .checkbox-container.pink:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--pink-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--pink-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .checkbox-container.yellow:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--yellow-dark),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--yellow-dark),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 .checkbox-container.blue:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--blue-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--blue-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .checkbox-container.purple:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--purple-dark),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--purple-dark),
     -1.5px 1.5px 0 1px var(--black);
 }
 
@@ -808,79 +897,103 @@ input:disabled::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
 }
 
 .radio-container input[type="radio"]:focus-visible ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
   transform: translateX(3px) translateY(-3px);
 }
 
 .radio-container:hover checkmark {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
   transform: translateX(3px) translateY(-3px);
 }
 
 .radio-container:active checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
 .radio-container:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
 }
 
 .radio-container.cyan:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--cyan-light), -3px 3px 0 1px var(--cyan-normal);
+  box-shadow:
+    -3px 3px 0 0 var(--cyan-light),
+    -3px 3px 0 1px var(--cyan-normal);
 }
 
 .radio-container.pink:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--pink-light), -3px 3px 0 1px var(--pink-normal);
+  box-shadow:
+    -3px 3px 0 0 var(--pink-light),
+    -3px 3px 0 1px var(--pink-normal);
 }
 
 .radio-container.yellow:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--yellow-light),
+  box-shadow:
+    -3px 3px 0 0 var(--yellow-light),
     -3px 3px 0 1px var(--yellow-normal);
 }
 
 .radio-container.blue:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--blue-light), -3px 3px 0 1px var(--blue-normal);
+  box-shadow:
+    -3px 3px 0 0 var(--blue-light),
+    -3px 3px 0 1px var(--blue-normal);
 }
 
 .radio-container.purple:hover input:checked ~ checkmark {
-  box-shadow: -3px 3px 0 0 var(--purple-light),
+  box-shadow:
+    -3px 3px 0 0 var(--purple-light),
     -3px 3px 0 1px var(--purple-normal);
 }
 
 .radio-container:active input:checked ~ checkmark,
 .radio-container input:checked:active:focus-visible ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
 .radio-container.cyan:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--cyan-light),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--cyan-light),
     -1.5px 1.5px 0 1px var(--cyan-normal);
 }
 
 .radio-container.pink:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--pink-light),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--pink-light),
     -1.5px 1.5px 0 1px var(--pink-dark);
 }
 
 .radio-container.yellow:active input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--yellow-light),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--yellow-light),
     -1.5px 1.5px 0 1px var(--yellow-dark);
 }
 
 .radio-container.blue:hover input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--blue-light),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--blue-light),
     -1.5px 1.5px 0 1px var(--blue-normal);
 }
 
 .radio-container.purple:hover input:checked ~ checkmark {
-  box-shadow: -1.5px 1.5px 0 0 var(--purple-light),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--purple-light),
     -1.5px 1.5px 0 1px var(--purple-normal);
 }
 
@@ -945,82 +1058,109 @@ input:disabled::placeholder {
   margin: 8px 0 8px 0;
   outline: 1px solid var(--black);
   border-radius: 16px;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
 }
 
 .switch-container:hover,
 .switch-container:has(input[type="checkbox"]:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 1px var(--black);
   transform: translateX(3px) translateY(-3px);
 }
 
 .switch-container:has(input:checked):hover,
 .switch-container:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--dark-gray), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--dark-gray),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container.cyan:has(input:checked):hover,
 .switch-container.cyan:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--cyan-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--cyan-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container.pink:has(input:checked):hover,
 .switch-container.pink:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--pink-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--pink-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container.yellow:has(input:checked):hover,
 .switch-container.yellow:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--yellow-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--yellow-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container.blue:has(input:checked):hover,
 .switch-container.blue:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--blue-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--blue-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container.purple:has(input:checked):hover,
 .switch-container.purple:has(input[type="checkbox"]:checked:focus-visible) {
-  box-shadow: -3px 3px 0 0 var(--purple-dark), -3px 3px 0 1px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--purple-dark),
+    -3px 3px 0 1px var(--black);
 }
 
 .switch-container:has(input:checked):active,
 .switch-container:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--dark-gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--dark-gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
 .switch-container:active,
 .switch-container:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--gray), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--gray),
+    -1.5px 1.5px 0 1px var(--black);
   transform: translateX(1.5px) translateY(-1.5px);
 }
 
 .switch-container.cyan:has(input:checked):active,
 .switch-container.cyan:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--cyan-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--cyan-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .switch-container.pink:has(input:checked):active,
 .switch-container.pink:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--pink-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--pink-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .switch-container.yellow:has(input:checked):active,
 .switch-container.yellow:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--yellow-dark),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--yellow-dark),
     -1.5px 1.5px 0 1px var(--black);
 }
 
 .switch-container.blue:has(input:checked):active,
 .switch-container.blue:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--blue-dark), -1.5px 1.5px 0 1px var(--black);
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--blue-dark),
+    -1.5px 1.5px 0 1px var(--black);
 }
 
 .switch-container.purple:has(input:checked):active,
 .switch-container.purple:has(input[type="checkbox"]:focus-visible:active) {
-  box-shadow: -1.5px 1.5px 0 0 var(--purple-dark),
+  box-shadow:
+    -1.5px 1.5px 0 0 var(--purple-dark),
     -1.5px 1.5px 0 1px var(--black);
 }
 
@@ -1038,7 +1178,8 @@ input:disabled::placeholder {
   right: 0;
   bottom: 0;
   background-color: var(--gray);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   border-radius: 16px;
 }
@@ -1050,7 +1191,8 @@ input:disabled::placeholder {
   width: 18px;
   background-color: var(--white);
   outline: 1px solid var(--black);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   border-radius: 50%;
 }
@@ -1094,38 +1236,51 @@ input:disabled::placeholder {
 img {
   border-radius: 2px;
   outline: 2px solid var(--black);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
 }
 
 img:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 img.cyan:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--cyan-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--cyan-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 img.pink:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--pink-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--pink-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 img.yellow:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--yellow-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--yellow-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 img.blue:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--blue-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--blue-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 img.purple:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--purple-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--purple-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 select {
@@ -1134,7 +1289,8 @@ select {
   background: var(--white);
   outline: 2px solid var(--black);
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   border: none;
 }
@@ -1142,50 +1298,67 @@ select {
 select:hover,
 select:focus-visible {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 select:active {
-  box-shadow: -3px 3px 0 0 var(--gray), -3px 3px 0 2px var(--black);
+  box-shadow:
+    -3px 3px 0 0 var(--gray),
+    -3px 3px 0 2px var(--black);
   transform: translateX(2px) translateY(-2px);
 }
 
 card {
   border-radius: 2px;
   outline: 2px solid var(--black);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   background: var(--white);
 }
 
 card:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
 }
 
 card.cyan:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--cyan-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--cyan-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 card.pink:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--pink-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--pink-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 card.yellow:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--yellow-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--yellow-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 card.blue:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--blue-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--blue-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 card.purple:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--purple-normal), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--purple-normal),
+    -5px 5px 0 2px var(--black);
 }
 
 table {
@@ -1198,7 +1371,8 @@ table {
 
 table tr {
   background: var(--white);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
+  transition:
+    transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5),
     box-shadow 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.5);
   display: flex;
 }
@@ -1210,7 +1384,9 @@ table tr:first-child {
 
 table tr:hover {
   transform: translateX(5px) translateY(-5px);
-  box-shadow: -5px 5px 0 0 var(--gray), -5px 5px 0 2px var(--black);
+  box-shadow:
+    -5px 5px 0 0 var(--gray),
+    -5px 5px 0 2px var(--black);
   outline: 2px solid black;
 }
 
