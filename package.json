@@ -9,7 +9,8 @@
   },
   "markdown": "github",
   "author": {
-    "name": "Parker Hasenkamp"
+    "name": "Parker Hasenkamp",
+    "email": "58083460+PetalCat@users.noreply.github.com"
   },
   "readme": "README.md",
   "contributors": [
@@ -40,23 +41,23 @@
     "eslint-config-sheriff": "^14.4.0",
     "eslint-define-config": "^1.20.0",
     "prettier": "^3.0.2",
-    "turbo": "^1.10.13",
     "typescript": "^5.2.2",
     "vite": "^4.3.9",
     "vite-plugin-pwa": "^0.16.4"
   },
   "scripts": {
-    "dev": "vite --open",
-    "vite": "vite build",
-    "typecheck:src": "tsc",
-    "typecheck:sw": "tsc -p tsconfig.sw.json",
-    "typecheck:extra": "tsc -p tsconfig.eslint.json",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "lint": "eslint ."
+    "build": "bun run typecheck && bun run lint && bun run format:check && bun run bundle",
+    "dev": "bun --bun x vite --open",
+    "bundle": "bun --bun x vite build",
+    "typecheck": "bun run typecheck:src && bun run typecheck:sw && bun run typecheck:extra",
+    "typecheck:src": "bun --bun x tsc",
+    "typecheck:sw": "bun --bun x tsc -p tsconfig.sw.json",
+    "typecheck:extra": "bun --bun x tsc -p tsconfig.eslint.json",
+    "format": "bun --bun x prettier . --write",
+    "format:check": "bun --bun x prettier . --check",
+    "lint": "bun x eslint ."
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "packageManager": "pnpm@8.6.12"
+  }
 }
