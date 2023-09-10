@@ -263,12 +263,12 @@ function locateCourses(profNum: number) {
 window.locateCourses = locateCourses;
 
 function applyCookieProfiles() {
-  profiles = JSON.parse(localStorage.getItem("profiles")!);
+  profiles = JSON.parse(localStorage.getItem("profiles")!) ?? [];
 
   for (let i = 1; i < profiles.length; i++) {
     createProfile(i);
     (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
-      profiles[0][i].toString();
+      profiles[i].toString();
     for (let f = 1; f < profiles[i].length + 1; f++) {
       createCourse(f, i);
       (
