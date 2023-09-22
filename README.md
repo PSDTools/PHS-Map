@@ -9,3 +9,7 @@ The source code used to be available at [PSDTools/PHS-Map-old](https://github.co
 - Parker Hasenkamp ([**@ParkerH27**](https://github.com/ParkerH27))
 - Ethan A ([**@EthanA1**](https://github.com/EthanA1))
 - Eli D ([**@lishaduck**](https://github.com/lishaduck))
+
+## Compiling
+
+So I don't forget: `bun --bun run turbo build`.

@@ -1,23 +1,30 @@
 import sheriff from "eslint-config-sheriff";
 import { defineFlatConfig } from "eslint-define-config";
 
-function sheriffOptions(files, customTSConfigPath) {
-  return {
-    files: files,
-    react: false,
-    lodash: false,
-    next: false,
-    playwright: false,
-    jest: false,
-    vitest: true,
-    customTSConfigPath: customTSConfigPath,
-  };
-}
+const sheriffOptions = {
+  react: false,
+  lodash: false,
+  next: false,
+  playwright: false,
+  jest: false,
+  vitest: false,
+  pathsOveriddes: {
+    tsconfigLocation: [
+      "./tsconfig.json",
+      "./tsconfig.sw.json",
+      "./tsconfig.eslint.json",
+    ],
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/dev-dist/**",
+      "**/build/**",
+    ],
+  },
+};
 
 export default defineFlatConfig([
-  ...sheriff(sheriffOptions(["src/script.ts"], "./tsconfig.json")),
-  ...sheriff(sheriffOptions(["src/sw.ts"], "./tsconfig.sw.json")),
-  ...sheriff(sheriffOptions(["vite.config.ts"], "./tsconfig.eslint.json")),
+  ...sheriff(sheriffOptions),
   {
     files: ["**/*.ts"],
     rules: {
