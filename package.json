@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.5.19",
-    "@types/pathfinding": "^0.0.6",
+    "@types/pathfinding": "^0.0.8",
     "eslint": "^8.49.0",
     "eslint-config-sheriff": "^15.3.0",
     "eslint-define-config": "^1.23.0",
