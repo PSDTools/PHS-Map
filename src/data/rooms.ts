@@ -1,4 +1,6 @@
-const rooms: Record<string, readonly [number, number, number]> = {
+import type { Building } from "./data-types.ts";
+
+export const rooms: Building = {
   H100: [68, 12, 1],
   H102: [58, 8, 1],
   H103: [58, 19, 1],
@@ -196,4 +198,3 @@ const rooms: Record<string, readonly [number, number, number]> = {
   A002: [77, 160, 0],
   A004: [74, 149, 0],
 } as const;
-export default rooms;

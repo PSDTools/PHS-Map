@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import "./styles/style.css";
+import "./styles/bounce.css";
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faXmark,
@@ -12,11 +13,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import jQuery from "jquery";
 import * as PF from "pathfinding";
-import gridLvl0 from "./data/level0.ts";
-import gridLvl1 from "./data/level1.ts";
-import gridLvl2 from "./data/level2.ts";
-import rooms from "./data/rooms.ts";
-import stairs from "./data/stairs.ts";
+import { level0 as gridLvl0 } from "./data/level0.ts";
+import { level1 as gridLvl1 } from "./data/level1.ts";
+import { level2 as gridLvl2 } from "./data/level2.ts";
+import { rooms } from "./data/rooms.ts";
+import { stairs, btmStairs } from "./data/stairs.ts";
+import type { ProfilesList } from "./data/data-types.ts";
 
 declare global {
   interface Window {
@@ -43,10 +45,6 @@ let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 let coursesAmt: number;
 let viewLvl: number;
-type ProfilesList = [
-  [null?, string?]?,
-  ...[(string | [string?, string?])?, string?][],
-];
 let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;
@@ -63,7 +61,6 @@ let flr1: number;
 let x2: number;
 let y2: number;
 let flr2: number;
-let btmStairs: Record<number, number[]>;
 let tempdist: number[];
 let tempdist1: number[];
 let tempdist2: number[];
@@ -359,10 +356,6 @@ function passingTime(num: number, profNum: number) {
         lvl0();
       }
     }
-    btmStairs = {
-      0: [90, 154],
-      1: [71, 154],
-    };
   }
 }
 window.passingTime = passingTime;
