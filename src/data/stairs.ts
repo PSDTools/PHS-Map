@@ -1,6 +1,4 @@
-import type { Staircase } from "./data-types.ts";
-
-export const stairs: Staircase = {
+export const stairs: Record<number, readonly [number, number]> = {
   0: [23, 13],
   1: [63, 16],
   2: [103, 16],
@@ -11,7 +9,7 @@ export const stairs: Staircase = {
   7: [92, 121],
 } as const;
 
-export const btmStairs: Staircase = {
+export const btmStairs: Record<number, readonly [number, number]> = {
   0: [90, 154],
   1: [71, 154],
 };

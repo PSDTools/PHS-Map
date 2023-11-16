@@ -17,7 +17,6 @@ import { level1 as gridLvl1 } from "./data/level1.ts";
 import { level2 as gridLvl2 } from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { stairs, btmStairs } from "./data/stairs.ts";
-import type { ProfilesList } from "./data/data-types.ts";
 
 declare global {
   interface Window {
@@ -44,6 +43,10 @@ let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 let coursesAmt: number;
 let viewLvl: number;
+type ProfilesList = [
+  [null?, string?]?,
+  ...[(string | [string?, string?])?, string?][],
+];
 let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;

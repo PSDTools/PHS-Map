@@ -1,6 +1,4 @@
-import type { Building } from "./data-types.ts";
-
-export const rooms: Building = {
+export const rooms: Record<string, readonly [number, number, number]> = {
   H100: [68, 12, 1],
   H102: [58, 8, 1],
   H103: [58, 19, 1],
