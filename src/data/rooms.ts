@@ -1,6 +1,4 @@
-const rooms: {
-  [key: string]: [number, number, number];
-} = {
+const rooms: Record<string, readonly [number, number, number]> = {
   H100: [68, 12, 1],
   H102: [58, 8, 1],
   H103: [58, 19, 1],
@@ -197,5 +195,5 @@ const rooms: {
   A001: [85, 156, 0],
   A002: [77, 160, 0],
   A004: [74, 149, 0],
-};
+} as const;
 export default rooms;

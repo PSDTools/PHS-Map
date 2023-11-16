@@ -1,6 +1,4 @@
-const stairs: {
-  [key: number]: [number, number];
-} = {
+const stairs: Record<number, readonly [number, number]> = {
   0: [23, 13],
   1: [63, 16],
   2: [103, 16],
@@ -9,5 +7,5 @@ const stairs: {
   5: [129, 119],
   6: [68, 121],
   7: [92, 121],
-};
+} as const;
 export default stairs;

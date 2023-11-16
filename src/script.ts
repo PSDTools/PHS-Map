@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-shadow */
+
 import "./styles/style.css";
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -11,11 +12,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import jQuery from "jquery";
 import * as PF from "pathfinding";
-import gridLvl0 from "./data/level0.json";
-import gridLvl1 from "./data/level1.json";
-import gridLvl2 from "./data/level2.json";
-import jsonRooms from "./data/rooms.json";
-import jsonStairs from "./data/stairs.json";
+import gridLvl0 from "./data/level0.ts";
+import gridLvl1 from "./data/level1.ts";
+import gridLvl2 from "./data/level2.ts";
+import rooms from "./data/rooms.ts";
+import stairs from "./data/stairs.ts";
 
 declare global {
   interface Window {
@@ -42,12 +43,17 @@ let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 let coursesAmt: number;
 let viewLvl: number;
-let profiles: string[][][] = [];
+type ProfilesList = [
+  [null?, string?]?,
+  ...[(string | [string?, string?])?, string?][],
+];
+let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;
 let profNum: number;
 let prof: string;
 let numNext: number;
+let start: string;
 let end: string;
 let stinv1: number;
 let stinv2: number;
@@ -65,10 +71,6 @@ let min: number;
 let indexmin: number;
 let sx1: number;
 let sy1: number;
-let start: string;
-
-const rooms = jsonRooms as Record<string, number[]>;
-const stairs = jsonStairs as Record<string, number[]>;
 
 library.add(faXmark, faBars, faCircleChevronDown, faCircleChevronUp);
 dom.watch();
@@ -142,9 +144,7 @@ function createProfile(profNum: number) {
     <div class="container" id="${tempElementIdNext}"></div>`;
 }
 
-function createCourse(numnum: number, profNum: number) {
-  prof = String(profNum);
-  const num = String(numnum);
+function createCourse(num: string, profNum: string) {
   numNext = parseInt(num) + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
@@ -207,7 +207,7 @@ window.addProf = addProf;
 
 function remProf(profNum: number) {
   profiles.splice(profNum, 1);
-  profiles[0].splice(profNum, 1);
+  profiles[0]!.splice(profNum, 1);
 
   document.getElementById("profiles")!.innerHTML = `<div
     class=""
@@ -228,7 +228,7 @@ function courseLoop(profNum: number) {
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
     for (let i = 1; i < coursesAmt; i++) {
-      createCourse(i, profNum);
+      createCourse(String(i), String(profNum));
     }
     document.getElementById(
       `passing${String(coursesAmt - 1)}${String(prof)}`,
@@ -247,14 +247,14 @@ function locateCourses(profNum: number) {
     i < document.querySelectorAll(`.prof${profNum}`).length + 1;
     i++
   ) {
-    profiles[0][profNum][0] = (
+    profiles[0]![profNum] = (
       document.getElementById(`nameProf${profNum}`) as HTMLInputElement
     ).value;
-    profiles[profNum][i - 1] = [];
-    profiles[profNum][i - 1][0] = (
+    profiles[profNum]![i - 1] = [];
+    (profiles[profNum]![i - 1] as string[])[0] = (
       document.getElementById(`rmnum${i}${prof}txt`) as HTMLInputElement
     ).value;
-    profiles[profNum][i - 1][1] = (
+    (profiles[profNum]![i - 1] as string[])![1] = (
       document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
     ).value;
   }
@@ -263,20 +263,19 @@ function locateCourses(profNum: number) {
 window.locateCourses = locateCourses;
 
 function applyCookieProfiles() {
-  profiles = JSON.parse(localStorage.getItem("profiles")!) ?? [];
-
+  profiles = JSON.parse(localStorage.getItem("profiles")!);
   for (let i = 1; i < profiles.length; i++) {
     createProfile(i);
     (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
-      profiles[i].toString();
-    for (let f = 1; f < profiles[i].length + 1; f++) {
-      createCourse(f, i);
+      profiles[0]![i]!;
+    for (let f = 1; f < profiles[i]!.length + 1; f++) {
+      createCourse(String(f), String(i));
       (
         document.getElementById(`rmnum${f}${String(i)}txt`) as HTMLInputElement
-      ).value = profiles[i][f - 1][0];
+      ).value = profiles[i]![f - 1]![0]!;
       (
         document.getElementById(`cl${f}${String(i)}txt`) as HTMLInputElement
-      ).value = profiles[i][f - 1][1];
+      ).value = profiles[i]![f - 1]![1]!;
       if (f === 1) {
         break;
       } else {
@@ -291,8 +290,8 @@ function applyCookieProfiles() {
 
 function passingTime(num: number, profNum: number) {
   clearGrid();
-  start = profiles[profNum][num][0];
-  end = profiles[profNum][num + 1][0];
+  start = profiles[profNum]![num]![0]!;
+  end = profiles[profNum]![num + 1]![0]!;
 
   start = start.toUpperCase();
   start = start.replace("-", "");
@@ -305,8 +304,7 @@ function passingTime(num: number, profNum: number) {
   end = end.replace("_", "");
   end = end.replace("#", "");
   end = end.replace("/", "");
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (rooms[start] === null) {
+  if (rooms[start] === undefined) {
     document.getElementById(
       `inv${String(num + 1)}${String(profNum)}`,
     )!.innerHTML = "Invalid Room Number";
@@ -317,8 +315,7 @@ function passingTime(num: number, profNum: number) {
     )!.innerHTML = "";
     stinv1 = 0;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (rooms[end] === null) {
+  if (rooms[end] === undefined) {
     document.getElementById(
       `inv${String(num + 2)}${String(profNum)}`,
     )!.innerHTML = "Invalid Room Number";
@@ -331,12 +328,12 @@ function passingTime(num: number, profNum: number) {
   }
 
   if (stinv1 === 0 && stinv2 === 0) {
-    x1 = rooms[start][0];
-    y1 = rooms[start][1];
-    flr1 = rooms[start][2];
-    x2 = rooms[end][0];
-    y2 = rooms[end][1];
-    flr2 = rooms[end][2];
+    x1 = rooms[start]![0];
+    y1 = rooms[start]![1];
+    flr1 = rooms[start]![2];
+    x2 = rooms[end]![0];
+    y2 = rooms[end]![1];
+    flr2 = rooms[end]![2];
 
     if (flr1 === 1 && flr2 === 1) {
       grid = gridLvl1;
@@ -349,12 +346,18 @@ function passingTime(num: number, profNum: number) {
     } else {
       btmPath(x1, y1, x2, y2, flr1, flr2);
     }
-    if (flr1 === 1) {
-      lvl1();
-    } else if (flr1 === 2) {
-      lvl2();
-    } else {
-      lvl0();
+    switch (flr1) {
+      case 1: {
+        lvl1();
+        break;
+      }
+      case 2: {
+        lvl2();
+        break;
+      }
+      default: {
+        lvl0();
+      }
     }
     btmStairs = {
       0: [90, 154],
@@ -377,22 +380,23 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 2; i++) {
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]),
+        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 2; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]),
+        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]);
+      tempdist.push(element + tempdist2[i]!);
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin][0];
-    sy1 = btmStairs[indexmin][1];
+    sx1 = btmStairs[indexmin]![0]!;
+    sy1 = btmStairs[indexmin]![1]!;
+
     if (flr1 === 2) {
       path(gridLvl2, x1, y1, sx1, sy1);
     } else if (flr1 === 1) {
@@ -403,22 +407,22 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 1; i++) {
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i][0]) + Math.abs(y1 - btmStairs[i][1]),
+        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 1; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i][0]) + Math.abs(y2 - btmStairs[i][1]),
+        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]);
+      tempdist.push(element + tempdist2[i]!);
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin][0];
-    sy1 = btmStairs[indexmin][1];
+    sx1 = btmStairs[indexmin]![0]!;
+    sy1 = btmStairs[indexmin]![1]!;
     if (flr2 === 2) {
       path(gridLvl2, x2, y2, sx1, sy1);
     } else if (flr2 === 1) {
@@ -463,7 +467,7 @@ function path(
   const finder = new PF.AStarFinder();
   const directions = finder.findPath(x1, y1, x2, y2, matrix);
   for (const direction of directions) {
-    grid[direction[1]][direction[0]] = -4;
+    grid[direction[1]!]![direction[0]!] = -4;
   }
   switch (viewLvl) {
     case 1: {
@@ -481,8 +485,7 @@ function path(
 
       break;
     }
-    default:
-    // Do nothing
+    default: // no-op
   }
 }
 
@@ -490,19 +493,19 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   tempdist = [];
   tempdist1 = [];
   for (let i = 0; i < 8; i++) {
-    tempdist1.push(Math.abs(x1 - stairs[i][0]) + Math.abs(y1 - stairs[i][1]));
+    tempdist1.push(Math.abs(x1 - stairs[i]![0]) + Math.abs(y1 - stairs[i]![1]));
   }
   tempdist2 = [];
   for (let i = 0; i < 8; i++) {
-    tempdist2.push(Math.abs(x2 - stairs[i][0]) + Math.abs(y2 - stairs[i][1]));
+    tempdist2.push(Math.abs(x2 - stairs[i]![0]) + Math.abs(y2 - stairs[i]![1]));
   }
   for (const [i, element] of tempdist1.entries()) {
-    tempdist.push(element + tempdist2[i]);
+    tempdist.push(element + tempdist2[i]!);
   }
   min = Math.min(...tempdist);
   indexmin = tempdist.indexOf(min);
-  sx1 = stairs[indexmin][0];
-  sy1 = stairs[indexmin][1];
+  sx1 = stairs[indexmin]![0];
+  sy1 = stairs[indexmin]![1];
   if (fl === 2) {
     path(gridLvl2, x1, y1, sx1, sy1);
     path(gridLvl1, sx1, sy1, x2, y2);
@@ -545,8 +548,7 @@ function createCanvas() {
 
       break;
     }
-    default:
-    // Do nothing
+    default: // no-op
   }
 }
 
@@ -555,8 +557,8 @@ function printGrid0() {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
-    for (let x = 0; x < gridLvl0[y].length; x++) {
-      switch (gridLvl0[x][y]) {
+    for (let x = 0; x < gridLvl0[y]!.length; x++) {
+      switch (gridLvl0[x]![y]) {
         case 1: {
           // ctx.fillStyle = "#000000";
           // ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
@@ -607,8 +609,7 @@ function printGrid0() {
 
           break;
         }
-        default:
-        // Do nothing
+        default: // no-op
       }
     }
   }
@@ -624,8 +625,8 @@ function printGrid1() {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl1.length; y++) {
-    for (let x = 0; x < gridLvl1[y].length; x++) {
-      switch (gridLvl1[x][y]) {
+    for (let x = 0; x < gridLvl1[y]!.length; x++) {
+      switch (gridLvl1[x]![y]) {
         case 1: {
           // ctx.fillStyle = "#000000";
           // ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
@@ -676,8 +677,7 @@ function printGrid1() {
 
           break;
         }
-        default:
-        // Do nothing
+        default: // no-op
       }
     }
   }
@@ -693,8 +693,8 @@ function printGrid2() {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl2.length; y++) {
-    for (let x = 0; x < gridLvl2[y].length; x++) {
-      switch (gridLvl2[x][y]) {
+    for (let x = 0; x < gridLvl2[y]!.length; x++) {
+      switch (gridLvl2[x]![y]) {
         case 1: {
           // ctx.fillStyle = "#000000";
           // ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
@@ -745,8 +745,7 @@ function printGrid2() {
 
           break;
         }
-        default:
-        // Do nothing
+        default: // no-op
       }
     }
   }
@@ -760,7 +759,7 @@ function printGrid2() {
 let px = 1;
 let py = 1;
 let old: number;
-function onKeyDown(this: GlobalEventHandlers, ev: KeyboardEvent) {
+function onKeyDown(f: KeyboardEvent) {
   switch (viewLvl) {
     case 1: {
       grid = gridLvl1;
@@ -777,46 +776,34 @@ function onKeyDown(this: GlobalEventHandlers, ev: KeyboardEvent) {
 
       break;
     }
-    default:
-    // Do nothing
+    default: // no-op
   }
-  grid[py][px] = old;
-  const code = ev.keyCode || ev.which;
-  switch (code) {
-    case 38: {
-      //up key
+  grid[py]![px] = old;
+  switch (f.key) {
+    case "ArrowUp": {
       py -= 1;
 
       break;
     }
-    case 40: {
-      //down key
+    case "ArrowDown": {
       py += 1;
 
       break;
     }
-    case 37: {
-      //left key
+    case "ArrowLeft": {
       px -= 1;
 
       break;
     }
-    case 39: {
-      //right key
+    case "ArrowRight": {
       px += 1;
 
       break;
     }
-    case 32: {
-      //space
-
-      break;
-    }
-    default:
-    // Do nothing
+    default: // no-op
   }
-  old = grid[py][px];
-  grid[py][px] = -5;
+  old = grid[py]![px]!;
+  grid[py]![px] = -5;
 
   switch (viewLvl) {
     case 1: {
@@ -834,8 +821,7 @@ function onKeyDown(this: GlobalEventHandlers, ev: KeyboardEvent) {
 
       break;
     }
-    default:
-    // Do nothing
+    default: // no-op
   }
 }
 window.onkeydown = onKeyDown;
@@ -866,23 +852,23 @@ function clearGrid() {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
-    for (let x = 0; x < gridLvl0[y].length; x++) {
-      if (gridLvl0[x][y] === -4) {
-        gridLvl0[x][y] = 0;
+    for (let x = 0; x < gridLvl0[y]!.length; x++) {
+      if (gridLvl0[x]![y] === -4) {
+        gridLvl0[x]![y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl1.length; y++) {
-    for (let x = 0; x < gridLvl1[y].length; x++) {
-      if (gridLvl1[x][y] === -4) {
-        gridLvl1[x][y] = 0;
+    for (let x = 0; x < gridLvl1[y]!.length; x++) {
+      if (gridLvl1[x]![y] === -4) {
+        gridLvl1[x]![y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl2.length; y++) {
-    for (let x = 0; x < gridLvl2[y].length; x++) {
-      if (gridLvl2[x][y] === -4) {
-        gridLvl2[x][y] = 0;
+    for (let x = 0; x < gridLvl2[y]!.length; x++) {
+      if (gridLvl2[x]![y] === -4) {
+        gridLvl2[x]![y] = 0;
       }
     }
   }
@@ -895,28 +881,28 @@ function downloadImg(el: HTMLAnchorElement) {
 window.downloadImg = downloadImg;
 
 /**
- * Dark Mode.
+ * Dark Mode!
  */
 function darkMode() {
   const element = document.body;
   element.classList.toggle("darkModebg");
   element.classList.toggle("lightModebg");
 
-  const c = document.getElementById("c")!;
-  c.classList.toggle("darkMode");
-  c.classList.toggle("lightMode");
+  const c = document.getElementById("c");
+  c!.classList.toggle("darkMode");
+  c!.classList.toggle("lightMode");
 
-  const c2 = document.getElementById("c2")!;
-  c2.classList.toggle("darkMode");
-  c2.classList.toggle("lightMode");
+  const c2 = document.getElementById("c2");
+  c2!.classList.toggle("darkMode");
+  c2!.classList.toggle("lightMode");
 
   for (let i = 0; i < profiles.length; i++) {
     document.getElementById(`profBox${i}`);
-    c2.classList.toggle("textboxdark");
-    c2.classList.toggle("textbox");
+    c2!.classList.toggle("textboxdark");
+    c2!.classList.toggle("textbox");
   }
 
-  if (c.classList.contains("darkMode")) {
+  if (c!.classList.contains("darkMode")) {
     document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
     localStorage.setItem("shade", "dark");
   } else if (!element.classList.contains("lightMode")) {
@@ -931,7 +917,9 @@ function w3_close() {
 }
 window.w3_close = w3_close;
 
-/** Make "Smooth Scroll" buttons. */
+/**
+ * Make "Smooth Scroll" Buttons?
+ */
 jQuery(($) => {
   // Add smooth scrolling to all links
   $("a").on("click", function (event) {
