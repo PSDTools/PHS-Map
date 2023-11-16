@@ -38,6 +38,8 @@ export default defineFlatConfig([
       "fp/no-class": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "no-console": "warn",
+      "no-negated-condition": "off",
+      "unicorn/no-negated-condition": "error",
     },
   },
 ]);
