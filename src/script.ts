@@ -44,7 +44,7 @@ let ctx: CanvasRenderingContext2D;
 let coursesAmt: number;
 let viewLvl: number;
 type ProfilesList = [
-  [null?, string?]?,
+  [null, string]?,
   ...[(string | [string?, string?])?, string?][],
 ];
 let profiles: ProfilesList = [];
@@ -194,28 +194,38 @@ function createCourse(num: string, profNum: string) {
 }
 
 function applyCookieProfiles() {
-  profiles = JSON.parse(localStorage.getItem("profiles")!);
-  for (let i = 1; i < profiles.length; i++) {
-    createProfile(i);
-    (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
-      profiles[0]![i]!;
-    for (let f = 1; f < profiles[i]!.length + 1; f++) {
-      createCourse(String(f), String(i));
-      (
-        document.getElementById(`rmnum${f}${String(i)}txt`) as HTMLInputElement
-      ).value = profiles[i]![f - 1]![0]!;
-      (
-        document.getElementById(`cl${f}${String(i)}txt`) as HTMLInputElement
-      ).value = profiles[i]![f - 1]![1]!;
-      if (f === 1) {
-        break;
-      } else {
-        document.getElementById(`passing${String(f - 1)}${i}`)!.style.display =
-          "block";
+  const jsonProfiles = JSON.parse(localStorage.getItem("profiles")!);
+
+  if (Array.isArray(jsonProfiles)) {
+    profiles = jsonProfiles;
+
+    for (let i = 1; i < profiles.length; i++) {
+      createProfile(i);
+      (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
+        profiles[0]![i]!;
+      for (let f = 1; f < profiles[i]!.length + 1; f++) {
+        createCourse(String(f), String(i));
+        (
+          document.getElementById(
+            `rmnum${f}${String(i)}txt`,
+          ) as HTMLInputElement
+        ).value = profiles[i]![f - 1]![0]!;
+        (
+          document.getElementById(`cl${f}${String(i)}txt`) as HTMLInputElement
+        ).value = profiles[i]![f - 1]![1]!;
+        if (f === 1) {
+          break;
+        } else {
+          document.getElementById(
+            `passing${String(f - 1)}${i}`,
+          )!.style.display = "block";
+        }
+        document.getElementById(`passing${String(f)}${i}`)!.style.display =
+          "none";
       }
-      document.getElementById(`passing${String(f)}${i}`)!.style.display =
-        "none";
     }
+  } else {
+    profiles = [];
   }
 }
 
@@ -486,20 +496,22 @@ window.courseLoop = courseLoop;
 function locateCourses(profNum: number) {
   prof = String(profNum);
   profiles[profNum] = [];
-
+  if (profiles[0] === undefined) {
+    profiles[0] = [null, ""];
+  }
   for (
     let i = 1;
     i < document.querySelectorAll(`.prof${profNum}`).length + 1;
     i++
   ) {
-    profiles[0]![profNum] = (
+    profiles[0][profNum] = (
       document.getElementById(`nameProf${profNum}`) as HTMLInputElement
     ).value;
     profiles[profNum]![i - 1] = [];
     (profiles[profNum]![i - 1] as string[])[0] = (
       document.getElementById(`rmnum${i}${prof}txt`) as HTMLInputElement
     ).value;
-    (profiles[profNum]![i - 1] as string[])![1] = (
+    (profiles[profNum]![i - 1] as string[])[1] = (
       document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
     ).value;
   }
