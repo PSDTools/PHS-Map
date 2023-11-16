@@ -9,6 +9,8 @@ import {
   faBars,
   faCircleChevronDown,
   faCircleChevronUp,
+  faPlus,
+  faDownLong,
 } from "@fortawesome/free-solid-svg-icons";
 import jQuery from "jquery";
 import * as PF from "pathfinding";
@@ -71,7 +73,14 @@ let indexmin: number;
 let sx1: number;
 let sy1: number;
 
-library.add(faXmark, faBars, faCircleChevronDown, faCircleChevronUp);
+library.add(
+  faXmark,
+  faBars,
+  faCircleChevronDown,
+  faCircleChevronUp,
+  faPlus,
+  faDownLong,
+);
 dom.watch();
 
 function openNav() {
@@ -109,7 +118,7 @@ function createProfile(profNum: number) {
           class="containerinpt red add"
           onclick="remProf(${profNum})"
         >
-          &#10006;
+          <i class="fa-solid fa-xmark"></i>
         </button>
         <input
           onkeyup="locateCourses(${profNum})"
@@ -186,7 +195,7 @@ function createCourse(num: string, profNum: string) {
           )})"
         >
           Show Path
-          <span style="font-size:120%;"> ⇩ </span>
+          <span style="font-size:120%;"><i class="fa-solid fa-down-long"></i></span>
         </button>
       </span>
     </div>
