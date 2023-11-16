@@ -6,5 +6,5 @@
     "README*": "*.${capture}",
     ".replit": "replit.*"
   },
-  "prettier.trailingComma": "all"
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs"
 }
