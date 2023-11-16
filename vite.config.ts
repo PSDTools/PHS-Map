@@ -27,7 +27,7 @@ export default defineConfig({
       srcDir: "src",
       filename: "sw.ts",
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: "module",
       },
       manifest: {
