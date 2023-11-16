@@ -1,7 +1,7 @@
 {
   "name": "phs-map",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "(Formerly) A starter kit for building PWAs!",
   "repository": {
     "type": "git",
