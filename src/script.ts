@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import "./styles/style.css";
@@ -191,74 +190,6 @@ function createCourse(num: string, profNum: string) {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-function addProf() {
-  profNum = document.querySelectorAll(".prof").length;
-  if (profNum === 0) {
-    createProfile(profNum + 1);
-  } else {
-    locateCourses(profNum);
-    createProfile(profNum + 1);
-  }
-}
-window.addProf = addProf;
-
-function remProf(profNum: number) {
-  profiles.splice(profNum, 1);
-  profiles[0]!.splice(profNum, 1);
-
-  document.getElementById("profiles")!.innerHTML = `<div
-    class=""
-    id="tempProf1"
-  ></div>`;
-
-  localStorage.setItem("profiles", JSON.stringify(profiles));
-
-  applyCookieProfiles();
-}
-window.remProf = remProf;
-
-function courseLoop(profNum: number) {
-  prof = String(profNum);
-  coursesAmt =
-    parseInt(
-      (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
-    ) + 1;
-  if (!Number.isNaN(coursesAmt)) {
-    for (let i = 1; i < coursesAmt; i++) {
-      createCourse(String(i), String(profNum));
-    }
-    document.getElementById(
-      `passing${String(coursesAmt - 1)}${String(prof)}`,
-    )!.innerHTML = "";
-    // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
-  }
-}
-window.courseLoop = courseLoop;
-
-function locateCourses(profNum: number) {
-  prof = String(profNum);
-  profiles[profNum] = [];
-
-  for (
-    let i = 1;
-    i < document.querySelectorAll(`.prof${profNum}`).length + 1;
-    i++
-  ) {
-    profiles[0]![profNum] = (
-      document.getElementById(`nameProf${profNum}`) as HTMLInputElement
-    ).value;
-    profiles[profNum]![i - 1] = [];
-    (profiles[profNum]![i - 1] as string[])[0] = (
-      document.getElementById(`rmnum${i}${prof}txt`) as HTMLInputElement
-    ).value;
-    (profiles[profNum]![i - 1] as string[])![1] = (
-      document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
-    ).value;
-  }
-  localStorage.setItem("profiles", JSON.stringify(profiles));
-}
-window.locateCourses = locateCourses;
-
 function applyCookieProfiles() {
   profiles = JSON.parse(localStorage.getItem("profiles")!);
   for (let i = 1; i < profiles.length; i++) {
@@ -285,265 +216,20 @@ function applyCookieProfiles() {
   }
 }
 
-function passingTime(num: number, profNum: number) {
-  clearGrid();
-  start = profiles[profNum]![num]![0]!;
-  end = profiles[profNum]![num + 1]![0]!;
+function remProf(profNum: number) {
+  profiles.splice(profNum, 1);
+  profiles[0]!.splice(profNum, 1);
 
-  start = start.toUpperCase();
-  start = start.replace("-", "");
-  start = start.replace("_", "");
-  start = start.replace("#", "");
-  start = start.replace("/", "");
+  document.getElementById("profiles")!.innerHTML = `<div
+    class=""
+    id="tempProf1"
+  ></div>`;
 
-  end = end.toUpperCase();
-  end = end.replace("-", "");
-  end = end.replace("_", "");
-  end = end.replace("#", "");
-  end = end.replace("/", "");
-  if (rooms[start] === undefined) {
-    document.getElementById(
-      `inv${String(num + 1)}${String(profNum)}`,
-    )!.innerHTML = "Invalid Room Number";
-    stinv1 = 1;
-  } else {
-    document.getElementById(
-      `inv${String(num + 1)}${String(profNum)}`,
-    )!.innerHTML = "";
-    stinv1 = 0;
-  }
-  if (rooms[end] === undefined) {
-    document.getElementById(
-      `inv${String(num + 2)}${String(profNum)}`,
-    )!.innerHTML = "Invalid Room Number";
-    stinv2 = 1;
-  } else {
-    document.getElementById(
-      `inv${String(num + 2)}${String(profNum)}`,
-    )!.innerHTML = "";
-    stinv2 = 0;
-  }
+  localStorage.setItem("profiles", JSON.stringify(profiles));
 
-  if (stinv1 === 0 && stinv2 === 0) {
-    x1 = rooms[start]![0];
-    y1 = rooms[start]![1];
-    flr1 = rooms[start]![2];
-    x2 = rooms[end]![0];
-    y2 = rooms[end]![1];
-    flr2 = rooms[end]![2];
-
-    if (flr1 === 1 && flr2 === 1) {
-      grid = gridLvl1;
-      path(grid, x1, y1, x2, y2);
-    } else if (flr1 === 2 && flr2 === 2) {
-      grid = gridLvl2;
-      path(grid, x1, y1, x2, y2);
-    } else if (flr1 !== 0 && flr2 !== 0) {
-      stairPath(x1, y1, x2, y2, flr1);
-    } else {
-      btmPath(x1, y1, x2, y2, flr1, flr2);
-    }
-    switch (flr1) {
-      case 1: {
-        lvl1();
-        break;
-      }
-      case 2: {
-        lvl2();
-        break;
-      }
-      default: {
-        lvl0();
-      }
-    }
-  }
-}
-window.passingTime = passingTime;
-
-function btmPath(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  flr1: number,
-  flr2: number,
-) {
-  if (flr1 !== 0) {
-    tempdist = [];
-    tempdist1 = [];
-    for (let i = 0; i < 2; i++) {
-      tempdist1.push(
-        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
-      );
-    }
-    tempdist2 = [];
-    for (let i = 0; i < 2; i++) {
-      tempdist2.push(
-        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
-      );
-    }
-    for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]!);
-    }
-    min = Math.min(...tempdist);
-    indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]![0]!;
-    sy1 = btmStairs[indexmin]![1]!;
-
-    if (flr1 === 2) {
-      path(gridLvl2, x1, y1, sx1, sy1);
-    } else if (flr1 === 1) {
-      path(gridLvl1, x1, y1, sx1, sy1);
-    }
-  } else if (flr2 !== 0) {
-    tempdist = [];
-    tempdist1 = [];
-    for (let i = 0; i < 1; i++) {
-      tempdist1.push(
-        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
-      );
-    }
-    tempdist2 = [];
-    for (let i = 0; i < 1; i++) {
-      tempdist2.push(
-        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
-      );
-    }
-    for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]!);
-    }
-    min = Math.min(...tempdist);
-    indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]![0]!;
-    sy1 = btmStairs[indexmin]![1]!;
-    if (flr2 === 2) {
-      path(gridLvl2, x2, y2, sx1, sy1);
-    } else if (flr2 === 1) {
-      path(gridLvl1, x2, y2, sx1, sy1);
-    }
-  }
-
-  if (flr1 === 0) {
-    path(gridLvl0, x1, y1, sx1, sy1 - 8);
-  } else if (flr2 === 0) {
-    path(gridLvl0, x2, y2, sx1, sy1 - 8);
-  }
-  if (flr1 === 1 || flr2 === 1) {
-    mainToBtm(x1, y1, sx1, sy1, flr1, flr2);
-  }
-}
-
-function mainToBtm(
-  x1: number,
-  y1: number,
-  sx1: number,
-  sy1: number,
-  flr1: number,
-  flr2: number,
-) {
-  if (flr1 === 1) {
-    stairPath(x1, y1, sx1, sy1, flr1);
-  }
-  if (flr2 === 1) {
-    stairPath(x2, y2, sx1, sy1, flr1);
-  }
-}
-
-function path(
-  grid: number[][],
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-) {
-  const matrix = new PF.Grid(grid);
-  const finder = new PF.AStarFinder();
-  const directions = finder.findPath(x1, y1, x2, y2, matrix);
-  for (const direction of directions) {
-    grid[direction[1]!]![direction[0]!] = -4;
-  }
-  switch (viewLvl) {
-    case 1: {
-      printGrid1();
-
-      break;
-    }
-    case 2: {
-      printGrid2();
-
-      break;
-    }
-    case 0: {
-      printGrid0();
-
-      break;
-    }
-    default: // no-op
-  }
-}
-
-function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
-  tempdist = [];
-  tempdist1 = [];
-  for (let i = 0; i < 8; i++) {
-    tempdist1.push(Math.abs(x1 - stairs[i]![0]) + Math.abs(y1 - stairs[i]![1]));
-  }
-  tempdist2 = [];
-  for (let i = 0; i < 8; i++) {
-    tempdist2.push(Math.abs(x2 - stairs[i]![0]) + Math.abs(y2 - stairs[i]![1]));
-  }
-  for (const [i, element] of tempdist1.entries()) {
-    tempdist.push(element + tempdist2[i]!);
-  }
-  min = Math.min(...tempdist);
-  indexmin = tempdist.indexOf(min);
-  sx1 = stairs[indexmin]![0];
-  sy1 = stairs[indexmin]![1];
-  if (fl === 2) {
-    path(gridLvl2, x1, y1, sx1, sy1);
-    path(gridLvl1, sx1, sy1, x2, y2);
-  } else {
-    path(gridLvl1, x1, y1, sx1, sy1);
-    path(gridLvl2, sx1, sy1, x2, y2);
-  }
-}
-
-function startApp() {
-  lvl1();
   applyCookieProfiles();
-
-  if (localStorage.getItem("shade") === "dark") {
-    darkMode();
-  }
 }
-window.startApp = startApp;
-
-function createCanvas() {
-  canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-  ctx = canvas.getContext("2d")!;
-  size = document.getElementById("c")!.offsetWidth - 48;
-  ctx.canvas.width = size;
-  ctx.canvas.height = size;
-  // ctx.imageSmoothingEnabled = false;
-  switch (viewLvl) {
-    case 1: {
-      printGrid1();
-
-      break;
-    }
-    case 2: {
-      printGrid2();
-
-      break;
-    }
-    case 0: {
-      printGrid0();
-
-      break;
-    }
-    default: // no-op
-  }
-}
+window.remProf = remProf;
 
 function printGrid0() {
   // ctx.globalAlpha = 0.5;
@@ -749,6 +435,399 @@ function printGrid2() {
   ctx.fillText("Level 2", (size / 8) * 7 + size / 100, (size / 50) * 49);
 }
 
+function createCanvas() {
+  canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+  ctx = canvas.getContext("2d")!;
+  size = document.getElementById("c")!.offsetWidth - 48;
+  ctx.canvas.width = size;
+  ctx.canvas.height = size;
+  // ctx.imageSmoothingEnabled = false;
+  switch (viewLvl) {
+    case 1: {
+      printGrid1();
+
+      break;
+    }
+    case 2: {
+      printGrid2();
+
+      break;
+    }
+    case 0: {
+      printGrid0();
+
+      break;
+    }
+    default: // no-op
+  }
+}
+
+function courseLoop(profNum: number) {
+  prof = String(profNum);
+  coursesAmt =
+    parseInt(
+      (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
+    ) + 1;
+  if (!Number.isNaN(coursesAmt)) {
+    for (let i = 1; i < coursesAmt; i++) {
+      createCourse(String(i), String(profNum));
+    }
+    document.getElementById(
+      `passing${String(coursesAmt - 1)}${String(prof)}`,
+    )!.innerHTML = "";
+    // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
+  }
+}
+window.courseLoop = courseLoop;
+
+function locateCourses(profNum: number) {
+  prof = String(profNum);
+  profiles[profNum] = [];
+
+  for (
+    let i = 1;
+    i < document.querySelectorAll(`.prof${profNum}`).length + 1;
+    i++
+  ) {
+    profiles[0]![profNum] = (
+      document.getElementById(`nameProf${profNum}`) as HTMLInputElement
+    ).value;
+    profiles[profNum]![i - 1] = [];
+    (profiles[profNum]![i - 1] as string[])[0] = (
+      document.getElementById(`rmnum${i}${prof}txt`) as HTMLInputElement
+    ).value;
+    (profiles[profNum]![i - 1] as string[])![1] = (
+      document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
+    ).value;
+  }
+  localStorage.setItem("profiles", JSON.stringify(profiles));
+}
+window.locateCourses = locateCourses;
+
+function addProf() {
+  profNum = document.querySelectorAll(".prof").length;
+  if (profNum === 0) {
+    createProfile(profNum + 1);
+  } else {
+    locateCourses(profNum);
+    createProfile(profNum + 1);
+  }
+}
+window.addProf = addProf;
+
+function lvl0() {
+  viewLvl = 0;
+  source = document.getElementById("LVL0") as HTMLImageElement;
+  createCanvas();
+}
+window.lvl0 = lvl0;
+
+function lvl1() {
+  viewLvl = 1;
+  source = document.getElementById("LVL1") as HTMLImageElement;
+  createCanvas();
+}
+window.lvl1 = lvl1;
+
+function lvl2() {
+  viewLvl = 2;
+  source = document.getElementById("LVL2") as HTMLImageElement;
+  createCanvas();
+}
+window.lvl2 = lvl2;
+
+function path(
+  grid: number[][],
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+) {
+  const matrix = new PF.Grid(grid);
+  const finder = new PF.AStarFinder();
+  const directions = finder.findPath(x1, y1, x2, y2, matrix);
+  for (const direction of directions) {
+    grid[direction[1]!]![direction[0]!] = -4;
+  }
+  switch (viewLvl) {
+    case 1: {
+      printGrid1();
+
+      break;
+    }
+    case 2: {
+      printGrid2();
+
+      break;
+    }
+    case 0: {
+      printGrid0();
+
+      break;
+    }
+    default: // no-op
+  }
+}
+
+function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
+  tempdist = [];
+  tempdist1 = [];
+  for (let i = 0; i < 8; i++) {
+    tempdist1.push(Math.abs(x1 - stairs[i]![0]) + Math.abs(y1 - stairs[i]![1]));
+  }
+  tempdist2 = [];
+  for (let i = 0; i < 8; i++) {
+    tempdist2.push(Math.abs(x2 - stairs[i]![0]) + Math.abs(y2 - stairs[i]![1]));
+  }
+  for (const [i, element] of tempdist1.entries()) {
+    tempdist.push(element + tempdist2[i]!);
+  }
+  min = Math.min(...tempdist);
+  indexmin = tempdist.indexOf(min);
+  sx1 = stairs[indexmin]![0];
+  sy1 = stairs[indexmin]![1];
+  if (fl === 2) {
+    path(gridLvl2, x1, y1, sx1, sy1);
+    path(gridLvl1, sx1, sy1, x2, y2);
+  } else {
+    path(gridLvl1, x1, y1, sx1, sy1);
+    path(gridLvl2, sx1, sy1, x2, y2);
+  }
+}
+
+function mainToBtm(
+  x1: number,
+  y1: number,
+  sx1: number,
+  sy1: number,
+  flr1: number,
+  flr2: number,
+) {
+  if (flr1 === 1) {
+    stairPath(x1, y1, sx1, sy1, flr1);
+  }
+  if (flr2 === 1) {
+    stairPath(x2, y2, sx1, sy1, flr1);
+  }
+}
+
+function btmPath(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  flr1: number,
+  flr2: number,
+) {
+  if (flr1 !== 0) {
+    tempdist = [];
+    tempdist1 = [];
+    for (let i = 0; i < 2; i++) {
+      tempdist1.push(
+        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
+      );
+    }
+    tempdist2 = [];
+    for (let i = 0; i < 2; i++) {
+      tempdist2.push(
+        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
+      );
+    }
+    for (const [i, element] of tempdist1.entries()) {
+      tempdist.push(element + tempdist2[i]!);
+    }
+    min = Math.min(...tempdist);
+    indexmin = tempdist.indexOf(min);
+    sx1 = btmStairs[indexmin]![0]!;
+    sy1 = btmStairs[indexmin]![1]!;
+
+    if (flr1 === 2) {
+      path(gridLvl2, x1, y1, sx1, sy1);
+    } else if (flr1 === 1) {
+      path(gridLvl1, x1, y1, sx1, sy1);
+    }
+  } else if (flr2 !== 0) {
+    tempdist = [];
+    tempdist1 = [];
+    for (let i = 0; i < 1; i++) {
+      tempdist1.push(
+        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
+      );
+    }
+    tempdist2 = [];
+    for (let i = 0; i < 1; i++) {
+      tempdist2.push(
+        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
+      );
+    }
+    for (const [i, element] of tempdist1.entries()) {
+      tempdist.push(element + tempdist2[i]!);
+    }
+    min = Math.min(...tempdist);
+    indexmin = tempdist.indexOf(min);
+    sx1 = btmStairs[indexmin]![0]!;
+    sy1 = btmStairs[indexmin]![1]!;
+    if (flr2 === 2) {
+      path(gridLvl2, x2, y2, sx1, sy1);
+    } else if (flr2 === 1) {
+      path(gridLvl1, x2, y2, sx1, sy1);
+    }
+  }
+
+  if (flr1 === 0) {
+    path(gridLvl0, x1, y1, sx1, sy1 - 8);
+  } else if (flr2 === 0) {
+    path(gridLvl0, x2, y2, sx1, sy1 - 8);
+  }
+  if (flr1 === 1 || flr2 === 1) {
+    mainToBtm(x1, y1, sx1, sy1, flr1, flr2);
+  }
+}
+
+function clearGrid() {
+  // ctx.globalAlpha = 0.5;
+  const img = source;
+  ctx.drawImage(img, 0, 0, size, size);
+  for (let y = 0; y < gridLvl0.length; y++) {
+    for (let x = 0; x < gridLvl0[y]!.length; x++) {
+      if (gridLvl0[x]![y] === -4) {
+        gridLvl0[x]![y] = 0;
+      }
+    }
+  }
+  for (let y = 0; y < gridLvl1.length; y++) {
+    for (let x = 0; x < gridLvl1[y]!.length; x++) {
+      if (gridLvl1[x]![y] === -4) {
+        gridLvl1[x]![y] = 0;
+      }
+    }
+  }
+  for (let y = 0; y < gridLvl2.length; y++) {
+    for (let x = 0; x < gridLvl2[y]!.length; x++) {
+      if (gridLvl2[x]![y] === -4) {
+        gridLvl2[x]![y] = 0;
+      }
+    }
+  }
+}
+
+function passingTime(num: number, profNum: number) {
+  clearGrid();
+  start = profiles[profNum]![num]![0]!;
+  end = profiles[profNum]![num + 1]![0]!;
+
+  start = start.toUpperCase();
+  start = start.replace("-", "");
+  start = start.replace("_", "");
+  start = start.replace("#", "");
+  start = start.replace("/", "");
+
+  end = end.toUpperCase();
+  end = end.replace("-", "");
+  end = end.replace("_", "");
+  end = end.replace("#", "");
+  end = end.replace("/", "");
+  if (rooms[start] === undefined) {
+    document.getElementById(
+      `inv${String(num + 1)}${String(profNum)}`,
+    )!.innerHTML = "Invalid Room Number";
+    stinv1 = 1;
+  } else {
+    document.getElementById(
+      `inv${String(num + 1)}${String(profNum)}`,
+    )!.innerHTML = "";
+    stinv1 = 0;
+  }
+  if (rooms[end] === undefined) {
+    document.getElementById(
+      `inv${String(num + 2)}${String(profNum)}`,
+    )!.innerHTML = "Invalid Room Number";
+    stinv2 = 1;
+  } else {
+    document.getElementById(
+      `inv${String(num + 2)}${String(profNum)}`,
+    )!.innerHTML = "";
+    stinv2 = 0;
+  }
+
+  if (stinv1 === 0 && stinv2 === 0) {
+    x1 = rooms[start]![0];
+    y1 = rooms[start]![1];
+    flr1 = rooms[start]![2];
+    x2 = rooms[end]![0];
+    y2 = rooms[end]![1];
+    flr2 = rooms[end]![2];
+
+    if (flr1 === 1 && flr2 === 1) {
+      grid = gridLvl1;
+      path(grid, x1, y1, x2, y2);
+    } else if (flr1 === 2 && flr2 === 2) {
+      grid = gridLvl2;
+      path(grid, x1, y1, x2, y2);
+    } else if (flr1 !== 0 && flr2 !== 0) {
+      stairPath(x1, y1, x2, y2, flr1);
+    } else {
+      btmPath(x1, y1, x2, y2, flr1, flr2);
+    }
+    switch (flr1) {
+      case 1: {
+        lvl1();
+        break;
+      }
+      case 2: {
+        lvl2();
+        break;
+      }
+      default: {
+        lvl0();
+      }
+    }
+  }
+}
+window.passingTime = passingTime;
+
+/**
+ * Dark Mode!
+ */
+function darkMode() {
+  const element = document.body;
+  element.classList.toggle("darkModebg");
+  element.classList.toggle("lightModebg");
+
+  const c = document.getElementById("c");
+  c!.classList.toggle("darkMode");
+  c!.classList.toggle("lightMode");
+
+  const c2 = document.getElementById("c2");
+  c2!.classList.toggle("darkMode");
+  c2!.classList.toggle("lightMode");
+
+  for (let i = 0; i < profiles.length; i++) {
+    document.getElementById(`profBox${i}`);
+    c2!.classList.toggle("textboxdark");
+    c2!.classList.toggle("textbox");
+  }
+
+  if (c!.classList.contains("darkMode")) {
+    document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
+    localStorage.setItem("shade", "dark");
+  } else if (!element.classList.contains("lightMode")) {
+    document.getElementById("darkModeButton")!.innerHTML = "Dark Mode";
+    localStorage.setItem("shade", "light");
+  }
+}
+window.darkMode = darkMode;
+
+function startApp() {
+  lvl1();
+  applyCookieProfiles();
+
+  if (localStorage.getItem("shade") === "dark") {
+    darkMode();
+  }
+}
+window.startApp = startApp;
+
 let px = 1;
 let py = 1;
 let old: number;
@@ -819,91 +898,11 @@ function onKeyDown(f: KeyboardEvent) {
 }
 window.onkeydown = onKeyDown;
 
-function lvl0() {
-  viewLvl = 0;
-  source = document.getElementById("LVL0") as HTMLImageElement;
-  createCanvas();
-}
-window.lvl0 = lvl0;
-
-function lvl1() {
-  viewLvl = 1;
-  source = document.getElementById("LVL1") as HTMLImageElement;
-  createCanvas();
-}
-window.lvl1 = lvl1;
-
-function lvl2() {
-  viewLvl = 2;
-  source = document.getElementById("LVL2") as HTMLImageElement;
-  createCanvas();
-}
-window.lvl2 = lvl2;
-
-function clearGrid() {
-  // ctx.globalAlpha = 0.5;
-  const img = source;
-  ctx.drawImage(img, 0, 0, size, size);
-  for (let y = 0; y < gridLvl0.length; y++) {
-    for (let x = 0; x < gridLvl0[y]!.length; x++) {
-      if (gridLvl0[x]![y] === -4) {
-        gridLvl0[x]![y] = 0;
-      }
-    }
-  }
-  for (let y = 0; y < gridLvl1.length; y++) {
-    for (let x = 0; x < gridLvl1[y]!.length; x++) {
-      if (gridLvl1[x]![y] === -4) {
-        gridLvl1[x]![y] = 0;
-      }
-    }
-  }
-  for (let y = 0; y < gridLvl2.length; y++) {
-    for (let x = 0; x < gridLvl2[y]!.length; x++) {
-      if (gridLvl2[x]![y] === -4) {
-        gridLvl2[x]![y] = 0;
-      }
-    }
-  }
-}
-
 function downloadImg(el: HTMLAnchorElement) {
   const image = canvas.toDataURL("image/jpg");
   el.href = image;
 }
 window.downloadImg = downloadImg;
-
-/**
- * Dark Mode!
- */
-function darkMode() {
-  const element = document.body;
-  element.classList.toggle("darkModebg");
-  element.classList.toggle("lightModebg");
-
-  const c = document.getElementById("c");
-  c!.classList.toggle("darkMode");
-  c!.classList.toggle("lightMode");
-
-  const c2 = document.getElementById("c2");
-  c2!.classList.toggle("darkMode");
-  c2!.classList.toggle("lightMode");
-
-  for (let i = 0; i < profiles.length; i++) {
-    document.getElementById(`profBox${i}`);
-    c2!.classList.toggle("textboxdark");
-    c2!.classList.toggle("textbox");
-  }
-
-  if (c!.classList.contains("darkMode")) {
-    document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
-    localStorage.setItem("shade", "dark");
-  } else if (!element.classList.contains("lightMode")) {
-    document.getElementById("darkModeButton")!.innerHTML = "Dark Mode";
-    localStorage.setItem("shade", "light");
-  }
-}
-window.darkMode = darkMode;
 
 function w3_close() {
   document.getElementById("mySidebar")!.style.display = "none";
@@ -939,5 +938,3 @@ jQuery(($) => {
     } // End if
   });
 });
-
-export {};
