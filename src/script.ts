@@ -85,14 +85,14 @@ dom.watch();
 
 function openNav() {
   document.getElementById("my-sidenav")!.style.width = "250px";
-  // document.getElementById("main").style.marginLeft = "250px"; // doesn't do anything
+  // document.getElementById("main")!.style.marginLeft = "250px"; // doesn't do anything
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
 window.openNav = openNav;
 
 function closeNav() {
   document.getElementById("my-sidenav")!.style.width = "0";
-  // document.getElementById("main").style.marginLeft = "0"; // doesn't do anything
+  // document.getElementById("main")!.style.marginLeft = "0"; // doesn't do anything
   document.body.style.backgroundColor = "white";
 }
 window.closeNav = closeNav;
@@ -107,7 +107,7 @@ function createProfile(profNum: number) {
   prof = String(profNum);
   const tempElementId = `tempProf${String(prof)}`;
   const tempElementIdNext = `tempProf${String(profNum + 1)}`;
-  // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+  // const tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
   document.getElementById(tempElementId)!.innerHTML = ` <div
       class="prof txtbox w3-animate-right"
@@ -155,7 +155,7 @@ function createCourse(num: string, profNum: string) {
   numNext = parseInt(num) + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
-  // var tempElementIdAlsoNext = "temp".concat("", String(num + 2));
+  // const tempElementIdAlsoNext = "temp".concat("", String(num + 2));
   //creates html elements in the courses class
   document.getElementById(tempElementId)!.innerHTML = ` <div
       id="input-con-div"
@@ -495,7 +495,7 @@ function courseLoop(profNum: number) {
     document.getElementById(
       `passing${String(coursesAmt - 1)}${String(prof)}`,
     )!.innerHTML = "";
-    // document.getElementById("loccourses" + profNum).style.display = "block"; // doesn't do anything
+    // document.getElementById(`loccourses${profNum}`)!.style.display = "block"; // doesn't do anything
   }
 }
 window.courseLoop = courseLoop;
