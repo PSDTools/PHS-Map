@@ -113,7 +113,7 @@ function createProfile(profNum: number) {
       class="prof txtbox w3-animate-right"
       id="profBox${prof}"
     >
-      <div style="">
+      <div>
         <button
           class="containerinpt red add"
           onclick="remProf(${profNum})"
@@ -122,8 +122,7 @@ function createProfile(profNum: number) {
         </button>
         <input
           onkeyup="locateCourses(${profNum})"
-          class="pink containerinpt"
-          style="border-radius: 4px;border-color:#000000;"
+          class="pink containerinpt bordered"
           type="text"
           id="nameProf${prof}"
           placeholder="Schedule Name"
@@ -184,9 +183,8 @@ function createCourse(num: string, profNum: string) {
     <p></p>
     <div>
       <span
-        class="containerinpt"
+        class="containerinpt display-none"
         id="passing${num}${prof}"
-        style="display: block"
       >
         <button
           class="purple btninpt showpth"
@@ -195,7 +193,7 @@ function createCourse(num: string, profNum: string) {
           )})"
         >
           Show Path
-          <span style="font-size:120%;"><i class="fa-solid fa-down-long"></i></span>
+          <span class="big-text"><i class="fa-solid fa-down-long"></i></span>
         </button>
       </span>
     </div>
@@ -458,7 +456,7 @@ function printGrid2() {
 }
 
 function createCanvas() {
-  canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+  canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
   ctx = canvas.getContext("2d")!;
   size = document.getElementById("c")!.offsetWidth - 48;
   ctx.canvas.width = size;

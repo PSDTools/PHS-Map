@@ -261,3 +261,42 @@ footer {
     font-size: 18px;
   }
 }
+
+body {
+  transition: background-color 0.5s;
+}
+
+a.colored-a {
+  color: white;
+  background-color: black;
+}
+
+a.colored-a.font-36px {
+  font-size: 36px;
+}
+
+div.no-bounce.align-centered {
+  text-align: center;
+  display: inherit;
+}
+
+.display-none {
+  display: none;
+}
+
+#my-canvas {
+  border: 2px solid #000000;
+}
+
+.margin-24px {
+  margin: 24px;
+}
+
+.bordered {
+  border-radius: 4px;
+  border-color: #000000;
+}
+
+.big-text {
+  font-size: 120%;
+}

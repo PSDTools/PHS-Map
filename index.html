@@ -22,21 +22,18 @@
     <title>PHS Map</title>
   </head>
 
-  <body
-    onload="startApp()"
-    class="lightmodebg"
-    style="transition: background-color 0.5s"
-  >
+  <body onload="startApp()" class="lightmodebg">
     <header class="w3-container w3-theme w3-padding-16" id="myHeader">
       <!-- Side Navigation -->
       <nav id="my-sidenav" class="sidenav">
         <a
+          aria-label="close navigation"
           href="javascript:void(0)"
-          style="color: white; background-color: black; font-size: 36px"
-          class="closebtn no-bounce"
+          class="closebtn no-bounce colored-a font-36px"
           onclick="closeNav()"
-          ><i class="fa-solid fa-xmark"></i
-        ></a>
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </a>
         <p></p>
         <button
           id="darkModeButton"
@@ -53,10 +50,7 @@
           Clear All Site Data
         </button>
         <p></p>
-        <div
-          class="no-bounce"
-          style="text-align: center; display: inherit"
-        ></div>
+        <div class="no-bounce align-centered"></div>
       </nav>
 
       <i class="fa-solid fa-bars" onclick="openNav()"></i>
@@ -67,11 +61,8 @@
         <h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
         <h2 class="lgreen w3-xxlarge w3-animate-left">Schedules</h2>
       </div>
-      <a
-        class="no-bounce"
-        style="color: white; background-color: black"
-        href="#myFooter"
-        ><span class="w3-xlarge">
+      <a class="no-bounce colored-a" href="#myFooter" aria-label="Go down!">
+        <span class="w3-xlarge">
           <i class="fa-solid fa-circle-chevron-down"></i>
         </span>
       </a>
@@ -79,16 +70,27 @@
 
     <div class="w3-row">
       <div id="c" class="lightMode w3-half w3-container w3-padding-16">
-        <img id="LVL0" src="/Schooloverlayl0color.jpg" style="display: none" />
-        <img id="LVL1" src="/Schooloverlayl1color.jpg" style="display: none" />
-        <img id="LVL2" src="/Schooloverlayl2color.jpg" style="display: none" />
+        <img
+          id="LVL0"
+          src="/Schooloverlayl0color.jpg"
+          title="map"
+          class="display-none"
+        />
+        <img
+          id="LVL1"
+          src="/Schooloverlayl1color.jpg"
+          title="map"
+          class="display-none"
+        />
+        <img
+          id="LVL2"
+          src="/Schooloverlayl2color.jpg"
+          title="map"
+          class="display-none"
+        />
 
         <div class="item">
-          <canvas
-            id="myCanvas"
-            style="border: 2px solid #000000"
-            class=""
-          ></canvas>
+          <canvas id="my-canvas"></canvas>
         </div>
         <button id="lvl0" onclick="lvl0()">Level 0</button>
         <button id="lvl1" onclick="lvl1()">Level 1</button>
@@ -98,10 +100,10 @@
           download="PHS-Map.jpg"
           href=""
           onclick="downloadImg(this);"
-          >Download Current Map</a
         >
+          Download Current Map
+        </a>
       </div>
-
       <div id="c2" class="lightMode w3-half w3-container w3-padding-16">
         <h3>Saving may be buggy!</h3>
         <h3>How to use!</h3>
@@ -128,12 +130,11 @@
           <li>
             Use the "Level 1" and "Level 2" buttons below the map to view
             different floors
+            <a
+              href="https://drive.google.com/file/d/1i5vZrMjG_jptY4Fs-r54Wgd_pd4jF10U/view?usp=sharing"
+              >Click Here for a Video Tutorial!
+            </a>
           </li>
-          <a
-            href="https://drive.google.com/file/d/1i5vZrMjG_jptY4Fs-r54Wgd_pd4jF10U/view?usp=sharing"
-            >Click Here for a Video Tutorial!</a
-          >
-          <p></p>
           <li>
             Now use the "Show Path" button in-between classes to show a path
             between those classes!
@@ -143,7 +144,7 @@
             view different floors
           </li>
         </ol>
-        <p style="margin: 24px"></p>
+        <p class="margin-24px"></p>
         <div id="profiles">
           <div class="" id="tempProf1"></div>
         </div>
@@ -160,13 +161,11 @@
       class="footer w3-container w3-theme-dark w3-padding-16"
       id="myFooter"
     >
-      <a
-        class="no-bounce"
-        style="color: white; background-color: black"
-        href="#myHeader"
-        ><span class="w3-xlarge">
-          <i class="fa-solid fa-circle-chevron-up"></i></span
-      ></a>
+      <a class="no-bounce colored-a" href="#myHeader" aria-label="Go up!">
+        <span class="w3-xlarge">
+          <i class="fa-solid fa-circle-chevron-up"></i>
+        </span>
+      </a>
       <h3>About</h3>
       <h5>
         Created by Parker Hasenkamp and Ethan Arana for the
