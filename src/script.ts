@@ -193,7 +193,7 @@ function createCourse(num: string, profNum: string) {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-function applyCookieProfiles() {
+function applySavedProfiles() {
   const jsonProfiles = JSON.parse(localStorage.getItem("profiles")!);
 
   if (Array.isArray(jsonProfiles)) {
@@ -240,7 +240,7 @@ function remProf(profNum: number) {
 
   localStorage.setItem("profiles", JSON.stringify(profiles));
 
-  applyCookieProfiles();
+  applySavedProfiles();
 }
 window.remProf = remProf;
 
@@ -835,7 +835,7 @@ window.darkMode = darkMode;
 
 function startApp() {
   lvl1();
-  applyCookieProfiles();
+  applySavedProfiles();
 
   if (localStorage.getItem("shade") === "dark") {
     darkMode();
