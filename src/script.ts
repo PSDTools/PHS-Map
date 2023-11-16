@@ -85,14 +85,12 @@ dom.watch();
 
 function openNav() {
   document.getElementById("my-sidenav")!.style.width = "250px";
-  // document.getElementById("main")!.style.marginLeft = "250px"; // doesn't do anything
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
 window.openNav = openNav;
 
 function closeNav() {
   document.getElementById("my-sidenav")!.style.width = "0";
-  // document.getElementById("main")!.style.marginLeft = "0"; // doesn't do anything
   document.body.style.backgroundColor = "white";
 }
 window.closeNav = closeNav;
@@ -107,8 +105,7 @@ function createProfile(profNum: number) {
   prof = String(profNum);
   const tempElementId = `tempProf${String(prof)}`;
   const tempElementIdNext = `tempProf${String(profNum + 1)}`;
-  // const tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-  //creates html elements in the courses class
+  // Creates html elements in the courses class.
   document.getElementById(tempElementId)!.innerHTML = ` <div
       class="prof txtbox w3-animate-right"
       id="profBox${prof}"
@@ -155,8 +152,7 @@ function createCourse(num: string, profNum: string) {
   numNext = parseInt(num) + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
-  // const tempElementIdAlsoNext = "temp".concat("", String(num + 2));
-  //creates html elements in the courses class
+  // Creates html elements in the courses class.
   document.getElementById(tempElementId)!.innerHTML = ` <div
       id="input-con-div"
       class=" input-container lightModeInput"
@@ -252,18 +248,11 @@ function remProf(profNum: number) {
 window.remProf = remProf;
 
 function printGrid0() {
-  // ctx.globalAlpha = 0.5;
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
     for (let x = 0; x < gridLvl0[y]!.length; x++) {
       switch (gridLvl0[x]![y]) {
-        case 1: {
-          // ctx.fillStyle = "#000000";
-          // ctx.fillRect(size / gridLvl0.length * y, size / gridLvl0.length * x, size / gridLvl0.length, size / gridLvl0.length);
-
-          break;
-        }
         case -2: {
           ctx.fillStyle = "#00FFFF";
           ctx.fillRect(
@@ -320,18 +309,11 @@ function printGrid0() {
 }
 
 function printGrid1() {
-  // ctx.globalAlpha = 0.5;
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl1.length; y++) {
     for (let x = 0; x < gridLvl1[y]!.length; x++) {
       switch (gridLvl1[x]![y]) {
-        case 1: {
-          // ctx.fillStyle = "#000000";
-          // ctx.fillRect(size / gridLvl1.length * y, size / gridLvl1.length * x, size / gridLvl1.length, size / gridLvl1.length);
-
-          break;
-        }
         case -2: {
           ctx.fillStyle = "#00FFFF";
           ctx.fillRect(
@@ -388,18 +370,11 @@ function printGrid1() {
 }
 
 function printGrid2() {
-  // ctx.globalAlpha = 0.5;
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl2.length; y++) {
     for (let x = 0; x < gridLvl2[y]!.length; x++) {
       switch (gridLvl2[x]![y]) {
-        case 1: {
-          // ctx.fillStyle = "#000000";
-          // ctx.fillRect(size / gridLvl2.length * y, size / gridLvl2.length * x, size / gridLvl2.length, size / gridLvl2.length);
-
-          break;
-        }
         case -2: {
           ctx.fillStyle = "#00FFFF";
           ctx.fillRect(
@@ -461,7 +436,6 @@ function createCanvas() {
   size = document.getElementById("c")!.offsetWidth - 48;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
-  // ctx.imageSmoothingEnabled = false;
   switch (viewLvl) {
     case 1: {
       printGrid1();
@@ -495,7 +469,6 @@ function courseLoop(profNum: number) {
     document.getElementById(
       `passing${String(coursesAmt - 1)}${String(prof)}`,
     )!.innerHTML = "";
-    // document.getElementById(`loccourses${profNum}`)!.style.display = "block"; // doesn't do anything
   }
 }
 window.courseLoop = courseLoop;
@@ -707,7 +680,6 @@ function btmPath(
 }
 
 function clearGrid() {
-  // ctx.globalAlpha = 0.5;
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
@@ -940,23 +912,21 @@ jQuery(($) => {
     // Store hash
     const hash = (this as HTMLAnchorElement).hash;
 
-    // Make sure this.hash has a value before overriding default behavior
+    // Make sure this.hash has a value before overriding default behavior.
     if (hash !== "") {
       // Prevent default anchor click behavior
       event.preventDefault();
 
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      // Use jQuery's animate() method to add smooth page scroll.
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area.
       $("html, body").animate(
-        {
-          scrollTop: $(hash).offset()!.top,
-        },
+        { scrollTop: $(hash).offset()!.top },
         1000,
         () => {
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
         },
       );
-    } // End if
+    }
   });
 });

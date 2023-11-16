@@ -40,6 +40,7 @@ export default defineFlatConfig([
       "no-console": "warn",
       "no-negated-condition": "off",
       "unicorn/no-negated-condition": "error",
+      "@typescript-eslint/ban-ts-comment": "error",
     },
   },
 ]);

@@ -9,6 +9,7 @@
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "strict": true,
+    "moduleDetection": "force",
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -17,9 +18,12 @@
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
     "noUnusedParameters": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true, // this is required for Sheriff to perform correctly.
     "noEmit": true, // you should pretty much never need this, most projects are transpiled and bundled with specific tools like Rollup nowadays.
     "skipLibCheck": true,
