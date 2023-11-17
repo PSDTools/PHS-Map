@@ -217,7 +217,7 @@ function applySavedProfiles() {
         ).value = profiles[i]![f - 1]![0]!;
         (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
           profiles[i]![f - 1]![1]!;
-        if (f === -1) {
+        if (f === 1) {
           break;
         } else {
           const lastPass = document.getElementById(`passing${f - 1}${i}`)!;
