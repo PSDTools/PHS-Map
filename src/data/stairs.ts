@@ -1,4 +1,4 @@
-export const stairs: Record<number, readonly [number, number]> = {
+const stairs: Record<number, readonly [number, number]> = {
   0: [23, 13],
   1: [63, 16],
   2: [103, 16],
@@ -9,7 +9,9 @@ export const stairs: Record<number, readonly [number, number]> = {
   7: [92, 121],
 } as const;
 
-export const btmStairs: Record<number, readonly [number, number]> = {
+const btmStairs: Record<number, readonly [number, number]> = {
   0: [90, 154],
   1: [71, 154],
 };
+
+export { stairs, btmStairs };

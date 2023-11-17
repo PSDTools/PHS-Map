@@ -1539,3 +1539,5 @@ export const level0: number[][] = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ],
 ];
+
+export default level0;

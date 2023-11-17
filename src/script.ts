@@ -14,9 +14,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import jQuery from "jquery";
 import * as PF from "pathfinding";
-import { level0 as gridLvl0 } from "./data/level0.ts";
-import { level1 as gridLvl1 } from "./data/level1.ts";
-import { level2 as gridLvl2 } from "./data/level2.ts";
+import gridLvl0 from "./data/level0.ts";
+import gridLvl1 from "./data/level1.ts";
+import gridLvl2 from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { stairs, btmStairs } from "./data/stairs.ts";
 

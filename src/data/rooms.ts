@@ -196,3 +196,5 @@ export const rooms: Record<string, readonly [number, number, number]> = {
   A002: [77, 160, 0],
   A004: [74, 149, 0],
 } as const;
+
+export default rooms;
