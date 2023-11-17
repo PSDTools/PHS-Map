@@ -1,9 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-shadow */
 
-// This order is required to render the page correctly.
-import "./styles/w3.css";
-import "./styles/w3-theme-black.css";
 import "./styles/bounce.css";
 import "./styles/style.css";
 
