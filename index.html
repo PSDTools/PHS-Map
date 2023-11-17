@@ -13,22 +13,22 @@
     <title>PHS Map</title>
   </head>
 
-  <body onload="startApp()" class="lightmodebg">
-    <header class="w3-container w3-theme w3-padding-16" id="myHeader">
+  <body onload="window.startApp()" class="lightmodebg">
+    <header class="w3-container w3-theme w3-padding-16" id="my-header">
       <!-- Side Navigation -->
       <nav id="my-sidenav" class="sidenav">
         <a
           aria-label="close navigation"
           href="javascript:void(0)"
           class="closebtn no-bounce colored-a font-36px"
-          onclick="closeNav()"
+          onclick="window.toggleNav(false)"
         >
           <i class="fa-solid fa-xmark"></i>
         </a>
         <p></p>
         <button
           id="darkModeButton"
-          onclick="darkMode()"
+          onclick="window.toggleDarkMode()"
           class="smallbutton w3-button w3-theme"
         >
           Dark Mode
@@ -36,15 +36,16 @@
         <p></p>
         <button
           class="clearDataButton smallbutton w3-button w3-theme"
-          onclick="clearAll()"
+          onclick="window.clearAll()"
         >
           Clear All Site Data
         </button>
         <p></p>
         <div class="no-bounce align-centered"></div>
       </nav>
-
-      <i class="fa-solid fa-bars" onclick="openNav()"></i>
+      <span onclick="window.toggleNav(true)">
+        <i class="fa-solid fa-bars"></i>
+      </span>
 
       <div class="w3-center">
         <h1 class="w3-animate-top phs">PHS</h1>
@@ -52,7 +53,7 @@
         <h2 class="w3-xxxlarge w3-animate-left">Treasure Map</h2>
         <h2 class="lgreen w3-xxlarge w3-animate-left">Schedules</h2>
       </div>
-      <a class="no-bounce colored-a" href="#myFooter" aria-label="Go down!">
+      <a class="no-bounce colored-a" href="#my-footer" aria-label="Go down!">
         <span class="w3-xlarge">
           <i class="fa-solid fa-circle-chevron-down"></i>
         </span>
@@ -83,14 +84,14 @@
         <div class="item">
           <canvas id="my-canvas"></canvas>
         </div>
-        <button id="lvl0" onclick="lvl0()">Level 0</button>
-        <button id="lvl1" onclick="lvl1()">Level 1</button>
-        <button id="lvl2" onclick="lvl2()">Level 2</button>
+        <button id="lvl0" onclick="window.lvl(0)">Level 0</button>
+        <button id="lvl1" onclick="window.lvl(1)">Level 1</button>
+        <button id="lvl2" onclick="window.lvl(2)">Level 2</button>
         <a
           id="download"
           download="PHS-Map.jpg"
           href=""
-          onclick="downloadImg(this);"
+          onclick="window.downloadImg(this);"
         >
           Download Current Map
         </a>
@@ -104,7 +105,7 @@
             <button
               class="lime plusbuttonsml add"
               aria-label="add"
-              onclick="addProf()"
+              onclick="window.addProf()"
             >
               <i class="fa-solid fa-plus"></i>
             </button>
@@ -142,7 +143,7 @@
         <button
           class="lime plusbutton add"
           aria-label="add"
-          onclick="addProf()"
+          onclick="window.addProf()"
         >
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -150,9 +151,9 @@
     </div>
     <footer
       class="footer w3-container w3-theme-dark w3-padding-16"
-      id="myFooter"
+      id="my-footer"
     >
-      <a class="no-bounce colored-a" href="#myHeader" aria-label="Go up!">
+      <a class="no-bounce colored-a" href="#my-header" aria-label="Go up!">
         <span class="w3-xlarge">
           <i class="fa-solid fa-circle-chevron-up"></i>
         </span>

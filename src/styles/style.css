@@ -284,6 +284,10 @@ div.no-bounce.align-centered {
   display: none;
 }
 
+.display-block {
+  display: block;
+}
+
 #my-canvas {
   border: 2px solid #000000;
 }
@@ -299,4 +303,18 @@ div.no-bounce.align-centered {
 
 .big-text {
   font-size: 120%;
+}
+
+.open-nav {
+  width: 250px;
+}
+.open-nav-body {
+  background-color: rgb(0, 0, 0, 0.4);
+}
+
+.close-nav {
+  width: 0;
+}
+.close-nav-body {
+  background-color: white;
 }

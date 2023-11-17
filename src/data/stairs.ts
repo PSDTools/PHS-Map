@@ -1,4 +1,6 @@
-const stairs: Record<number, readonly [number, number]> = {
+import type { StairList } from "./data-types";
+
+const stairs: StairList = {
   0: [23, 13],
   1: [63, 16],
   2: [103, 16],
@@ -9,7 +11,7 @@ const stairs: Record<number, readonly [number, number]> = {
   7: [92, 121],
 } as const;
 
-const btmStairs: Record<number, readonly [number, number]> = {
+const btmStairs: StairList = {
   0: [90, 154],
   1: [71, 154],
 };
