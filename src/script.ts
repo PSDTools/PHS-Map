@@ -1,8 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-shadow */
 
-import "./styles/style.css";
+// This order is required to render the page correctly.
+import "./styles/w3.css";
+import "./styles/w3-theme-black.css";
 import "./styles/bounce.css";
+import "./styles/style.css";
+
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faXmark,
