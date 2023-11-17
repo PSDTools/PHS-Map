@@ -45,10 +45,9 @@ let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 let coursesAmt: number;
 let viewLvl: number;
-type ProfilesList = [
-  [null, string]?,
-  ...[(string | [string?, string?])?, string?][],
-];
+type Profile = [...[string?, string?]];
+type Profiles = [null?, ...(string | string[])[]];
+type ProfilesList = [Profiles?, ...Profile[]];
 let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;
@@ -197,7 +196,7 @@ function createCourse(num: string, profNum: string) {
 }
 
 function applySavedProfiles() {
-  const jsonProfiles = JSON.parse(localStorage.getItem("profiles")!);
+  const jsonProfiles = JSON.parse(localStorage.getItem("profiles")!) as unknown;
 
   if (Array.isArray(jsonProfiles)) {
     profiles = jsonProfiles;
@@ -205,7 +204,7 @@ function applySavedProfiles() {
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
-        profiles[0]![i]!;
+        profiles[0]![i]! as string;
       for (let f = 1; f < profiles[i]!.length + 1; f++) {
         createCourse(String(f), String(i));
         (
@@ -484,7 +483,7 @@ function locateCourses(profNum: number) {
     i < document.querySelectorAll(`.prof${profNum}`).length + 1;
     i++
   ) {
-    profiles[0][profNum] = (
+    profiles[0]![profNum] = (
       document.getElementById(`nameProf${profNum}`) as HTMLInputElement
     ).value;
     profiles[profNum]![i - 1] = [];
