@@ -2,7 +2,7 @@
   "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"],
   "eslint.experimental.useFlatConfig": true,
   "explorer.fileNesting.patterns": {
-    "package.json": ".prettierc, .prettierignore, bun.lockb, eslint.config.js, turbo.json",
+    "package.json": ".prettierc, .prettierignore, yarn.lock, .yarnrc.yml, eslint.config.js, turbo.json",
     "README*": "*.${capture}",
     ".replit": "replit.*"
   },
