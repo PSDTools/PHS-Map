@@ -1529,6 +1529,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint-types/typescript-eslint@npm:^6.11.0":
+  version: 6.11.0
+  resolution: "@eslint-types/typescript-eslint@npm:6.11.0"
+  checksum: 6c1b127927d40e5fad8ec6924ab9152cda121a67a8c6b6e4f9601de8de1ab78b716de7e5cce55092d77dc81fb2f3b0762967213f52dae8806dc9490fce17069c
+  languageName: node
+  linkType: hard
+
+"@eslint-types/unicorn@npm:^49.0.0":
+  version: 49.0.0
+  resolution: "@eslint-types/unicorn@npm:49.0.0"
+  checksum: cf52642b96bc7c15fb5c228896165c3dc3a9ecd5b2f8f29dea034da2cc22ac9da355e84edfbdcf072310a674056b96014e3ae5df0e6bd0207ced08ea240aa5af
+  languageName: node
+  linkType: hard
+
 "@eslint/eslintrc@npm:^2.1.2, @eslint/eslintrc@npm:^2.1.3":
   version: 2.1.3
   resolution: "@eslint/eslintrc@npm:2.1.3"
@@ -1991,7 +2005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.9.1":
   version: 20.9.1
   resolution: "@types/node@npm:20.9.1"
   dependencies:
@@ -3396,10 +3410,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-define-config@npm:^1.24.1":
-  version: 1.24.1
-  resolution: "eslint-define-config@npm:1.24.1"
-  checksum: f02873a388d8030d5300f58efe59ef9762b7d2c4edeba4fae25a020db29791eacd48dd17f52f44be1098a18bd3e09b2475f417e22c581818017563792273e7c6
+"eslint-define-config@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "eslint-define-config@npm:2.0.0"
+  checksum: 617c3143bc1ed8df0b20ae632d428d5f241dbb04483631e1410c58fe65ba3e503cf94631c5973115482b58ba464d052422a718c0f4d49182f8d13ffbb36bf1d6
   languageName: node
   linkType: hard
 
@@ -4238,7 +4252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.7":
+"glob@npm:7.1.7, glob@npm:^7.1.3, glob@npm:^7.1.6":
   version: 7.1.7
   resolution: "glob@npm:7.1.7"
   dependencies:
@@ -4264,20 +4278,6 @@ __metadata:
   bin:
     glob: dist/esm/bin.mjs
   checksum: 13d8a1feb7eac7945f8c8480e11cd4a44b24d26503d99a8d8ac8d5aefbf3e9802a2b6087318a829fad04cb4e829f25c5f4f1110c68966c498720dd261c7e344d
-  languageName: node
-  linkType: hard
-
-"glob@npm:^7.1.3, glob@npm:^7.1.6":
-  version: 7.2.3
-  resolution: "glob@npm:7.2.3"
-  dependencies:
-    fs.realpath: "npm:^1.0.0"
-    inflight: "npm:^1.0.4"
-    inherits: "npm:2"
-    minimatch: "npm:^3.1.1"
-    once: "npm:^1.3.0"
-    path-is-absolute: "npm:^1.0.0"
-  checksum: 65676153e2b0c9095100fe7f25a778bf45608eeb32c6048cf307f579649bcc30353277b3b898a3792602c65764e5baa4f643714dfbdfd64ea271d210c7a425fe
   languageName: node
   linkType: hard
 
@@ -5327,7 +5327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -5454,17 +5454,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.2":
+"ms@npm:2.1.2, ms@npm:^2.1.1":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
   checksum: a437714e2f90dbf881b5191d35a6db792efbca5badf112f87b9e1c712aace4b4b9b742dd6537f3edf90fd6f684de897cec230abde57e87883766712ddda297cc
-  languageName: node
-  linkType: hard
-
-"ms@npm:^2.1.1":
-  version: 2.1.3
-  resolution: "ms@npm:2.1.3"
-  checksum: d924b57e7312b3b63ad21fc5b3dc0af5e78d61a1fc7cfb5457edaf26326bf62be5307cc87ffb6862ef1c2b33b0233cdb5d4f01c4c958cc0d660948b65a287a48
   languageName: node
   linkType: hard
 
@@ -5838,14 +5831,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "phs-map@workspace:."
   dependencies:
+    "@eslint-types/typescript-eslint": "npm:^6.11.0"
+    "@eslint-types/unicorn": "npm:^49.0.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.4.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.4.2"
     "@types/eslint": "npm:^8"
     "@types/jquery": "npm:^3"
+    "@types/node": "npm:^20.9.1"
     "@types/pathfinding": "npm:^0"
     eslint: "npm:^8.54.0"
     eslint-config-sheriff: "npm:^17.0.0"
-    eslint-define-config: "npm:^1.24.1"
+    eslint-define-config: "npm:^2.0.0"
     jquery: "npm:^3.7.1"
     pathfinding: "npm:^0.4.18"
     prettier: "npm:^3.1.0"

@@ -1,3 +1,4 @@
+// @ts-check
 import sheriff from "eslint-config-sheriff";
 import { defineFlatConfig } from "eslint-define-config";
 
@@ -19,6 +20,8 @@ const sheriffOptions = {
       "**/dist/**",
       "**/dev-dist/**",
       "**/build/**",
+      "**/.yarn/**",
+      "**/.pnp.*",
     ],
   },
 };
@@ -35,7 +38,6 @@ export default defineFlatConfig([
       "func-style": ["error", "declaration", { allowArrowFunctions: true }],
       "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
       "operator-assignment": ["off", "always"],
-      "fp/no-class": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "no-console": "warn",
       "no-negated-condition": "off",
