@@ -1,6 +1,4 @@
-import type { Building } from "./data-types";
-
-export const rooms: Building = {
+export const rooms = {
   H100: [68, 12, 1],
   H102: [58, 8, 1],
   H103: [58, 19, 1],

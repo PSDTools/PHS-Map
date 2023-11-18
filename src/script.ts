@@ -25,6 +25,7 @@ import {
   type Level,
   type Lvl,
   type ProfilesList,
+  type Room,
 } from "./data/data-types.ts";
 
 declare global {
@@ -54,8 +55,8 @@ let size: number;
 let profNum: number;
 let prof: string;
 let numNext: number;
-let start: string;
-let end: string;
+let start: Room;
+let end: Room;
 let stinv1: number;
 let stinv2: number;
 let x1: number;
@@ -493,8 +494,9 @@ function btmPath(
     tempdist = [];
     tempdist1 = [];
     for (let i = 0; i < 1; i++) {
+      const newLocal = btmStairs[i];
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
+        Math.abs(x1 - newLocal![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
       );
     }
     tempdist2 = [];
@@ -553,35 +555,41 @@ function clearGrid() {
   }
 }
 
+function normalizeRoom(string: string): Room | null {
+  const normalized = string
+    .toUpperCase()
+    .replace("-", "")
+    .replace("_", "")
+    .replace("#", "")
+    .replace("/", "");
+
+  if (Object.hasOwn(rooms, normalized)) {
+    return normalized as Room;
+  }
+  return null;
+}
+
 function passingTime(num: number, profNum: number) {
+  const startString = normalizeRoom(profiles[profNum]![num]![0]!);
+  const endString = normalizeRoom(profiles[profNum]![num + 1]![0]!);
+
   clearGrid();
-  start = profiles[profNum]![num]![0]!;
-  end = profiles[profNum]![num + 1]![0]!;
 
-  start = start.toUpperCase();
-  start = start.replace("-", "");
-  start = start.replace("_", "");
-  start = start.replace("#", "");
-  start = start.replace("/", "");
-
-  end = end.toUpperCase();
-  end = end.replace("-", "");
-  end = end.replace("_", "");
-  end = end.replace("#", "");
-  end = end.replace("/", "");
-  if (rooms[start] === undefined) {
+  if (startString === null) {
     document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML =
       "Invalid Room Number";
     stinv1 = 1;
   } else {
+    start = startString;
     document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML = "";
     stinv1 = 0;
   }
-  if (rooms[end] === undefined) {
+  if (endString === null) {
     document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML =
       "Invalid Room Number";
     stinv2 = 1;
   } else {
+    end = endString;
     document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML = "";
     stinv2 = 0;
   }

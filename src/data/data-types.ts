@@ -1,13 +1,24 @@
+import type { rooms } from "./rooms";
+
 type Lvl = 1 | 2 | 0;
 const Levels = { one: 1, two: 2, zero: 0 } as const;
-type Room = readonly [...Coords, Lvl];
+type Coords3D = readonly [...Coords, Lvl];
 type StairList = Record<number, Coords>;
 type Level = number[][];
 type Coords = readonly [number, number];
-type Building = Record<string, Room>;
-type Profile = [...[string, string]];
+type Profile = [...[Room, string]];
 type Profiles = [null?, ...(string | string[])[]];
 type ProfilesList = [Profiles?, ...Profile[]];
+type Rooms = typeof rooms;
+type Room = keyof Rooms;
 
-export type { Lvl, Room, StairList, Level, ProfilesList };
-export { Levels, type Building };
+export {
+  Levels,
+  type Coords,
+  type Coords3D,
+  type Level,
+  type Lvl,
+  type ProfilesList,
+  type Room,
+  type StairList,
+};
