@@ -12,4 +12,4 @@ The source code used to be available at [PSDTools/PHS-Map-old](https://github.co
 
 ## Compiling
 
-So I don't forget: `yarn run turbo build`.
+So I don't forget: `bun --bun run turbo build`.
