@@ -2,7 +2,6 @@ import type { rooms } from "./rooms";
 
 type Lvl = 1 | 2 | 0;
 const Levels = { one: 1, two: 2, zero: 0 } as const;
-type Coords3D = readonly [...Coords, Lvl];
 type StairList = Record<number, Coords>;
 type Level = number[][];
 type Coords = readonly [number, number];
@@ -14,8 +13,6 @@ type Room = keyof Rooms;
 
 export {
   Levels,
-  type Coords,
-  type Coords3D,
   type Level,
   type Lvl,
   type ProfilesList,
