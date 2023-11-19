@@ -61,5 +61,5 @@
     "format:check": "prettier . --check",
     "lint": "eslint ."
   },
-  "packageManager": "bun@1.0.12"
+  "packageManager": "bun@1.0.13"
 }
