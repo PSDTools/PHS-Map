@@ -15,6 +15,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import jQuery from "jquery";
 import * as PF from "pathfinding";
+import { createStorage } from "unstorage";
+import localStorageDriver from "unstorage/drivers/localstorage";
 import gridLvl0 from "./data/level0.ts";
 import gridLvl1 from "./data/level1.ts";
 import gridLvl2 from "./data/level2.ts";
@@ -28,17 +30,19 @@ import {
   type Room,
 } from "./data/data-types.ts";
 
+const storage = createStorage({ driver: localStorageDriver({}) });
+
 declare global {
   interface Window {
-    startApp: () => void;
-    toggleDarkMode: () => void;
-    clearAll: () => void;
+    startApp: () => Promise<void>;
+    toggleDarkMode: () => Promise<void>;
+    clearAll: () => Promise<void>;
     toggleNav: (open: boolean) => void;
     lvl: (level: Lvl) => void;
-    addProf: () => void;
-    locateCourses: (profNum: number) => void;
+    addProf: () => Promise<void>;
+    locateCourses: (profNum: number) => Promise<void>;
     courseLoop: (profNum: number) => void;
-    remProf: (profNum: number) => void;
+    remProf: (profNum: number) => Promise<void>;
     passingTime: (num: number, profNum: number) => void;
     downloadImg: (el: HTMLAnchorElement) => void;
   }
@@ -103,8 +107,8 @@ function toggleNav(isOpen: boolean) {
 }
 window.toggleNav = toggleNav;
 
-function clearAll() {
-  window.localStorage.clear();
+async function clearAll() {
+  await storage.clear();
   window.location.reload();
 }
 window.clearAll = clearAll;
@@ -196,9 +200,9 @@ function createCourse(num: string, profNum: string) {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-function applySavedProfiles() {
+async function applySavedProfiles() {
   const jsonProfiles = window.JSON.parse(
-    window.localStorage.getItem("profiles")!,
+    (await storage.getItem("profiles"))!,
   ) as unknown;
 
   if (Array.isArray(jsonProfiles)) {
@@ -233,7 +237,7 @@ function applySavedProfiles() {
   }
 }
 
-function remProf(profNum: number) {
+async function remProf(profNum: number) {
   profiles.splice(profNum, 1);
   profiles[0]!.splice(profNum, 1);
 
@@ -242,9 +246,9 @@ function remProf(profNum: number) {
     id="tempProf1"
   ></div>`;
 
-  window.localStorage.setItem("profiles", JSON.stringify(profiles));
+  await storage.setItem("profiles", JSON.stringify(profiles));
 
-  applySavedProfiles();
+  await applySavedProfiles();
 }
 window.remProf = remProf;
 
@@ -353,7 +357,7 @@ function courseLoop(profNum: number) {
 }
 window.courseLoop = courseLoop;
 
-function locateCourses(profNum: number) {
+async function locateCourses(profNum: number) {
   prof = String(profNum);
   profiles[profNum] = [];
   if (profiles[0] === undefined) {
@@ -375,16 +379,16 @@ function locateCourses(profNum: number) {
       document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
     ).value;
   }
-  localStorage.setItem("profiles", JSON.stringify(profiles));
+  await storage.setItem("profiles", JSON.stringify(profiles));
 }
 window.locateCourses = locateCourses;
 
-function addProf() {
+async function addProf() {
   profNum = document.querySelectorAll(".prof").length;
   if (profNum === 0) {
     createProfile(profNum + 1);
   } else {
-    locateCourses(profNum);
+    await locateCourses(profNum);
     createProfile(profNum + 1);
   }
 }
@@ -633,7 +637,7 @@ window.passingTime = passingTime;
 /**
  * Dark Mode!
  */
-function toggleDarkMode() {
+async function toggleDarkMode() {
   const element = document.body;
   element.classList.toggle("darkModebg");
   element.classList.toggle("lightModebg");
@@ -654,20 +658,20 @@ function toggleDarkMode() {
 
   if (c!.classList.contains("darkMode")) {
     document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
-    localStorage.setItem("shade", "dark");
+    await storage.setItem("shade", "dark");
   } else if (!element.classList.contains("lightMode")) {
     document.getElementById("darkModeButton")!.innerHTML = "Dark Mode";
-    localStorage.setItem("shade", "light");
+    await storage.setItem("shade", "light");
   }
 }
 window.toggleDarkMode = toggleDarkMode;
 
-function startApp() {
+async function startApp() {
   lvl(1);
-  applySavedProfiles();
+  await applySavedProfiles();
 
-  if (localStorage.getItem("shade") === "dark") {
-    toggleDarkMode();
+  if ((await storage.getItem("shade")) === "dark") {
+    await toggleDarkMode();
   }
 }
 window.startApp = startApp;
