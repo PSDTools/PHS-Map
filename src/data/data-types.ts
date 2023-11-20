@@ -1,18 +1,59 @@
-import type { rooms } from "./rooms";
+import { z } from "zod";
+import { rooms } from "./rooms";
 
-type Lvl = 1 | 2 | 0;
-const Levels = { one: 1, two: 2, zero: 0 } as const;
-type StairList = Record<number, Coords>;
-type Level = number[][];
-type Coords = readonly [number, number];
-type Profile = [...[Room, string]];
-type Profiles = [null?, ...(string | string[])[]];
-type ProfilesList = [Profiles?, ...Profile[]];
+type Lvl = z.infer<typeof lvlSchema>;
+type StairList = z.infer<typeof stairListSchema>;
+type Level = z.infer<typeof levelSchema>;
+type ProfilesList = z.infer<typeof profilesListSchema>;
 type Rooms = typeof rooms;
 type Room = keyof Rooms;
 
+const levelSchema = z.array(z.array(z.number()));
+
+const roomSchema = z
+  .string()
+  .toUpperCase()
+  .trim()
+  .transform((val) =>
+    val
+      .normalize()
+      .replaceAll("-", "")
+      .replaceAll("_", "")
+      .replaceAll("#", "")
+      .replaceAll("/", ""),
+  )
+  .refine((val) => Object.hasOwn(rooms, val))
+  .transform((val) => val as Room);
+
+const profilesSchema = z.union([
+  z.tuple([z.null()]).rest(z.union([z.string(), z.string().array()])),
+  z.tuple([]),
+]);
+
+const profileSchema = z.array(
+  z.tuple([
+    z.string().transform((val) => {
+      const parsed = roomSchema.safeParse(val);
+      return parsed.success ? parsed.data : z.NEVER;
+    }),
+    z.string(),
+  ]),
+);
+
+const profilesListSchema = z.union([
+  z.tuple([profilesSchema]).rest(profileSchema),
+  z.tuple([]),
+]);
+
+const lvlSchema = z.union([z.literal(1), z.literal(2), z.literal(0)]);
+
+const coordsSchema = z.tuple([z.number(), z.number()]).readonly();
+
+const stairListSchema = z.record(z.number(), coordsSchema);
+
 export {
-  Levels,
+  roomSchema,
+  profilesListSchema,
   type Level,
   type Lvl,
   type ProfilesList,

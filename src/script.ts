@@ -23,11 +23,12 @@ import gridLvl2 from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { stairs, btmStairs } from "./data/stairs.ts";
 import {
-  Levels,
   type Level,
   type Lvl,
   type ProfilesList,
   type Room,
+  roomSchema,
+  profilesListSchema,
 } from "./data/data-types.ts";
 
 const storage = createStorage({ driver: localStorageDriver({}) });
@@ -201,13 +202,12 @@ function createCourse(num: string, profNum: string) {
 }
 
 async function applySavedProfiles() {
-  const jsonProfiles = window.JSON.parse(
-    (await storage.getItem("profiles"))!,
-  ) as unknown;
+  const parsedProfiles = profilesListSchema.safeParse(
+    window.JSON.parse((await storage.getItem("profiles"))!),
+  );
 
-  if (Array.isArray(jsonProfiles)) {
-    profiles = jsonProfiles;
-
+  if (parsedProfiles.success) {
+    profiles = parsedProfiles.data;
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
@@ -233,6 +233,7 @@ async function applySavedProfiles() {
       }
     }
   } else {
+    console.error(parsedProfiles.error);
     profiles = [];
   }
 }
@@ -256,17 +257,17 @@ function printGrid(level: Lvl) {
   let currentGrid: number[][];
 
   switch (level) {
-    case Levels.one: {
+    case 1: {
       currentGrid = gridLvl1;
 
       break;
     }
-    case Levels.two: {
+    case 2: {
       currentGrid = gridLvl2;
 
       break;
     }
-    case Levels.zero: {
+    case 0: {
       currentGrid = gridLvl0;
 
       break;
@@ -559,43 +560,29 @@ function clearGrid() {
   }
 }
 
-function normalizeRoom(string: string): Room | null {
-  const normalized = string
-    .toUpperCase()
-    .replace("-", "")
-    .replace("_", "")
-    .replace("#", "")
-    .replace("/", "");
-
-  if (Object.hasOwn(rooms, normalized)) {
-    return normalized as Room;
-  }
-  return null;
-}
-
 function passingTime(num: number, profNum: number) {
-  const startString = normalizeRoom(profiles[profNum]![num]![0]!);
-  const endString = normalizeRoom(profiles[profNum]![num + 1]![0]!);
+  const startString = roomSchema.safeParse(profiles[profNum]![num]![0]!);
+  const endString = roomSchema.safeParse(profiles[profNum]![num + 1]![0]!);
 
   clearGrid();
 
-  if (startString === null) {
+  if (startString.success) {
+    start = startString.data;
+    document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML = "";
+    stinv1 = 0;
+  } else {
     document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML =
       "Invalid Room Number";
     stinv1 = 1;
-  } else {
-    start = startString;
-    document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML = "";
-    stinv1 = 0;
   }
-  if (endString === null) {
+  if (endString.success) {
+    end = endString.data;
+    document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML = "";
+    stinv2 = 0;
+  } else {
     document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML =
       "Invalid Room Number";
     stinv2 = 1;
-  } else {
-    end = endString;
-    document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML = "";
-    stinv2 = 0;
   }
 
   if (stinv1 === 0 && stinv2 === 0) {
@@ -682,17 +669,17 @@ let old: number;
 
 function onKeyDown(event: KeyboardEvent) {
   switch (viewLvl) {
-    case Levels.one: {
+    case 1: {
       grid = gridLvl1;
 
       break;
     }
-    case Levels.two: {
+    case 2: {
       grid = gridLvl2;
 
       break;
     }
-    case Levels.zero: {
+    case 0: {
       grid = gridLvl0;
 
       break;
