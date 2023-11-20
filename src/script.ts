@@ -100,11 +100,8 @@ function toggleNav(isOpen: boolean) {
   const remove = isOpen ? close : open;
   const add = isOpen ? open : close;
 
-  sidenav.classList.remove(remove);
-  document.body.classList.remove(`${remove}-body`);
-
-  sidenav.classList.add(add);
-  document.body.classList.add(`${add}-body`);
+  sidenav.classList.replace(remove, add);
+  document.body.classList.replace(`${remove}-body`, `${add}-body`);
 }
 window.toggleNav = toggleNav;
 
