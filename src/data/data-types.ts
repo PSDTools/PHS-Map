@@ -10,18 +10,20 @@ type Room = keyof Rooms;
 
 const levelSchema = z.array(z.array(z.number()));
 
+function normalizeRoomString(room: string): string {
+  return room
+    .normalize()
+    .replaceAll("-", "")
+    .replaceAll("_", "")
+    .replaceAll("#", "")
+    .replaceAll("/", "");
+}
+
 const roomSchema = z
   .string()
   .toUpperCase()
   .trim()
-  .transform((val) =>
-    val
-      .normalize()
-      .replaceAll("-", "")
-      .replaceAll("_", "")
-      .replaceAll("#", "")
-      .replaceAll("/", ""),
-  )
+  .transform(normalizeRoomString)
   .refine((val) => Object.hasOwn(rooms, val))
   .transform((val) => val as Room);
 
