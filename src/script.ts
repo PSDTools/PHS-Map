@@ -203,7 +203,7 @@ function createCourse(num: number, profNum: number) {
 
 async function applySavedProfiles() {
   const parsedProfiles = profilesListSchema.safeParse(
-    await storage.getItem("profiles"),
+    (await storage.getItem("profiles")) as unknown,
   );
 
   if (parsedProfiles.success) {
@@ -245,7 +245,7 @@ async function remProf(profNum: number) {
     id="tempProf1"
   ></div>`;
 
-  await storage.setItem("profiles", JSON.stringify(profiles));
+  await storage.setItem("profiles", profiles);
 
   await applySavedProfiles();
 }
@@ -378,7 +378,7 @@ async function locateCourses(profNum: number) {
       document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
     ).value;
   }
-  await storage.setItem("profiles", JSON.stringify(profiles));
+  await storage.setItem("profiles", profiles);
 }
 window.locateCourses = locateCourses;
 
@@ -655,7 +655,7 @@ async function startApp() {
   lvl(1);
   await applySavedProfiles();
 
-  if ((await storage.getItem("shade")) === "dark") {
+  if (((await storage.getItem("shade")) as unknown) === "dark") {
     await toggleDarkMode();
   }
 }
