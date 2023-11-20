@@ -6,30 +6,30 @@ import "./styles/style.css";
 
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faXmark,
   faBars,
   faCircleChevronDown,
   faCircleChevronUp,
-  faPlus,
   faDownLong,
+  faPlus,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import * as PF from "pathfinding";
 import { createStorage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
-import gridLvl0 from "./data/level0.ts";
-import gridLvl1 from "./data/level1.ts";
-import gridLvl2 from "./data/level2.ts";
-import { rooms } from "./data/rooms.ts";
-import { stairs, btmStairs } from "./data/stairs.ts";
 import {
+  profilesListSchema,
+  roomSchema,
   type Level,
   type Lvl,
   type ProfilesList,
   type Room,
-  roomSchema,
-  profilesListSchema,
 } from "./data/data-types.ts";
+import gridLvl0 from "./data/level0.ts";
+import gridLvl1 from "./data/level1.ts";
+import gridLvl2 from "./data/level2.ts";
+import { rooms } from "./data/rooms.ts";
+import { btmStairs, stairs } from "./data/stairs.ts";
 
 const storage = createStorage({ driver: localStorageDriver({}) });
 

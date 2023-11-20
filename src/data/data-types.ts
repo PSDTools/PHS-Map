@@ -54,8 +54,8 @@ const coordsSchema = z.tuple([z.number(), z.number()]).readonly();
 const stairListSchema = z.record(z.number(), coordsSchema);
 
 export {
-  roomSchema,
   profilesListSchema,
+  roomSchema,
   type Level,
   type Lvl,
   type ProfilesList,

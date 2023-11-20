@@ -16,4 +16,4 @@ const btmStairs: StairList = {
   1: [71, 154],
 };
 
-export { stairs, btmStairs };
+export { btmStairs, stairs };
