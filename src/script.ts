@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import * as PF from "pathfinding";
-import { createStorage } from "unstorage";
+import { createStorage, type Storage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
 import {
   profilesListSchema,
@@ -31,7 +31,9 @@ import gridLvl2 from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
-const storage = createStorage({ driver: localStorageDriver({}) });
+const storage: Storage = createStorage({
+  driver: localStorageDriver({}),
+});
 
 declare global {
   interface Window {
@@ -93,8 +95,8 @@ dom.watch();
  *
  * @param isOpen - True if the nav should be open, false if it should be closed.
  */
-function toggleNav(isOpen: boolean) {
-  const sidenav = document.getElementById("my-sidenav")!;
+function toggleNav(isOpen: boolean): void {
+  const sidenav: HTMLElement = document.getElementById("my-sidenav")!;
   const open = "open-nav";
   const close = "close-nav";
   const remove = isOpen ? close : open;
@@ -105,13 +107,13 @@ function toggleNav(isOpen: boolean) {
 }
 window.toggleNav = toggleNav;
 
-async function clearAll() {
+async function clearAll(): Promise<void> {
   await storage.clear();
   window.location.reload();
 }
 window.clearAll = clearAll;
 
-function createProfile(profNum: number) {
+function createProfile(profNum: number): void {
   prof = profNum;
   const tempElementId = `tempProf${prof}`;
   const tempElementIdNext = `tempProf${profNum + 1}`;
@@ -155,7 +157,7 @@ function createProfile(profNum: number) {
     <div class="container" id="${tempElementIdNext}"></div>`;
 }
 
-function createCourse(num: number, profNum: number) {
+function createCourse(num: number, profNum: number): void {
   numNext = num + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
@@ -198,7 +200,7 @@ function createCourse(num: number, profNum: number) {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-async function applySavedProfiles() {
+async function applySavedProfiles(): Promise<void> {
   const parsedProfiles = profilesListSchema.safeParse(
     (await storage.getItem("profiles")) as unknown,
   );
@@ -233,7 +235,7 @@ async function applySavedProfiles() {
   }
 }
 
-async function remProf(profNum: number) {
+async function remProf(profNum: number): Promise<void> {
   profiles.splice(profNum, 1);
   profiles[0]!.splice(profNum, 1);
 
@@ -248,7 +250,7 @@ async function remProf(profNum: number) {
 }
 window.remProf = remProf;
 
-function printGrid(level: Lvl) {
+function printGrid(level: Lvl): void {
   let currentGrid: number[][];
 
   switch (level) {
@@ -329,7 +331,7 @@ function printGrid(level: Lvl) {
   ctx.fillText(`Level ${level}`, (size / 8) * 7 + size / 100, (size / 50) * 49);
 }
 
-function createCanvas() {
+function createCanvas(): void {
   canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
   ctx = canvas.getContext("2d")!;
   size = document.getElementById("c")!.offsetWidth - 48;
@@ -338,7 +340,7 @@ function createCanvas() {
   printGrid(viewLvl);
 }
 
-function courseLoop(profNum: number) {
+function courseLoop(profNum: number): void {
   prof = profNum;
   coursesAmt =
     parseInt(
@@ -353,7 +355,7 @@ function courseLoop(profNum: number) {
 }
 window.courseLoop = courseLoop;
 
-async function locateCourses(profNum: number) {
+async function locateCourses(profNum: number): Promise<void> {
   prof = profNum;
   profiles[profNum] = [];
   if (profiles[0] === undefined) {
@@ -379,7 +381,7 @@ async function locateCourses(profNum: number) {
 }
 window.locateCourses = locateCourses;
 
-async function addProf() {
+async function addProf(): Promise<void> {
   profNum = document.querySelectorAll(".prof").length;
   if (profNum === 0) {
     createProfile(profNum + 1);
@@ -390,7 +392,7 @@ async function addProf() {
 }
 window.addProf = addProf;
 
-function lvl(level: Lvl) {
+function lvl(level: Lvl): void {
   viewLvl = level;
   source = document.getElementById(`LVL${level}`) as HTMLImageElement;
   createCanvas();
@@ -403,7 +405,7 @@ function path(
   y1: number,
   x2: number,
   y2: number,
-) {
+): void {
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
   const directions = finder.findPath(x1, y1, x2, y2, matrix);
@@ -446,7 +448,7 @@ function mainToBtm(
   sy1: number,
   flr1: Lvl,
   flr2: Lvl,
-) {
+): void {
   if (flr1 === 1) {
     stairPath(x1, y1, sx1, sy1, flr1);
   }
@@ -462,7 +464,7 @@ function btmPath(
   y2: number,
   flr1: Lvl,
   flr2: Lvl,
-) {
+): void {
   if (flr1 !== 0) {
     tempdist = [];
     tempdist1 = [];
@@ -529,7 +531,7 @@ function btmPath(
   }
 }
 
-function clearGrid() {
+function clearGrid(): void {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
