@@ -188,7 +188,7 @@ function createCourse(num: string, profNum: string) {
     <p class="inv" id="inv${num}${prof}"></p>
     <p></p>
     <div>
-      <span class="containerinpt display-none" id="passing${num}${prof}">
+      <span class="containerinpt" id="passing${num}${prof}">
         <button
           class="purple btninpt showpth"
           onclick="passingTime(${parseInt(num) - 1}, ${profNum})"
@@ -203,7 +203,7 @@ function createCourse(num: string, profNum: string) {
 
 async function applySavedProfiles() {
   const parsedProfiles = profilesListSchema.safeParse(
-    window.JSON.parse((await storage.getItem("profiles"))!),
+    await storage.getItem("profiles"),
   );
 
   if (parsedProfiles.success) {
@@ -227,13 +227,11 @@ async function applySavedProfiles() {
           lastPass.classList.add("display-block");
         }
         const lastPass = document.getElementById(`passing${f}${i}`)!;
-        console.warn(lastPass);
         lastPass.classList.remove("display-block");
         lastPass.classList.add("display-none");
       }
     }
   } else {
-    console.error(parsedProfiles.error);
     profiles = [];
   }
 }
