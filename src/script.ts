@@ -13,7 +13,7 @@ import {
   faPlus,
   faDownLong,
 } from "@fortawesome/free-solid-svg-icons";
-import jQuery from "jquery";
+import $ from "jquery";
 import * as PF from "pathfinding";
 import { createStorage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
@@ -724,7 +724,7 @@ window.downloadImg = downloadImg;
 /**
  * Make "Smooth Scroll" Buttons?
  */
-jQuery(($: JQueryStatic) => {
+$(($) => {
   // Add smooth scrolling to all links
   $<HTMLAnchorElement>("a").on("click", function (event) {
     // Make sure this.hash has a value before overriding default behavior.
