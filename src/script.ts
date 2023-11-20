@@ -58,7 +58,7 @@ let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;
 let profNum: number;
-let prof: string;
+let prof: number;
 let numNext: number;
 let start: Room;
 let end: Room;
@@ -115,7 +115,7 @@ async function clearAll() {
 window.clearAll = clearAll;
 
 function createProfile(profNum: number) {
-  prof = String(profNum);
+  prof = profNum;
   const tempElementId = `tempProf${prof}`;
   const tempElementIdNext = `tempProf${profNum + 1}`;
   // Creates html elements in the courses class.
@@ -158,8 +158,8 @@ function createProfile(profNum: number) {
     <div class="container" id="${tempElementIdNext}"></div>`;
 }
 
-function createCourse(num: string, profNum: string) {
-  numNext = parseInt(num) + 1;
+function createCourse(num: number, profNum: number) {
+  numNext = num + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
   // Creates html elements in the courses class.
@@ -191,7 +191,7 @@ function createCourse(num: string, profNum: string) {
       <span class="containerinpt" id="passing${num}${prof}">
         <button
           class="purple btninpt showpth"
-          onclick="passingTime(${parseInt(num) - 1}, ${profNum})"
+          onclick="passingTime(${num - 1}, ${profNum})"
         >
           Show Path
           <span class="big-text"><i class="fa-solid fa-down-long"></i></span>
@@ -213,7 +213,7 @@ async function applySavedProfiles() {
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
         profiles[0]![i]! as string;
       for (let f = 1; f < profiles[i]!.length + 1; f++) {
-        createCourse(String(f), String(i));
+        createCourse(f, i);
         (
           document.getElementById(`rmnum${f}${i}txt`) as HTMLInputElement
         ).value = profiles[i]![f - 1]![0]!;
@@ -342,14 +342,14 @@ function createCanvas() {
 }
 
 function courseLoop(profNum: number) {
-  prof = String(profNum);
+  prof = profNum;
   coursesAmt =
     parseInt(
       (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
     for (let i = 1; i < coursesAmt; i++) {
-      createCourse(`${i}`, prof);
+      createCourse(i, prof);
     }
     document.getElementById(`passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
   }
@@ -357,7 +357,7 @@ function courseLoop(profNum: number) {
 window.courseLoop = courseLoop;
 
 async function locateCourses(profNum: number) {
-  prof = String(profNum);
+  prof = profNum;
   profiles[profNum] = [];
   if (profiles[0] === undefined) {
     profiles[0] = [null, ""];
