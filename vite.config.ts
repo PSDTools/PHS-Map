@@ -13,6 +13,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
       },
     },
+    target: ["esnext"],
   },
   plugins: [
     webfontDownload(["https://fonts.googleapis.com/css?family=Lato"]),
