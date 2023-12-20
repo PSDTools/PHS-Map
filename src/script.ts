@@ -215,14 +215,12 @@ async function applySavedProfiles(): Promise<void> {
         (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
           profiles[i]![f - 1]![1]!;
         if (f !== 1) {
-          {
-            const lastPass = document.getElementById(`passing${f - 1}${i}`)!;
-            lastPass.classList.remove("display-none");
-            lastPass.classList.add("display-block");
-          }
-          const lastPass = document.getElementById(`passing${f}${i}`)!;
-          lastPass.classList.remove("display-block");
-          lastPass.classList.add("display-none");
+          document
+            .getElementById(`passing${f - 1}${i}`)!
+            .classList.replace("display-block", "display-none");
+          document
+            .getElementById(`passing${f}${i}`)!
+            .classList.replace("display-block", "display-none");
         }
       }
     }
