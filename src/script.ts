@@ -198,9 +198,8 @@ function createCourse(num: number, profNum: number): void {
 }
 
 async function applySavedProfiles(): Promise<void> {
-  const parsedProfiles = profilesListSchema.safeParse(
-    (await storage.getItem("profiles")) as unknown,
-  );
+  const unparsedProfiles = await storage.getItem("profiles");
+  const parsedProfiles = profilesListSchema.safeParse(unparsedProfiles);
 
   if (parsedProfiles.success) {
     profiles = parsedProfiles.data;
@@ -215,16 +214,16 @@ async function applySavedProfiles(): Promise<void> {
         ).value = profiles[i]![f - 1]![0]!;
         (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
           profiles[i]![f - 1]![1]!;
-        if (f === 1) {
-          break;
-        } else {
-          const lastPass = document.getElementById(`passing${f - 1}${i}`)!;
-          lastPass.classList.remove("display-none");
-          lastPass.classList.add("display-block");
+        if (f !== 1) {
+          {
+            const lastPass = document.getElementById(`passing${f - 1}${i}`)!;
+            lastPass.classList.remove("display-none");
+            lastPass.classList.add("display-block");
+          }
+          const lastPass = document.getElementById(`passing${f}${i}`)!;
+          lastPass.classList.remove("display-block");
+          lastPass.classList.add("display-none");
         }
-        const lastPass = document.getElementById(`passing${f}${i}`)!;
-        lastPass.classList.remove("display-block");
-        lastPass.classList.add("display-none");
       }
     }
   } else {
@@ -560,7 +559,7 @@ function passingTime(num: number, profNum: number) {
 
   clearGrid();
 
-  if (startString.success) {
+  if (startString.success && startString.data !== "") {
     start = startString.data;
     document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML = "";
     stinv1 = 0;
@@ -569,7 +568,7 @@ function passingTime(num: number, profNum: number) {
       "Invalid Room Number";
     stinv1 = 1;
   }
-  if (endString.success) {
+  if (endString.success && endString.data !== "") {
     end = endString.data;
     document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML = "";
     stinv2 = 0;

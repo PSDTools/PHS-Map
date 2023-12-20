@@ -24,8 +24,8 @@ const roomSchema = z
   .toUpperCase()
   .trim()
   .transform(normalizeRoomString)
-  .refine((val) => Object.hasOwn(rooms, val))
-  .transform((val) => val as Room);
+  .refine((val) => Object.hasOwn(rooms, val) || val === "")
+  .transform((val) => val as Room | "");
 
 const profilesSchema = z.union([
   z.tuple([z.null()]).rest(z.union([z.string(), z.string().array()])),
