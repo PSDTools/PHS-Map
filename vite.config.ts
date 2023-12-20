@@ -26,9 +26,8 @@ export default defineConfig({
       },
       srcDir: "src",
       filename: "sw.ts",
-      devOptions: {
-        enabled: false,
-        type: "module",
+      workbox: {
+        cleanupOutdatedCaches: true,
       },
       manifest: {
         id: "/PHS-Map/",

@@ -17,6 +17,7 @@ import $ from "jquery";
 import * as PF from "pathfinding";
 import { createStorage, type Storage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
+import { registerSW } from "virtual:pwa-register";
 import {
   profilesListSchema,
   roomSchema,
@@ -30,6 +31,37 @@ import gridLvl1 from "./data/level1.ts";
 import gridLvl2 from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
+
+const intervalMS = 60 * 60 * 1000;
+
+const updateSW = registerSW({
+  onRegisteredSW(swUrl, r) {
+    r &&
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      setInterval(async () => {
+        if (r.installing) {
+          return;
+        }
+
+        if (Object.hasOwn(navigator, "connection") && !navigator.onLine) {
+          return;
+        }
+
+        const resp = await fetch(swUrl, {
+          cache: "no-store",
+          headers: {
+            cache: "no-store",
+            "cache-control": "no-cache",
+          },
+        });
+
+        if (resp.status === 200) {
+          await r.update();
+        }
+      }, intervalMS);
+  },
+});
+await updateSW(true);
 
 const storage: Storage = createStorage({
   driver: localStorageDriver({}),

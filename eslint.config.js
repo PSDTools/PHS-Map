@@ -43,6 +43,7 @@ export default defineFlatConfig([
       "no-negated-condition": "off",
       "unicorn/no-negated-condition": "error",
       "@typescript-eslint/ban-ts-comment": "error",
+      "import/no-unresolved": [2, { ignore: ["^virtual:pwa-register$"] }],
     },
   },
 ]);
