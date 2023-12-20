@@ -184,7 +184,7 @@ function createCourse(num: number, profNum: number): void {
     <p class="inv" id="inv${num}${prof}"></p>
     <p></p>
     <div>
-      <span class="containerinpt" id="passing${num}${prof}">
+      <span class="containerinpt display-block" id="passing${num}${prof}">
         <button
           class="purple btninpt showpth"
           onclick="passingTime(${num - 1}, ${profNum})"
@@ -214,15 +214,13 @@ async function applySavedProfiles(): Promise<void> {
         ).value = profiles[i]![f - 1]![0]!;
         (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
           profiles[i]![f - 1]![1]!;
-        if (f !== 1) {
-          document
-            .getElementById(`passing${f - 1}${i}`)!
-            .classList.replace("display-block", "display-none");
-          document
-            .getElementById(`passing${f}${i}`)!
-            .classList.replace("display-block", "display-none");
-        }
       }
+
+      const lastCourseIndex = profiles[i]!.length;
+      const lastCourse = document.getElementById(
+        `passing${lastCourseIndex}${i}`,
+      )!;
+      lastCourse.classList.replace("display-block", "display-none");
     }
   } else {
     profiles = [];
