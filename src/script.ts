@@ -141,10 +141,7 @@ function createProfile(profNum: number): void {
         type="number"
         placeholder="Num of classes in schedule"
       />
-      <button
-        class="pink containerinpt"
-        onclick="courseLoop(${profNum})"
-      >
+      <button class="pink containerinpt" onclick="courseLoop(${profNum})">
         Submit
       </button>
       <div class="selectionbox w3-animate-right" id="temp${prof}1">
