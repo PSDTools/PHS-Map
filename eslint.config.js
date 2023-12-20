@@ -1,5 +1,5 @@
 // @ts-check
-import sheriff from "eslint-config-sheriff";
+import { sheriff } from "eslint-config-sheriff";
 import { defineFlatConfig } from "eslint-define-config";
 
 const sheriffOptions = {
