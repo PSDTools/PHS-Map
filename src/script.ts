@@ -134,6 +134,8 @@ function toggleNav(isOpen: boolean): void {
   const remove = isOpen ? close : open;
   const add = isOpen ? open : close;
 
+  sidenav?.classList.add(remove);
+  document.body.classList.add(`${remove}-body`);
   sidenav?.classList.replace(remove, add);
   document.body.classList.replace(`${remove}-body`, `${add}-body`);
 }
@@ -661,6 +663,10 @@ async function toggleDarkMode() {
   const c2 = document.getElementById("c2");
   c2?.classList.toggle("darkMode");
   c2?.classList.toggle("lightMode");
+
+  const bg = document.getElementById("bg");
+  bg?.classList.toggle("darkMode");
+  bg?.classList.toggle("lightMode");
 
   for (let i = 0; i < profiles.length; i++) {
     document.getElementById(`profBox${i}`);
