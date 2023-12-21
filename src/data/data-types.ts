@@ -32,15 +32,7 @@ const profilesSchema = z.union([
   z.tuple([]),
 ]);
 
-const profileSchema = z.array(
-  z.tuple([
-    z.string().transform((val) => {
-      const parsed = roomSchema.safeParse(val);
-      return parsed.success ? parsed.data : z.NEVER;
-    }),
-    z.string(),
-  ]),
-);
+const profileSchema = z.array(z.tuple([roomSchema, z.string()]));
 
 const profilesListSchema = z.union([
   z.tuple([profilesSchema]).rest(profileSchema),
