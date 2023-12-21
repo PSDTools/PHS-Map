@@ -18,6 +18,7 @@ import * as PF from "pathfinding";
 import { createStorage, type Storage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
 import { registerSW } from "virtual:pwa-register";
+import { fromZodError } from "zod-validation-error";
 import {
   profilesListSchema,
   roomSchema,
@@ -251,6 +252,10 @@ async function applySavedProfiles(): Promise<void> {
       lastCourse?.classList.replace("display-block", "display-none");
     }
   } else {
+    const error = fromZodError(parsedProfiles.error).toString();
+    document.getElementById(`zod-error`)!.innerHTML = error;
+    console.error(error);
+
     profiles = [];
   }
 }
