@@ -43,7 +43,17 @@ const lvlSchema = z.union([z.literal(1), z.literal(2), z.literal(0)]);
 
 const coordsSchema = z.tuple([z.number(), z.number()]).readonly();
 
-const stairListSchema = z.record(z.number(), coordsSchema);
+const stairListSchema = z.record(
+  z.string().refine((val) => {
+    try {
+      Number.parseInt(val);
+    } catch {
+      return false;
+    }
+    return true;
+  }),
+  coordsSchema,
+);
 
 export {
   profilesListSchema,

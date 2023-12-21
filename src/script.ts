@@ -445,15 +445,15 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   tempdist1 = [];
   for (let i = 0; i < 8; i++) {
     tempdist1.push(
-      Math.abs(x1 - (stairs[i]?.[0] ?? 0)) +
-        Math.abs(y1 - (stairs[i]?.[1] ?? 0)),
+      Math.abs(x1 - (stairs[i.toString()]?.[0] ?? 0)) +
+        Math.abs(y1 - (stairs[i.toString()]?.[1] ?? 0)),
     );
   }
   tempdist2 = [];
   for (let i = 0; i < 8; i++) {
     tempdist2.push(
-      Math.abs(x2 - (stairs[i]?.[0] ?? 0)) +
-        Math.abs(y2 - (stairs[i]?.[1] ?? 0)),
+      Math.abs(x2 - (stairs[i.toString()]?.[0] ?? 0)) +
+        Math.abs(y2 - (stairs[i.toString()]?.[1] ?? 0)),
     );
   }
   for (const [i, element] of tempdist1.entries()) {
@@ -461,8 +461,8 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   }
   min = Math.min(...tempdist);
   indexmin = tempdist.indexOf(min);
-  sx1 = stairs[indexmin]?.[0] ?? 0;
-  sy1 = stairs[indexmin]?.[1] ?? 0;
+  sx1 = stairs[indexmin.toString()]?.[0] ?? 0;
+  sy1 = stairs[indexmin.toString()]?.[1] ?? 0;
   if (fl === 2) {
     path(gridLvl2, x1, y1, sx1, sy1);
     path(gridLvl1, sx1, sy1, x2, y2);
@@ -501,15 +501,15 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 2; i++) {
       tempdist1.push(
-        Math.abs(x1 - (btmStairs[i]?.[0] ?? 0)) +
-          Math.abs(y1 - (btmStairs[i]?.[1] ?? 0)),
+        Math.abs(x1 - (btmStairs[i.toString()]?.[0] ?? 0)) +
+          Math.abs(y1 - (btmStairs[i.toString()]?.[1] ?? 0)),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 2; i++) {
       tempdist2.push(
-        Math.abs(x2 - (btmStairs[i]?.[0] ?? 0)) +
-          Math.abs(y2 - (btmStairs[i]?.[1] ?? 0)),
+        Math.abs(x2 - (btmStairs[i.toString()]?.[0] ?? 0)) +
+          Math.abs(y2 - (btmStairs[i.toString()]?.[1] ?? 0)),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
@@ -517,8 +517,8 @@ function btmPath(
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]?.[0] ?? 0;
-    sy1 = btmStairs[indexmin]?.[1] ?? 0;
+    sx1 = btmStairs[indexmin.toString()]?.[0] ?? 0;
+    sy1 = btmStairs[indexmin.toString()]?.[1] ?? 0;
 
     if (flr1 === 2) {
       path(gridLvl2, x1, y1, sx1, sy1);
@@ -529,17 +529,17 @@ function btmPath(
     tempdist = [];
     tempdist1 = [];
     for (let i = 0; i < 1; i++) {
-      const newLocal = btmStairs[i];
+      const newLocal = btmStairs[i.toString()];
       tempdist1.push(
         Math.abs(x1 - (newLocal?.[0] ?? 0)) +
-          Math.abs(y1 - (btmStairs[i]?.[1] ?? 0)),
+          Math.abs(y1 - (btmStairs[i.toString()]?.[1] ?? 0)),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 1; i++) {
       tempdist2.push(
-        Math.abs(x2 - (btmStairs[i]?.[0] ?? 0)) +
-          Math.abs(y2 - (btmStairs[i]?.[1] ?? 0)),
+        Math.abs(x2 - (btmStairs[i.toString()]?.[0] ?? 0)) +
+          Math.abs(y2 - (btmStairs[i.toString()]?.[1] ?? 0)),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
@@ -547,8 +547,8 @@ function btmPath(
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]?.[0] ?? 0;
-    sy1 = btmStairs[indexmin]?.[1] ?? 0;
+    sx1 = btmStairs[indexmin.toString()]?.[0] ?? 0;
+    sy1 = btmStairs[indexmin.toString()]?.[1] ?? 0;
     if (flr2 === 2) {
       path(gridLvl2, x2, y2, sx1, sy1);
     } else {
