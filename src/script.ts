@@ -128,13 +128,13 @@ dom.watch();
  * @param isOpen - True if the nav should be open, false if it should be closed.
  */
 function toggleNav(isOpen: boolean): void {
-  const sidenav: HTMLElement = document.getElementById("my-sidenav")!;
+  const sidenav = document.getElementById("my-sidenav");
   const open = "open-nav";
   const close = "close-nav";
   const remove = isOpen ? close : open;
   const add = isOpen ? open : close;
 
-  sidenav.classList.replace(remove, add);
+  sidenav?.classList.replace(remove, add);
   document.body.classList.replace(`${remove}-body`, `${add}-body`);
 }
 window.toggleNav = toggleNav;
@@ -166,7 +166,6 @@ function createProfile(profNum: number): void {
           placeholder="Schedule Name"
         />
       </div>
-      <p></p>
       <input
         class="pink containerinpt"
         id="num${prof}"
@@ -176,12 +175,8 @@ function createProfile(profNum: number): void {
       <button class="pink containerinpt" onclick="courseLoop(${profNum})">
         Submit
       </button>
-      <div class="selectionbox w3-animate-right" id="temp${prof}1">
-        <p></p>
-      </div>
-      <p></p>
+      <div class="selectionbox w3-animate-right" id="temp${prof}1"></div>
     </div>
-    <p></p>
     <div class="margin" id="profspacer1"></div>
     <div class="container" id="${tempElementIdNext}"></div>`;
 }
@@ -214,7 +209,6 @@ function createCourse(num: number, profNum: number): void {
       />
     </div>
     <p class="inv" id="inv${num}${prof}"></p>
-    <p></p>
     <div>
       <span class="containerinpt display-block" id="passing${num}${prof}">
         <button
@@ -238,21 +232,21 @@ async function applySavedProfiles(): Promise<void> {
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
-        profiles[0]![i]! as string;
-      for (let f = 1; f < profiles[i]!.length + 1; f++) {
+        (profiles[0]?.[i] ?? "") as string;
+      for (let f = 1; f < (profiles[i]?.length ?? 0) + 1; f++) {
         createCourse(f, i);
         (
           document.getElementById(`rmnum${f}${i}txt`) as HTMLInputElement
-        ).value = profiles[i]![f - 1]![0]!;
+        ).value = profiles[i]?.[f - 1]?.[0] ?? "";
         (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
-          profiles[i]![f - 1]![1]!;
+          profiles[i]?.[f - 1]?.[1] ?? "";
       }
 
-      const lastCourseIndex = profiles[i]!.length;
+      const lastCourseIndex = profiles[i]?.length;
       const lastCourse = document.getElementById(
         `passing${lastCourseIndex}${i}`,
-      )!;
-      lastCourse.classList.replace("display-block", "display-none");
+      );
+      lastCourse?.classList.replace("display-block", "display-none");
     }
   } else {
     profiles = [];
@@ -261,7 +255,7 @@ async function applySavedProfiles(): Promise<void> {
 
 async function remProf(profNum: number): Promise<void> {
   profiles.splice(profNum, 1);
-  profiles[0]!.splice(profNum, 1);
+  profiles[0]?.splice(profNum, 1);
 
   window.document.getElementById("profiles")!.innerHTML = `<div
     class=""
@@ -298,8 +292,8 @@ function printGrid(level: Lvl): void {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < currentGrid.length; y++) {
-    for (let x = 0; x < currentGrid[y]!.length; x++) {
-      switch (currentGrid[x]![y]) {
+    for (let x = 0; x < (currentGrid[y]?.length ?? 0); x++) {
+      switch (currentGrid[x]?.[y]) {
         case -2: {
           ctx.fillStyle = "#00FFFF";
           ctx.fillRect(
@@ -358,7 +352,7 @@ function printGrid(level: Lvl): void {
 function createCanvas(): void {
   canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
   ctx = canvas.getContext("2d")!;
-  size = document.getElementById("c")!.offsetWidth - 48;
+  size = (document.getElementById("c")?.offsetWidth ?? 0) - 48;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
   printGrid(viewLvl);
@@ -443,19 +437,25 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   tempdist = [];
   tempdist1 = [];
   for (let i = 0; i < 8; i++) {
-    tempdist1.push(Math.abs(x1 - stairs[i]![0]) + Math.abs(y1 - stairs[i]![1]));
+    tempdist1.push(
+      Math.abs(x1 - (stairs[i]?.[0] ?? 0)) +
+        Math.abs(y1 - (stairs[i]?.[1] ?? 0)),
+    );
   }
   tempdist2 = [];
   for (let i = 0; i < 8; i++) {
-    tempdist2.push(Math.abs(x2 - stairs[i]![0]) + Math.abs(y2 - stairs[i]![1]));
+    tempdist2.push(
+      Math.abs(x2 - (stairs[i]?.[0] ?? 0)) +
+        Math.abs(y2 - (stairs[i]?.[1] ?? 0)),
+    );
   }
   for (const [i, element] of tempdist1.entries()) {
-    tempdist.push(element + tempdist2[i]!);
+    tempdist.push(element + (tempdist2[i] ?? 0));
   }
   min = Math.min(...tempdist);
   indexmin = tempdist.indexOf(min);
-  sx1 = stairs[indexmin]![0];
-  sy1 = stairs[indexmin]![1];
+  sx1 = stairs[indexmin]?.[0] ?? 0;
+  sy1 = stairs[indexmin]?.[1] ?? 0;
   if (fl === 2) {
     path(gridLvl2, x1, y1, sx1, sy1);
     path(gridLvl1, sx1, sy1, x2, y2);
@@ -494,22 +494,24 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 2; i++) {
       tempdist1.push(
-        Math.abs(x1 - btmStairs[i]![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
+        Math.abs(x1 - (btmStairs[i]?.[0] ?? 0)) +
+          Math.abs(y1 - (btmStairs[i]?.[1] ?? 0)),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 2; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
+        Math.abs(x2 - (btmStairs[i]?.[0] ?? 0)) +
+          Math.abs(y2 - (btmStairs[i]?.[1] ?? 0)),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]!);
+      tempdist.push(element + (tempdist2[i] ?? 0));
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]![0]!;
-    sy1 = btmStairs[indexmin]![1]!;
+    sx1 = btmStairs[indexmin]?.[0] ?? 0;
+    sy1 = btmStairs[indexmin]?.[1] ?? 0;
 
     if (flr1 === 2) {
       path(gridLvl2, x1, y1, sx1, sy1);
@@ -522,22 +524,24 @@ function btmPath(
     for (let i = 0; i < 1; i++) {
       const newLocal = btmStairs[i];
       tempdist1.push(
-        Math.abs(x1 - newLocal![0]!) + Math.abs(y1 - btmStairs[i]![1]!),
+        Math.abs(x1 - (newLocal?.[0] ?? 0)) +
+          Math.abs(y1 - (btmStairs[i]?.[1] ?? 0)),
       );
     }
     tempdist2 = [];
     for (let i = 0; i < 1; i++) {
       tempdist2.push(
-        Math.abs(x2 - btmStairs[i]![0]!) + Math.abs(y2 - btmStairs[i]![1]!),
+        Math.abs(x2 - (btmStairs[i]?.[0] ?? 0)) +
+          Math.abs(y2 - (btmStairs[i]?.[1] ?? 0)),
       );
     }
     for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + tempdist2[i]!);
+      tempdist.push(element + (tempdist2[i] ?? 0));
     }
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin]![0]!;
-    sy1 = btmStairs[indexmin]![1]!;
+    sx1 = btmStairs[indexmin]?.[0] ?? 0;
+    sy1 = btmStairs[indexmin]?.[1] ?? 0;
     if (flr2 === 2) {
       path(gridLvl2, x2, y2, sx1, sy1);
     } else {
@@ -559,22 +563,22 @@ function clearGrid(): void {
   const img = source;
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
-    for (let x = 0; x < gridLvl0[y]!.length; x++) {
-      if (gridLvl0[x]![y] === -4) {
+    for (let x = 0; x < (gridLvl0[y]?.length ?? 0); x++) {
+      if (gridLvl0[x]?.[y] === -4) {
         gridLvl0[x]![y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl1.length; y++) {
-    for (let x = 0; x < gridLvl1[y]!.length; x++) {
-      if (gridLvl1[x]![y] === -4) {
+    for (let x = 0; x < (gridLvl1[y]?.length ?? 0); x++) {
+      if (gridLvl1[x]?.[y] === -4) {
         gridLvl1[x]![y] = 0;
       }
     }
   }
   for (let y = 0; y < gridLvl2.length; y++) {
-    for (let x = 0; x < gridLvl2[y]!.length; x++) {
-      if (gridLvl2[x]![y] === -4) {
+    for (let x = 0; x < (gridLvl2[y]?.length ?? 0); x++) {
+      if (gridLvl2[x]?.[y] === -4) {
         gridLvl2[x]![y] = 0;
       }
     }
@@ -582,8 +586,8 @@ function clearGrid(): void {
 }
 
 function passingTime(num: number, profNum: number) {
-  const startString = roomSchema.safeParse(profiles[profNum]![num]![0]!);
-  const endString = roomSchema.safeParse(profiles[profNum]![num + 1]![0]!);
+  const startString = roomSchema.safeParse(profiles[profNum]?.[num]?.[0]);
+  const endString = roomSchema.safeParse(profiles[profNum]?.[num + 1]?.[0]);
 
   clearGrid();
 
@@ -607,12 +611,12 @@ function passingTime(num: number, profNum: number) {
   }
 
   if (stinv1 === 0 && stinv2 === 0) {
-    x1 = rooms[start]![0];
-    y1 = rooms[start]![1];
-    flr1 = rooms[start]![2];
-    x2 = rooms[end]![0];
-    y2 = rooms[end]![1];
-    flr2 = rooms[end]![2];
+    x1 = rooms[start][0];
+    y1 = rooms[start][1];
+    flr1 = rooms[start][2];
+    x2 = rooms[end][0];
+    y2 = rooms[end][1];
+    flr2 = rooms[end][2];
 
     if (flr1 === 1 && flr2 === 1) {
       grid = gridLvl1;
@@ -651,20 +655,20 @@ async function toggleDarkMode() {
   element.classList.toggle("lightModebg");
 
   const c = document.getElementById("c");
-  c!.classList.toggle("darkMode");
-  c!.classList.toggle("lightMode");
+  c?.classList.toggle("darkMode");
+  c?.classList.toggle("lightMode");
 
   const c2 = document.getElementById("c2");
-  c2!.classList.toggle("darkMode");
-  c2!.classList.toggle("lightMode");
+  c2?.classList.toggle("darkMode");
+  c2?.classList.toggle("lightMode");
 
   for (let i = 0; i < profiles.length; i++) {
     document.getElementById(`profBox${i}`);
-    c2!.classList.toggle("textboxdark");
-    c2!.classList.toggle("textbox");
+    c2?.classList.toggle("textboxdark");
+    c2?.classList.toggle("textbox");
   }
 
-  if (c!.classList.contains("darkMode")) {
+  if (c?.classList.contains("darkMode")) {
     document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
     await storage.setItem("shade", "dark");
   } else if (!element.classList.contains("lightMode")) {
@@ -678,7 +682,7 @@ async function startApp() {
   lvl(1);
   await applySavedProfiles();
 
-  if (((await storage.getItem("shade")) as unknown) === "dark") {
+  if ((await storage.getItem("shade")) === "dark") {
     await toggleDarkMode();
   }
 }
@@ -731,7 +735,7 @@ function onKeyDown(event: KeyboardEvent) {
     }
     default: // no-op
   }
-  old = grid[py]![px]!;
+  old = grid[py]?.[px] ?? 0;
   grid[py]![px] = -5;
 
   printGrid(viewLvl);
@@ -763,7 +767,7 @@ $(($) => {
     // Use jQuery's animate() method to add smooth page scroll.
     // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area.
     $<HTMLHtmlElement | HTMLBodyElement>("html, body").animate(
-      { scrollTop: $(hash).offset()!.top },
+      { scrollTop: $(hash).offset()?.top },
       1000,
       () => {
         // Add hash (#) to URL when done scrolling (default click behavior)
