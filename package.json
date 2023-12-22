@@ -44,9 +44,12 @@
     "@types/jquery": "^3.5.29",
     "@types/node": "^20.10.5",
     "@types/pathfinding": "^0.0.9",
+    "browserslist": "^4.22.2",
+    "browserslist-to-esbuild": "^1.2.0",
     "eslint": "^8.56.0",
     "eslint-config-sheriff": "^17.1.0",
     "eslint-define-config": "^2.0.0",
+    "lightningcss": "^1.22.1",
     "prettier": "^3.1.1",
     "turbo": "^1.11.2",
     "typescript": "^5.3.3",
@@ -64,5 +67,9 @@
     "format:check": "prettier . --check",
     "lint": "eslint ."
   },
-  "packageManager": "bun@1.0.13"
+  "packageManager": "bun@1.0.13",
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    ">= 0.25%"
+  ]
 }

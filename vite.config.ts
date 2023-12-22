@@ -2,6 +2,11 @@ import { resolve } from "path";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import webfontDownload from "vite-plugin-webfont-dl";
+import { browserslistToTargets } from "lightningcss";
+import browserslist from "browserslist";
+import browserslistToEsbuild from "browserslist-to-esbuild";
+
+const browsersList = browserslist();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +18,14 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
       },
     },
-    target: ["esnext"],
+    target: browserslistToEsbuild(browsersList),
+    cssMinify: "lightningcss",
+  },
+  css: {
+    transformer: "lightningcss",
+    lightningcss: {
+      targets: browserslistToTargets(browsersList),
+    },
   },
   plugins: [
     webfontDownload(["https://fonts.googleapis.com/css?family=Lato"]),
