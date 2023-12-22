@@ -24,7 +24,12 @@ const roomSchema = z
   .toUpperCase()
   .trim()
   .transform(normalizeRoomString)
-  .refine((val) => Object.hasOwn(rooms, val) || val === "")
+  .refine(
+    (val) => Object.hasOwn(rooms, val) || val === "",
+    (val) => ({
+      message: `${val} is not a room`,
+    }),
+  )
   .transform((val) => val as Room | "");
 
 const profilesSchema = z.union([
