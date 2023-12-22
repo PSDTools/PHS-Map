@@ -238,11 +238,22 @@ async function applySavedProfiles(): Promise<void> {
         (profiles[0]?.[i] ?? "") as string;
       for (let f = 1; f < (profiles[i]?.length ?? 0) + 1; f++) {
         createCourse(f, i);
-        (
-          document.getElementById(`rmnum${f}${i}txt`) as HTMLInputElement
-        ).value = profiles[i]?.[f - 1]?.[0] ?? "";
-        (document.getElementById(`cl${f}${i}txt`) as HTMLInputElement).value =
-          profiles[i]?.[f - 1]?.[1] ?? "";
+        const roomInput = document.getElementById(`rmnum${f}${i}txt`);
+        const nameInput = document.getElementById(
+          `cl${f}${i}txt`,
+        ) as HTMLInputElement;
+        if (roomInput instanceof HTMLInputElement) {
+          const parsedRoom = roomSchema.safeParse(profiles[i]?.[f - 1]?.[0]);
+          if (parsedRoom.success) {
+            roomInput.value = parsedRoom.data;
+          } else {
+            document.getElementById("zod-error")!.innerHTML = fromZodError(
+              parsedRoom.error,
+            ).toString();
+            stinv1 = 1;
+          }
+          nameInput.value = profiles[i]?.[f - 1]?.[1] ?? "";
+        }
       }
 
       const lastCourseIndex = profiles[i]?.length;
@@ -597,23 +608,22 @@ function passingTime(num: number, profNum: number) {
   const endString = roomSchema.safeParse(profiles[profNum]?.[num + 1]?.[0]);
 
   clearGrid();
+  const zodErrorElement = document.getElementById("zod-error");
 
   if (startString.success && startString.data !== "") {
     start = startString.data;
-    document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML = "";
+    zodErrorElement!.innerHTML = "";
     stinv1 = 0;
-  } else {
-    document.getElementById(`inv${num + 1}${profNum}`)!.innerHTML =
-      "Invalid Room Number";
+  } else if (!startString.success) {
+    zodErrorElement!.innerHTML = fromZodError(startString.error).toString();
     stinv1 = 1;
   }
   if (endString.success && endString.data !== "") {
     end = endString.data;
-    document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML = "";
+    zodErrorElement!.innerHTML = "";
     stinv2 = 0;
-  } else {
-    document.getElementById(`inv${num + 2}${profNum}`)!.innerHTML =
-      "Invalid Room Number";
+  } else if (!endString.success) {
+    zodErrorElement!.innerHTML = fromZodError(endString.error).toString();
     stinv2 = 1;
   }
 
