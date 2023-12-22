@@ -33,10 +33,10 @@ import gridLvl2 from "./data/level2.ts";
 import { rooms } from "./data/rooms.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
-const intervalMS = 60 * 60 * 1000;
-
 const updateSW = registerSW({
   onRegisteredSW(swUrl, r) {
+    const intervalMS = 60 * 60 * 1000;
+
     r &&
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setInterval(async () => {
