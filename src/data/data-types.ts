@@ -5,9 +5,12 @@ type Lvl = z.infer<typeof lvlSchema>;
 type StairList = z.infer<typeof stairListSchema>;
 type Level = z.infer<typeof levelSchema>;
 type ProfilesList = z.infer<typeof profilesListSchema>;
-type Room = z.infer<typeof roomSchema>;
+type Room = z.infer<typeof roomStrictSchema>;
 
-const levelSchema = z.array(z.array(z.number()));
+/**
+ * Represents the schema for the level data.
+ */
+const levelSchema = z.number().array().array();
 
 /**
  * Normalizes a room string by removing special characters.
@@ -25,17 +28,22 @@ function normalizeRoomString(room: string): string {
 }
 
 /**
- * Helper function for normalizing and validating room strings.
+ * Represents the custom schema for a room.
  *
- * @param val - The room string to be normalizing and validating.
- * @returns A normalizing and validating room string.
+ * This schema is used to validate if a value is a valid room.
+ * A valid room, well, exists in the list of rooms.
  */
-const roomSchemaHelper = z
-  .string()
-  .toUpperCase()
-  .trim()
-  .transform(normalizeRoomString)
-  .refine((val) => Object.hasOwn(rooms, val) || val === "");
+const roomStrictSchema = z.custom<keyof typeof rooms>(
+  (val) =>
+    z
+      .string()
+      .toUpperCase()
+      .trim()
+      .transform(normalizeRoomString)
+      .refine((val2) => Object.hasOwn(rooms, val2))
+      .safeParse(val).success,
+  (val) => ({ message: `${val} is not a room` }),
+);
 
 /**
  * Represents the custom schema for a room.
@@ -44,10 +52,7 @@ const roomSchemaHelper = z
  * A valid room, well, exists in the list of rooms.
  * In addition, this allows an empty string to pass, so that that validation can be caught better.
  */
-const roomSchema = z.custom<keyof typeof rooms | "">(
-  (val) => roomSchemaHelper.safeParse(val).success,
-  (val) => ({ message: `${val} is not a room` }),
-);
+const roomSchema = z.union([roomStrictSchema, z.literal("")]).readonly();
 
 /**
  * Represents the schema for profiles data.
