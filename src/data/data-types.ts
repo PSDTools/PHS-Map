@@ -19,18 +19,17 @@ function normalizeRoomString(room: string): string {
     .replaceAll("/", "");
 }
 
-const roomSchema = z
+const roomSchemaHelper = z
   .string()
   .toUpperCase()
   .trim()
   .transform(normalizeRoomString)
-  .refine(
-    (val) => Object.hasOwn(rooms, val) || val === "",
-    (val) => ({
-      message: `${val} is not a room`,
-    }),
-  )
-  .transform((val) => val as Room | "");
+  .refine((val) => Object.hasOwn(rooms, val) || val === "");
+
+const roomSchema = z.custom<Room>(
+  (val) => roomSchemaHelper.safeParse(val).success,
+  (val) => ({ message: `${val} is not a room` }),
+);
 
 const profilesSchema = z.union([
   z.tuple([z.null()]).rest(z.union([z.string(), z.string().array()])),
