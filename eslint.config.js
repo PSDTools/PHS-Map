@@ -42,8 +42,11 @@ export default defineFlatConfig([
       "no-console": "warn",
       "no-negated-condition": "off",
       "unicorn/no-negated-condition": "error",
-      "@typescript-eslint/ban-ts-comment": "error",
-      "import/no-unresolved": [2, { ignore: ["^virtual:pwa-register$"] }],
+      "@typescript-eslint/ban-ts-comment": [
+        "error",
+        { "ts-expect-error": true, "ts-check": false },
+      ],
+      "import/no-unresolved": [2, { ignore: ["^virtual:"] }],
     },
   },
 ]);

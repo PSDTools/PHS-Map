@@ -62,6 +62,7 @@ const updateSW = registerSW({
       }, intervalMS);
   },
 });
+
 await updateSW(true);
 
 const storage: Storage = createStorage({
@@ -152,6 +153,7 @@ function createProfile(profNum: number): void {
   prof = profNum;
   const tempElementId = `tempProf${prof}`;
   const tempElementIdNext = `tempProf${profNum + 1}`;
+
   // Creates html elements in the courses class.
   document.getElementById(tempElementId)!.innerHTML = `<div
       class="prof txtbox w3-animate-right"
@@ -188,6 +190,7 @@ function createCourse(num: number, profNum: number): void {
   numNext = num + 1;
   const tempElementId = `temp${prof}${num}`;
   const tempElementIdNext = `temp${prof}${numNext}`;
+
   // Creates html elements in the courses class.
   document.getElementById(tempElementId)!.innerHTML = `<div
       id="input-con-div"
@@ -242,8 +245,10 @@ async function applySavedProfiles(): Promise<void> {
         const nameInput = document.getElementById(
           `cl${f}${i}txt`,
         ) as HTMLInputElement;
+
         if (roomInput instanceof HTMLInputElement) {
           const parsedRoom = roomSchema.safeParse(profiles[i]?.[f - 1]?.[0]);
+
           if (parsedRoom.success) {
             roomInput.value = parsedRoom.data;
           } else {
@@ -260,10 +265,12 @@ async function applySavedProfiles(): Promise<void> {
       const lastCourse = document.getElementById(
         `passing${lastCourseIndex}${i}`,
       );
+
       lastCourse?.classList.replace("display-block", "display-none");
     }
   } else {
     const error = fromZodError(parsedProfiles.error).toString();
+
     document.getElementById(`zod-error`)!.innerHTML = error;
     console.error(error);
 
@@ -308,6 +315,7 @@ function printGrid(level: Lvl): void {
   }
 
   const img = source;
+
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < currentGrid.length; y++) {
     for (let x = 0; x < (currentGrid[y]?.length ?? 0); x++) {
@@ -445,6 +453,7 @@ function path(
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
   const directions = finder.findPath(x1, y1, x2, y2, matrix);
+
   for (const direction of directions) {
     grid[direction[1]!]![direction[0]!] = -4;
   }
@@ -541,6 +550,7 @@ function btmPath(
     tempdist1 = [];
     for (let i = 0; i < 1; i++) {
       const newLocal = btmStairs[i.toString()];
+
       tempdist1.push(
         Math.abs(x1 - (newLocal?.[0] ?? 0)) +
           Math.abs(y1 - (btmStairs[i.toString()]?.[1] ?? 0)),
@@ -579,6 +589,7 @@ function btmPath(
 
 function clearGrid(): void {
   const img = source;
+
   ctx.drawImage(img, 0, 0, size, size);
   for (let y = 0; y < gridLvl0.length; y++) {
     for (let x = 0; x < (gridLvl0[y]?.length ?? 0); x++) {
@@ -668,18 +679,22 @@ window.passingTime = passingTime;
  */
 async function toggleDarkMode() {
   const element = document.body;
+
   element.classList.toggle("darkModebg");
   element.classList.toggle("lightModebg");
 
   const c = document.getElementById("c");
+
   c?.classList.toggle("darkMode");
   c?.classList.toggle("lightMode");
 
   const c2 = document.getElementById("c2");
+
   c2?.classList.toggle("darkMode");
   c2?.classList.toggle("lightMode");
 
   const bg = document.getElementById("bg");
+
   bg?.classList.toggle("darkMode");
   bg?.classList.toggle("lightMode");
 
@@ -765,6 +780,7 @@ window.addEventListener("keydown", onKeyDown);
 
 function downloadImg(element: HTMLAnchorElement) {
   const image = canvas.toDataURL("image/jpg");
+
   element.href = image;
 }
 window.downloadImg = downloadImg;
@@ -782,6 +798,7 @@ $(($) => {
 
     // Store hash
     const hash = this.hash;
+
     // Prevent default anchor click behavior
     event.preventDefault();
 

@@ -95,6 +95,7 @@ const stairListSchema = z.record(
     } catch {
       return false;
     }
+
     return true;
   }),
   coordsSchema,
