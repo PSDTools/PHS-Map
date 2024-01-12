@@ -19,14 +19,15 @@ import { createStorage, type Storage } from "unstorage";
 import localStorageDriver from "unstorage/drivers/localstorage";
 import { registerSW } from "virtual:pwa-register";
 import { fromZodError } from "zod-validation-error";
+import type { Level, Lvl } from "./data/data-types.ts";
 import {
+  btmStairsSchema,
   profilesListSchema,
   roomSchema,
-  type Level,
-  type Lvl,
+  stairsSchema,
   type ProfilesList,
   type Room,
-} from "./data/data-types.ts";
+} from "./data/schemas.ts";
 import gridLvl0 from "./data/level0.ts";
 import gridLvl1 from "./data/level1.ts";
 import gridLvl2 from "./data/level2.ts";
@@ -461,28 +462,18 @@ function path(
 }
 
 function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
-  tempdist = [];
-  tempdist1 = [];
-  for (let i = 0; i < 8; i++) {
-    tempdist1.push(
-      Math.abs(x1 - (stairs[i.toString()]?.[0] ?? 0)) +
-        Math.abs(y1 - (stairs[i.toString()]?.[1] ?? 0)),
-    );
-  }
-  tempdist2 = [];
-  for (let i = 0; i < 8; i++) {
-    tempdist2.push(
-      Math.abs(x2 - (stairs[i.toString()]?.[0] ?? 0)) +
-        Math.abs(y2 - (stairs[i.toString()]?.[1] ?? 0)),
-    );
-  }
-  for (const [i, element] of tempdist1.entries()) {
-    tempdist.push(element + (tempdist2[i] ?? 0));
-  }
+  tempdist1 = Object.values(stairs).map(
+    ([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second),
+  );
+  tempdist2 = Object.values(stairs).map(
+    ([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second),
+  );
+  tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
+
   min = Math.min(...tempdist);
   indexmin = tempdist.indexOf(min);
-  sx1 = stairs[indexmin.toString()]?.[0] ?? 0;
-  sy1 = stairs[indexmin.toString()]?.[1] ?? 0;
+  [sx1, sy1] = stairs[stairsSchema.parse(indexmin.toString())];
+
   if (fl === 2) {
     path(gridLvl2, x1, y1, sx1, sy1);
     path(gridLvl1, sx1, sy1, x2, y2);
@@ -517,28 +508,16 @@ function btmPath(
   flr2: Lvl,
 ): void {
   if (flr1 !== 0) {
-    tempdist = [];
-    tempdist1 = [];
-    for (let i = 0; i < 2; i++) {
-      tempdist1.push(
-        Math.abs(x1 - (btmStairs[i.toString()]?.[0] ?? 0)) +
-          Math.abs(y1 - (btmStairs[i.toString()]?.[1] ?? 0)),
-      );
-    }
-    tempdist2 = [];
-    for (let i = 0; i < 2; i++) {
-      tempdist2.push(
-        Math.abs(x2 - (btmStairs[i.toString()]?.[0] ?? 0)) +
-          Math.abs(y2 - (btmStairs[i.toString()]?.[1] ?? 0)),
-      );
-    }
-    for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + (tempdist2[i] ?? 0));
-    }
+    tempdist1 = Object.values(btmStairs)
+      .slice(0, 2)
+      .map(([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second));
+    tempdist2 = Object.values(btmStairs)
+      .slice(0, 2)
+      .map(([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second));
+    tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin.toString()]?.[0] ?? 0;
-    sy1 = btmStairs[indexmin.toString()]?.[1] ?? 0;
+    [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
 
     if (flr1 === 2) {
       path(gridLvl2, x1, y1, sx1, sy1);
@@ -546,30 +525,16 @@ function btmPath(
       path(gridLvl1, x1, y1, sx1, sy1);
     }
   } else if (flr2 !== 0) {
-    tempdist = [];
-    tempdist1 = [];
-    for (let i = 0; i < 1; i++) {
-      const newLocal = btmStairs[i.toString()];
-
-      tempdist1.push(
-        Math.abs(x1 - (newLocal?.[0] ?? 0)) +
-          Math.abs(y1 - (btmStairs[i.toString()]?.[1] ?? 0)),
-      );
-    }
-    tempdist2 = [];
-    for (let i = 0; i < 1; i++) {
-      tempdist2.push(
-        Math.abs(x2 - (btmStairs[i.toString()]?.[0] ?? 0)) +
-          Math.abs(y2 - (btmStairs[i.toString()]?.[1] ?? 0)),
-      );
-    }
-    for (const [i, element] of tempdist1.entries()) {
-      tempdist.push(element + (tempdist2[i] ?? 0));
-    }
+    tempdist1 = Object.values(btmStairs)
+      .slice(0, 1)
+      .map(([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second));
+    tempdist2 = Object.values(btmStairs)
+      .slice(0, 1)
+      .map(([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second));
+    tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
     min = Math.min(...tempdist);
     indexmin = tempdist.indexOf(min);
-    sx1 = btmStairs[indexmin.toString()]?.[0] ?? 0;
-    sy1 = btmStairs[indexmin.toString()]?.[1] ?? 0;
+    [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
     if (flr2 === 2) {
       path(gridLvl2, x2, y2, sx1, sy1);
     } else {

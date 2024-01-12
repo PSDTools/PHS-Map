@@ -1,102 +1,110 @@
-import { z } from "zod";
-import { rooms } from "./rooms";
-
 /**
- * Represents a level of the school.
+ * Represent a level of the school.
  */
-type Lvl = 0 | 1 | 2;
+type Lvl = Lvl0 | Lvl1 | Lvl2;
 
 /**
- * Represents the stairs.
+ * Represent the basement, which includes the band room and the choir room.
  */
-interface StairList {
-  [x: string]: Coords;
-}
+type Lvl0 = 0;
 
 /**
- * Represents the schema for coordinates.
+ * Represent the first floor.
  */
-type Coords = readonly [number, number];
+type Lvl1 = 1;
 
 /**
- * Represents the level data.
+ * Represent the second floor.
+ */
+type Lvl2 = 2;
+
+/**
+ * Represent the stairs.
+ */
+type StairList = Record<`${number}`, Coords2D>;
+
+/**
+ * Represent coordinates for stairs.
+ */
+type Coords2D = readonly [number, number];
+
+/**
+ * Represent coordinates for rooms.
+ */
+type Coords = readonly [number, number, number];
+
+/**
+ * Represent a valid, though not necessarily existing, room number.
+ */
+type Rooms = Record<`${Wing}${Lvl}${number}${number}`, Coords>;
+
+/**
+ * Represent the level data.
  */
 // TODO(ParkerH27): Use a Map here.
 type Level = number[][];
 
-type ProfilesList = z.infer<typeof profilesListSchema>;
-
-type Room = z.infer<typeof roomStrictSchema>;
+/**
+ * The wings of the school.
+ */
+type Wing = AWing | BWing | CWing | DWing | EWing | FWing | GWing | HWing;
 
 /**
- * Normalizes a room string by removing special characters.
+ * Represent the "A" wing.
  *
- * @param room - The room string to be normalized.
- * @returns The normalized room string.
+ * The "A" wing is also known colloquy as "The Bridge".
+ * It has music and communication arts.
  */
-function normalizeRoomString(room: string): string {
-  return room
-    .normalize()
-    .replaceAll("-", "")
-    .replaceAll("_", "")
-    .replaceAll("#", "")
-    .replaceAll("/", "");
-}
+type AWing = "A";
 
 /**
- * Represents the custom schema for a room.
+ * Represent the "B" wing.
  *
- * This schema is used to validate if a value is a valid room.
- * A valid room, well, exists in the list of rooms.
+ * The "B" wing has business and technology.
  */
-const roomStrictSchema = z.custom<keyof typeof rooms>(
-  (val) =>
-    z
-      .string()
-      .toUpperCase()
-      .trim()
-      .transform(normalizeRoomString)
-      .refine((val2) => Object.hasOwn(rooms, val2))
-      .safeParse(val).success,
-  (val) => ({ message: `${val} is not a room` }),
-);
+type BWing = "B";
 
 /**
- * Represents the custom schema for a room.
+ * Represent the "C" wing.
  *
- * This schema is used to validate if a value is a valid room.
- * A valid room, well, exists in the list of rooms.
- * In addition, this allows an empty string to pass, so that that validation can be caught better.
+ * The "C" wing is sometimes believed to be mythical.
+ * Its contents are unknown.
  */
-const roomSchema = z.union([roomStrictSchema, z.literal("")]).readonly();
+type CWing = "C";
 
 /**
- * Represents the schema for profiles data.
+ * Represent the "D" wing.
+ *
+ * The "D" wing has history and english.
  */
-const profilesSchema = z.union([
-  z.tuple([z.null()]).rest(z.union([z.string(), z.string().array()])),
-  z.tuple([]),
-]);
+type DWing = "D";
 
 /**
- * Represents the schema for an individual profile.
+ * Represent the "E" wing.
+ *
+ * The "E" wing has family and consumer sciences and the cafeteria.
  */
-const profileSchema = z.array(z.tuple([z.string(), z.string()]));
+type EWing = "E";
 
 /**
- * Represents the schema for a list of profiles.
+ * Represent the "F" wing.
+ *
+ * The "F" wing has the sciences.
  */
-const profilesListSchema = z.union([
-  z.tuple([profilesSchema]).rest(profileSchema),
-  z.tuple([]),
-]);
+type FWing = "F";
 
-export {
-  profilesListSchema,
-  roomSchema,
-  type Level,
-  type Lvl,
-  type ProfilesList,
-  type Room,
-  type StairList,
-};
+/**
+ * Represent the "G" wing.
+ *
+ * The "G" wing has health, art, and positive school.
+ */
+type GWing = "G";
+
+/**
+ * Represent the "H" wing.
+ *
+ * The "H" wing has math and modern language.
+ */
+type HWing = "H";
+
+export type { Coords, Coords2D, Level, Lvl, StairList, Wing, Rooms };

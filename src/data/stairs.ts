@@ -1,6 +1,6 @@
 import type { StairList } from "./data-types.ts";
 
-const stairsInternal = {
+const stairs = {
   "0": [23, 13],
   "1": [63, 16],
   "2": [103, 16],
@@ -11,16 +11,9 @@ const stairsInternal = {
   "7": [92, 121],
 } as const satisfies StairList;
 
-type Stairs = typeof stairsInternal & StairList;
-
-const btmStairsInternal = {
+const btmStairs = {
   "0": [90, 154],
   "1": [71, 154],
 } as const satisfies StairList;
 
-type BtmStairs = typeof btmStairsInternal & StairList;
-
-const stairs: Stairs = stairsInternal;
-const btmStairs: BtmStairs = btmStairsInternal;
-
-export { btmStairs, stairs, type BtmStairs, type Stairs };
+export { btmStairs, stairs };

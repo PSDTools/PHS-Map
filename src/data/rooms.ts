@@ -1,3 +1,5 @@
+import type { Rooms } from "./data-types.ts";
+
 export const rooms = {
   H100: [68, 12, 1],
   H102: [58, 8, 1],
@@ -195,6 +197,6 @@ export const rooms = {
   A001: [85, 156, 0],
   A002: [77, 160, 0],
   A004: [74, 149, 0],
-} as const;
+} as const satisfies Rooms;
 
 export default rooms;
