@@ -21,7 +21,7 @@ type Coords = readonly [number, number];
 /**
  * Represents the level data.
  */
-// TODO(lishaduck): Use a Map here.
+// TODO(ParkerH27): Use a Map here.
 type Level = number[][];
 
 type ProfilesList = z.infer<typeof profilesListSchema>;
