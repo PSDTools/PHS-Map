@@ -1,4 +1,4 @@
-import type { StairList } from "./data-types";
+import type { StairList } from "./data-types.ts";
 
 const stairsInternal = {
   "0": [23, 13],

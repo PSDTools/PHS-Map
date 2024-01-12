@@ -1,4 +1,4 @@
-import type { Level } from "./data-types";
+import type { Level } from "./data-types.ts";
 
 export const level1: Level = [
   [
