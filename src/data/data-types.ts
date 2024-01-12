@@ -1,16 +1,32 @@
 import { z } from "zod";
 import { rooms } from "./rooms";
 
-type Lvl = z.infer<typeof lvlSchema>;
-type StairList = z.infer<typeof stairListSchema>;
-type Level = z.infer<typeof levelSchema>;
-type ProfilesList = z.infer<typeof profilesListSchema>;
-type Room = z.infer<typeof roomStrictSchema>;
+/**
+ * Represents a level of the school.
+ */
+type Lvl = 0 | 1 | 2;
 
 /**
- * Represents the schema for the level data.
+ * Represents the stairs.
  */
-const levelSchema = z.number().array().array();
+interface StairList {
+  [x: string]: Coords;
+}
+
+/**
+ * Represents the schema for coordinates.
+ */
+type Coords = readonly [number, number];
+
+/**
+ * Represents the level data.
+ */
+// TODO(lishaduck): Use a Map here.
+type Level = number[][];
+
+type ProfilesList = z.infer<typeof profilesListSchema>;
+
+type Room = z.infer<typeof roomStrictSchema>;
 
 /**
  * Normalizes a room string by removing special characters.
@@ -74,32 +90,6 @@ const profilesListSchema = z.union([
   z.tuple([profilesSchema]).rest(profileSchema),
   z.tuple([]),
 ]);
-
-/**
- * Represents the schema for a level of the school.
- */
-const lvlSchema = z.union([z.literal(1), z.literal(2), z.literal(0)]);
-
-/**
- * Represents the schema for coordinates.
- */
-const coordsSchema = z.tuple([z.number(), z.number()]).readonly();
-
-/**
- * Represents the schema for the stairs.
- */
-const stairListSchema = z.record(
-  z.string().refine((val) => {
-    try {
-      Number.parseInt(val);
-    } catch {
-      return false;
-    }
-
-    return true;
-  }),
-  coordsSchema,
-);
 
 export {
   profilesListSchema,
