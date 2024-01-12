@@ -1,10 +1,10 @@
-import { resolve } from "path";
+import { resolve } from "node:path";
+import browserslist from "browserslist";
+import browserslistToEsbuild from "browserslist-to-esbuild";
+import { browserslistToTargets } from "lightningcss";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import webfontDownload from "vite-plugin-webfont-dl";
-import { browserslistToTargets } from "lightningcss";
-import browserslist from "browserslist";
-import browserslistToEsbuild from "browserslist-to-esbuild";
 
 const browsersList = browserslist();
 

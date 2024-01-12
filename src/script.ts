@@ -20,6 +20,8 @@ import localStorageDriver from "unstorage/drivers/localstorage";
 import { registerSW } from "virtual:pwa-register";
 import { fromZodError } from "zod-validation-error";
 import type { Level, Lvl } from "./data/data-types.ts";
+import { level0, level1, level2 } from "./data/levels.ts";
+import { rooms } from "./data/rooms.ts";
 import {
   btmStairsSchema,
   profilesListSchema,
@@ -28,10 +30,6 @@ import {
   type ProfilesList,
   type Room,
 } from "./data/schemas.ts";
-import gridLvl0 from "./data/level0.ts";
-import gridLvl1 from "./data/level1.ts";
-import gridLvl2 from "./data/level2.ts";
-import { rooms } from "./data/rooms.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
 const updateSW = registerSW({
@@ -299,17 +297,17 @@ function printGrid(level: Lvl): void {
 
   switch (level) {
     case 1: {
-      currentGrid = gridLvl1;
+      currentGrid = level1;
 
       break;
     }
     case 2: {
-      currentGrid = gridLvl2;
+      currentGrid = level2;
 
       break;
     }
     case 0: {
-      currentGrid = gridLvl0;
+      currentGrid = level0;
 
       break;
     }
@@ -475,11 +473,11 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
   [sx1, sy1] = stairs[stairsSchema.parse(indexmin.toString())];
 
   if (fl === 2) {
-    path(gridLvl2, x1, y1, sx1, sy1);
-    path(gridLvl1, sx1, sy1, x2, y2);
+    path(level2, x1, y1, sx1, sy1);
+    path(level1, sx1, sy1, x2, y2);
   } else {
-    path(gridLvl1, x1, y1, sx1, sy1);
-    path(gridLvl2, sx1, sy1, x2, y2);
+    path(level1, x1, y1, sx1, sy1);
+    path(level2, sx1, sy1, x2, y2);
   }
 }
 
@@ -520,9 +518,9 @@ function btmPath(
     [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
 
     if (flr1 === 2) {
-      path(gridLvl2, x1, y1, sx1, sy1);
+      path(level2, x1, y1, sx1, sy1);
     } else {
-      path(gridLvl1, x1, y1, sx1, sy1);
+      path(level1, x1, y1, sx1, sy1);
     }
   } else if (flr2 !== 0) {
     tempdist1 = Object.values(btmStairs)
@@ -536,16 +534,16 @@ function btmPath(
     indexmin = tempdist.indexOf(min);
     [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
     if (flr2 === 2) {
-      path(gridLvl2, x2, y2, sx1, sy1);
+      path(level2, x2, y2, sx1, sy1);
     } else {
-      path(gridLvl1, x2, y2, sx1, sy1);
+      path(level1, x2, y2, sx1, sy1);
     }
   }
 
   if (flr1 === 0) {
-    path(gridLvl0, x1, y1, sx1, sy1 - 8);
+    path(level0, x1, y1, sx1, sy1 - 8);
   } else if (flr2 === 0) {
-    path(gridLvl0, x2, y2, sx1, sy1 - 8);
+    path(level0, x2, y2, sx1, sy1 - 8);
   }
   if (flr1 === 1 || flr2 === 1) {
     mainToBtm(x1, y1, sx1, sy1, flr1, flr2);
@@ -556,24 +554,24 @@ function clearGrid(): void {
   const img = source;
 
   ctx.drawImage(img, 0, 0, size, size);
-  for (let y = 0; y < gridLvl0.length; y++) {
-    for (let x = 0; x < (gridLvl0[y]?.length ?? 0); x++) {
-      if (gridLvl0[x]?.[y] === -4) {
-        gridLvl0[x]![y] = 0;
+  for (let y = 0; y < level0.length; y++) {
+    for (let x = 0; x < (level0[y]?.length ?? 0); x++) {
+      if (level0[x]?.[y] === -4) {
+        level0[x]![y] = 0;
       }
     }
   }
-  for (let y = 0; y < gridLvl1.length; y++) {
-    for (let x = 0; x < (gridLvl1[y]?.length ?? 0); x++) {
-      if (gridLvl1[x]?.[y] === -4) {
-        gridLvl1[x]![y] = 0;
+  for (let y = 0; y < level1.length; y++) {
+    for (let x = 0; x < (level1[y]?.length ?? 0); x++) {
+      if (level1[x]?.[y] === -4) {
+        level1[x]![y] = 0;
       }
     }
   }
-  for (let y = 0; y < gridLvl2.length; y++) {
-    for (let x = 0; x < (gridLvl2[y]?.length ?? 0); x++) {
-      if (gridLvl2[x]?.[y] === -4) {
-        gridLvl2[x]![y] = 0;
+  for (let y = 0; y < level2.length; y++) {
+    for (let x = 0; x < (level2[y]?.length ?? 0); x++) {
+      if (level2[x]?.[y] === -4) {
+        level2[x]![y] = 0;
       }
     }
   }
@@ -612,10 +610,10 @@ function passingTime(num: number, profNum: number) {
     flr2 = rooms[end][2];
 
     if (flr1 === 1 && flr2 === 1) {
-      grid = gridLvl1;
+      grid = level1;
       path(grid, x1, y1, x2, y2);
     } else if (flr1 === 2 && flr2 === 2) {
-      grid = gridLvl2;
+      grid = level2;
       path(grid, x1, y1, x2, y2);
     } else if (flr1 !== 0 && flr2 !== 0) {
       stairPath(x1, y1, x2, y2, flr1);
@@ -696,17 +694,17 @@ let old: number;
 function onKeyDown(event: KeyboardEvent) {
   switch (viewLvl) {
     case 1: {
-      grid = gridLvl1;
+      grid = level1;
 
       break;
     }
     case 2: {
-      grid = gridLvl2;
+      grid = level2;
 
       break;
     }
     case 0: {
-      grid = gridLvl0;
+      grid = level0;
 
       break;
     }
