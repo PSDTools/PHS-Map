@@ -33,38 +33,6 @@ import {
 } from "./data/schemas.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
-const updateSW = registerSW({
-  onRegisteredSW(swUrl, r) {
-    const intervalMS = 60 * 60 * 1000;
-
-    r &&
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      setInterval(async () => {
-        if (r.installing) {
-          return;
-        }
-
-        if (Object.hasOwn(navigator, "connection") && !navigator.onLine) {
-          return;
-        }
-
-        const resp = await fetch(swUrl, {
-          cache: "no-store",
-          headers: {
-            cache: "no-store",
-            "cache-control": "no-cache",
-          },
-        });
-
-        if (resp.status === 200) {
-          await r.update();
-        }
-      }, intervalMS);
-  },
-});
-
-await updateSW(true);
-
 const storage: Storage = createStorage({
   driver: indexedDbDriver({ base: "app:" }),
 });
@@ -638,7 +606,41 @@ async function toggleDarkMode(): Promise<void> {
 }
 window.toggleDarkMode = toggleDarkMode;
 
-async function startApp() {
+async function updateSw(): Promise<void> {
+  await registerSW({
+    onRegisteredSW(swUrl, r) {
+      const intervalMS = 60 * 60 * 1000;
+
+      r &&
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        setInterval(async (): Promise<void> => {
+          if (r.installing !== null) {
+            return;
+          }
+
+          if (Object.hasOwn(navigator, "connection") && !navigator.onLine) {
+            return;
+          }
+
+          const resp = await fetch(swUrl, {
+            cache: "no-store",
+            headers: {
+              cache: "no-store",
+              "cache-control": "no-cache",
+            },
+          });
+
+          if (resp.status === 200) {
+            await r.update();
+          }
+        }, intervalMS);
+    },
+  })(true);
+}
+
+async function startApp(): Promise<void> {
+  await updateSw();
+
   lvl(1);
   await applySavedProfiles();
 
