@@ -661,7 +661,9 @@ function onKeyDown(event: KeyboardEvent) {
 
       break;
     }
-    default: // no-op
+    default: {
+      break; // no-op
+    }
   }
   grid[py]![px] = old;
   switch (event.key) {
@@ -685,7 +687,9 @@ function onKeyDown(event: KeyboardEvent) {
 
       break;
     }
-    default: // no-op
+    default: {
+      break; // no-op
+    }
   }
   old = grid[py]?.[px] ?? 0;
   grid[py]![px] = -5;
