@@ -78,6 +78,9 @@ let y2: number;
 let flr2: Lvl;
 let sx1: number;
 let sy1: number;
+let px = 1;
+let py = 1;
+let old: number;
 
 library.add(
   faXmark,
@@ -405,15 +408,15 @@ function pathCalculationInternals(
 
   Object.values(stairs).forEach(
     ([first, second]: Coords2D, index: number): void => {
-    const distance =
-      Math.abs(x1 - first) +
-      Math.abs(y1 - second) +
-      Math.abs(x2 - first) +
-      Math.abs(y2 - second);
+      const distance =
+        Math.abs(x1 - first) +
+        Math.abs(y1 - second) +
+        Math.abs(x2 - first) +
+        Math.abs(y2 - second);
 
-    if (distance < minData.min) {
-      minData = { min: distance, minIndex: index };
-    }
+      if (distance < minData.min) {
+        minData = { min: distance, minIndex: index };
+      }
     },
   );
 
@@ -649,10 +652,6 @@ async function startApp(): Promise<void> {
   }
 }
 window.startApp = startApp;
-
-let px = 1;
-let py = 1;
-let old: number;
 
 function onKeyDown(event: KeyboardEvent): void {
   switch (viewLvl) {
