@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { colorMap } from "./colors.ts";
+import type { NumberIndex } from "./data-types.ts";
 import { rooms } from "./rooms.ts";
-import { btmStairs, stairs } from "./stairs.ts";
 
 type ProfilesList = z.infer<typeof profilesListSchema>;
 
@@ -22,6 +21,10 @@ function normalizeRoomString(room: string): string {
     .replaceAll("/", "");
 }
 
+function isKey<T extends object>(obj: T, val: PropertyKey): val is keyof T {
+  return Object.hasOwn(obj, val);
+}
+
 /**
  * Represents the custom schema for a room.
  *
@@ -35,7 +38,7 @@ const roomStrictSchema = z.custom<keyof typeof rooms>(
       .toUpperCase()
       .trim()
       .transform(normalizeRoomString)
-      .refine((val2) => Object.hasOwn(rooms, val2))
+      .refine((val2: string): val2 is keyof typeof rooms => isKey(rooms, val2))
       .safeParse(val).success,
   (val) => ({ message: `${val} is not a room` }),
 );
@@ -72,23 +75,19 @@ const profilesListSchema = z.union([
 
 const asyncProfilesListSchema = z.promise(profilesListSchema.nullish());
 
-function createKeySchema<T extends object>(obj: T) {
-  return z
-    .custom<keyof T>()
-    .refine((val): val is keyof T => Object.hasOwn(obj, val));
-}
-
-const btmStairsSchema = createKeySchema(btmStairs);
-const stairsSchema = createKeySchema(stairs);
-const colorSchema = createKeySchema(colorMap);
+const numberIndexSchema = z.custom<NumberIndex>((val) =>
+  z
+    .string()
+    .refine((val2) => !isNaN(Number(val2)))
+    .safeParse(val),
+);
 
 export {
-  btmStairsSchema,
-  colorSchema,
+  asyncProfilesListSchema,
+  isKey,
+  numberIndexSchema,
   profilesListSchema,
   roomSchema,
-  asyncProfilesListSchema,
-  stairsSchema,
   type ProfilesList,
   type Room,
 };

@@ -21,7 +21,9 @@ type Lvl2 = 2;
 /**
  * Represent the stairs.
  */
-type StairList = Record<`${number}`, Coords2D>;
+type StairList = Record<NumberIndex, Coords2D>;
+
+type NumberIndex = `${number}`;
 
 /**
  * Represent coordinates for stairs.
@@ -107,4 +109,13 @@ type GWing = "G";
  */
 type HWing = "H";
 
-export type { Coords, Coords2D, Level, Lvl, StairList, Wing, Rooms };
+export type {
+  Coords,
+  Coords2D,
+  Level,
+  Lvl,
+  NumberIndex,
+  Rooms,
+  StairList,
+  Wing,
+};

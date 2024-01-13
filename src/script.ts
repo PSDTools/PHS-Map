@@ -19,18 +19,17 @@ import indexedDbDriver from "unstorage/drivers/indexedb";
 import { registerSW } from "virtual:pwa-register";
 import { fromZodError } from "zod-validation-error";
 import { colorMap } from "./data/colors.ts";
-import type { Level, Lvl } from "./data/data-types.ts";
+import type { Coords2D, Level, Lvl, StairList } from "./data/data-types.ts";
 import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
   asyncProfilesListSchema,
-  btmStairsSchema,
-  colorSchema,
   profilesListSchema,
   roomSchema,
-  stairsSchema,
+  numberIndexSchema,
   type ProfilesList,
   type Room,
+  isKey,
 } from "./data/schemas.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
@@ -327,10 +326,10 @@ function printGrid(level: Lvl): void {
 
   currentGrid.forEach((row: number[], x: number): void => {
     row.forEach((cell: number, y: number): void => {
-      const parsedColor = colorSchema.safeParse(cell.toString());
+      const key = cell.toString();
 
-      if (parsedColor.success) {
-        ctx.fillStyle = colorMap[parsedColor.data];
+      if (isKey(colorMap, key)) {
+        ctx.fillStyle = colorMap[key];
         ctx.fillRect(cellSize * y, cellSize * x, cellSize, cellSize);
       }
     });
@@ -427,10 +426,17 @@ function path(
   printGrid(viewLvl);
 }
 
-function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
+function pathCalculationInternals(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  stairs: StairList,
+): Coords2D | undefined {
   let minData = { min: Infinity, minIndex: -1 };
 
-  Object.values(stairs).forEach(([first, second], index) => {
+  Object.values(stairs).forEach(
+    ([first, second]: Coords2D, index: number): void => {
     const distance =
       Math.abs(x1 - first) +
       Math.abs(y1 - second) +
@@ -440,12 +446,40 @@ function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
     if (distance < minData.min) {
       minData = { min: distance, minIndex: index };
     }
-  });
+    },
+  );
 
-  [sx1, sy1] = stairs[stairsSchema.parse(minData.minIndex.toString())];
+  return stairs[numberIndexSchema.parse(minData.minIndex.toString())];
+}
 
-  path(fl === 2 ? level2 : level1, x1, y1, sx1, sy1);
-  path(fl === 2 ? level1 : level2, sx1, sy1, x2, y2);
+function stairPath(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  floor: number,
+): void {
+  [sx1, sy1] = pathCalculationInternals(x1, y1, x2, y2, stairs) ?? [sx1, sy1];
+
+  path(floor === 2 ? level2 : level1, x1, y1, sx1, sy1);
+  path(floor === 2 ? level1 : level2, sx1, sy1, x2, y2);
+}
+
+function calculatePath(
+  floor: number,
+  x: number,
+  y: number,
+  sliceEnd: number,
+): void {
+  [sx1, sy1] = pathCalculationInternals(
+    x,
+    y,
+    x2,
+    y2,
+    Object.values(btmStairs).slice(0, sliceEnd),
+  ) ?? [sx1, sy1];
+
+  path(floor === 2 ? level2 : level1, x, y, sx1, sy1);
 }
 
 function mainToBtm(
@@ -473,44 +507,9 @@ function btmPath(
   flr2: Lvl,
 ): void {
   if (flr1 !== 0) {
-    let minData = { min: Infinity, indexmin: -1 };
-
-    Object.values(btmStairs)
-      .slice(0, 2)
-      .forEach(([first, second], index) => {
-        const distance =
-          Math.abs(x1 - first) +
-          Math.abs(y1 - second) +
-          Math.abs(x2 - first) +
-          Math.abs(y2 - second);
-
-        if (distance < minData.min) {
-          minData = { min: distance, indexmin: index };
-        }
-      });
-
-    [sx1, sy1] = btmStairs[btmStairsSchema.parse(minData.indexmin.toString())];
-
-    path(flr1 === 2 ? level2 : level1, x1, y1, sx1, sy1);
+    calculatePath(flr1, x1, y1, 2);
   } else if (flr2 !== 0) {
-    let minData = { min: Infinity, indexmin: -1 };
-
-    Object.values(btmStairs)
-      .slice(0, 1)
-      .forEach(([first, second], index) => {
-        const distance =
-          Math.abs(x1 - first) +
-          Math.abs(y1 - second) +
-          Math.abs(x2 - first) +
-          Math.abs(y2 - second);
-
-        if (distance < minData.min) {
-          minData = { min: distance, indexmin: index };
-        }
-      });
-
-    [sx1, sy1] = btmStairs[btmStairsSchema.parse(minData.indexmin.toString())];
-    path(flr2 === 2 ? level2 : level1, x2, y2, sx1, sy1);
+    calculatePath(flr2, x2, y2, 1);
   }
 
   if (flr1 === 0) {
