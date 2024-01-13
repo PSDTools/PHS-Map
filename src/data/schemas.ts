@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { colorMap } from "./colors.ts";
 import { rooms } from "./rooms.ts";
 import { btmStairs, stairs } from "./stairs.ts";
 
@@ -69,17 +70,24 @@ const profilesListSchema = z.union([
   z.tuple([]),
 ]);
 
+const asyncProfilesListSchema = z.promise(profilesListSchema.nullish());
+
 function createKeySchema<T extends object>(obj: T) {
-  return z.custom<keyof T>().refine((val) => Object.hasOwn(obj, val));
+  return z
+    .custom<keyof T>()
+    .refine((val): val is keyof T => Object.hasOwn(obj, val));
 }
 
 const btmStairsSchema = createKeySchema(btmStairs);
 const stairsSchema = createKeySchema(stairs);
+const colorSchema = createKeySchema(colorMap);
 
 export {
   btmStairsSchema,
+  colorSchema,
   profilesListSchema,
   roomSchema,
+  asyncProfilesListSchema,
   stairsSchema,
   type ProfilesList,
   type Room,

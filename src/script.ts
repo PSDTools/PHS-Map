@@ -16,19 +16,22 @@ import {
 import $ from "jquery";
 import * as PF from "pathfinding";
 import { createStorage, type Storage } from "unstorage";
-import localStorageDriver from "unstorage/drivers/localstorage";
+import indexedDbDriver from "unstorage/drivers/indexedb";
 import { registerSW } from "virtual:pwa-register";
 import { fromZodError } from "zod-validation-error";
+import { colorMap } from "./data/colors.ts";
 import type { Level, Lvl } from "./data/data-types.ts";
 import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
   btmStairsSchema,
+  colorSchema,
   profilesListSchema,
   roomSchema,
   stairsSchema,
   type ProfilesList,
   type Room,
+  asyncProfilesListSchema,
 } from "./data/schemas.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
@@ -65,7 +68,7 @@ const updateSW = registerSW({
 await updateSW(true);
 
 const storage: Storage = createStorage({
-  driver: localStorageDriver({}),
+  driver: indexedDbDriver({ base: "app:" }),
 });
 
 declare global {
@@ -84,12 +87,14 @@ declare global {
   }
 }
 
-let grid: Level;
-let canvas: HTMLCanvasElement;
-let ctx: CanvasRenderingContext2D;
-let coursesAmt: number;
+// If not marked with //, should be able to remove at a later time.
+
+let grid: Level; //
+let canvas: HTMLCanvasElement; //
+let ctx: CanvasRenderingContext2D; //
+let coursesAmt: number; //
 let viewLvl: Lvl;
-let profiles: ProfilesList = [];
+let profiles: ProfilesList = []; //
 let source: HTMLImageElement;
 let size: number;
 let profNum: number;
@@ -105,11 +110,6 @@ let flr1: Lvl;
 let x2: number;
 let y2: number;
 let flr2: Lvl;
-let tempdist: number[];
-let tempdist1: number[];
-let tempdist2: number[];
-let min: number;
-let indexmin: number;
 let sx1: number;
 let sy1: number;
 
@@ -132,13 +132,14 @@ function toggleNav(isOpen: boolean): void {
   const sidenav = document.getElementById("my-sidenav");
   const open = "open-nav";
   const close = "close-nav";
-  const remove = isOpen ? close : open;
-  const add = isOpen ? open : close;
 
-  sidenav?.classList.add(remove);
-  document.body.classList.add(`${remove}-body`);
-  sidenav?.classList.replace(remove, add);
-  document.body.classList.replace(`${remove}-body`, `${add}-body`);
+  sidenav?.classList.add(isOpen ? close : open);
+  document.body.classList.add(`${isOpen ? close : open}-body`);
+  sidenav?.classList.replace(isOpen ? close : open, isOpen ? open : close);
+  document.body.classList.replace(
+    `${isOpen ? close : open}-body`,
+    `${isOpen ? open : close}-body`,
+  );
 }
 window.toggleNav = toggleNav;
 
@@ -228,12 +229,19 @@ function createCourse(num: number, profNum: number): void {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
+// TODO(lisahduck): Make errors render next to the erroring input.
+const zodErrorElement = document.getElementById("zod-error");
+
 async function applySavedProfiles(): Promise<void> {
-  const unparsedProfiles = await storage.getItem("profiles");
+  const unparsedProfiles = await asyncProfilesListSchema.parse(
+    storage.getItem("profiles"),
+  );
   const parsedProfiles = profilesListSchema.safeParse(unparsedProfiles);
 
   if (parsedProfiles.success) {
     profiles = parsedProfiles.data;
+
+    // We can't use `.forEach` here to reduce the number of DOM queries because `createProfile()` mutates the DOM.
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
@@ -268,11 +276,10 @@ async function applySavedProfiles(): Promise<void> {
       lastCourse?.classList.replace("display-block", "display-none");
     }
   } else {
-    const error = fromZodError(parsedProfiles.error).toString();
+    const error = fromZodError(parsedProfiles.error);
 
-    document.getElementById(`zod-error`)!.innerHTML = error;
-    console.error(error);
-
+    zodErrorElement!.innerHTML = error.message;
+    console.error(error.details);
     profiles = [];
   }
 }
@@ -287,7 +294,6 @@ async function remProf(profNum: number): Promise<void> {
   ></div>`;
 
   await storage.setItem("profiles", profiles);
-
   await applySavedProfiles();
 }
 window.remProf = remProf;
@@ -316,57 +322,20 @@ function printGrid(level: Lvl): void {
   const img = source;
 
   ctx.drawImage(img, 0, 0, size, size);
-  for (let y = 0; y < currentGrid.length; y++) {
-    for (let x = 0; x < (currentGrid[y]?.length ?? 0); x++) {
-      switch (currentGrid[x]?.[y]) {
-        case -2: {
-          ctx.fillStyle = "#00FFFF";
-          ctx.fillRect(
-            (size / currentGrid.length) * y,
-            (size / currentGrid.length) * x,
-            size / currentGrid.length,
-            size / currentGrid.length,
-          );
 
-          break;
-        }
-        case -3: {
-          ctx.fillStyle = "#FF00FF";
-          ctx.fillRect(
-            (size / currentGrid.length) * y,
-            (size / currentGrid.length) * x,
-            size / currentGrid.length,
-            size / currentGrid.length,
-          );
+  const gridSize = currentGrid.length;
+  const cellSize = size / gridSize;
 
-          break;
-        }
-        case -4: {
-          ctx.fillStyle = "#F00FFF";
-          ctx.fillRect(
-            (size / currentGrid.length) * y,
-            (size / currentGrid.length) * x,
-            size / currentGrid.length,
-            size / currentGrid.length,
-          );
+  currentGrid.forEach((row, x) => {
+    row.forEach((cell, y) => {
+      const parsedColor = colorSchema.safeParse(cell.toString());
 
-          break;
-        }
-        case -5: {
-          ctx.fillStyle = "#F00F0F";
-          ctx.fillRect(
-            (size / currentGrid.length) * y,
-            (size / currentGrid.length) * x,
-            size / currentGrid.length,
-            size / currentGrid.length,
-          );
-
-          break;
-        }
-        default: // no-op
+      if (parsedColor.success) {
+        ctx.fillStyle = colorMap[parsedColor.data];
+        ctx.fillRect(cellSize * y, cellSize * x, cellSize, cellSize);
       }
-    }
-  }
+    });
+  });
   ctx.fillStyle = "#FFFFFF";
   ctx.fillRect((size / 8) * 7, size, size / 8, (size / 17) * -1);
   ctx.fillStyle = "#000000";
@@ -390,9 +359,9 @@ function courseLoop(profNum: number): void {
       (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
-    for (let i = 1; i < coursesAmt; i++) {
+    Array.from({ length: coursesAmt - 1 }, (_, i) => i + 1).forEach((i) => {
       createCourse(i, prof);
-    }
+    });
     document.getElementById(`passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
   }
 }
@@ -401,37 +370,30 @@ window.courseLoop = courseLoop;
 async function locateCourses(profNum: number): Promise<void> {
   prof = profNum;
   profiles[profNum] = [];
-  if (profiles[0] === undefined) {
-    profiles[0] = [null, ""];
-  }
-  for (
-    let i = 1;
-    i < document.querySelectorAll(`.prof${profNum}`).length + 1;
-    i++
-  ) {
-    profiles[0]![profNum] = (
-      document.getElementById(`nameProf${profNum}`) as HTMLInputElement
+  profiles[0] = profiles[0] ?? [null, ""];
+
+  profiles[0]![profNum] = (
+    document.getElementById(`nameProf${profNum}`) as HTMLInputElement
+  ).value;
+  document.querySelectorAll(`.prof${profNum}`).forEach((_, i) => {
+    profiles[profNum]![i] = [];
+    (profiles[profNum]![i] as string[])![0] = (
+      document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
-    profiles[profNum]![i - 1] = [];
-    (profiles[profNum]![i - 1] as string[])[0] = (
-      document.getElementById(`rmnum${i}${prof}txt`) as HTMLInputElement
+    (profiles[profNum]![i] as string[])![1] = (
+      document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
-    (profiles[profNum]![i - 1] as string[])[1] = (
-      document.getElementById(`cl${i}${prof}txt`) as HTMLInputElement
-    ).value;
-  }
+  });
   await storage.setItem("profiles", profiles);
 }
 window.locateCourses = locateCourses;
 
 async function addProf(): Promise<void> {
   profNum = document.querySelectorAll(".prof").length;
-  if (profNum === 0) {
-    createProfile(profNum + 1);
-  } else {
+  if (profNum !== 0) {
     await locateCourses(profNum);
-    createProfile(profNum + 1);
   }
+  createProfile(profNum + 1);
 }
 window.addProf = addProf;
 
@@ -451,34 +413,33 @@ function path(
 ): void {
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
-  const directions = finder.findPath(x1, y1, x2, y2, matrix);
 
-  for (const direction of directions) {
+  finder.findPath(x1, y1, x2, y2, matrix).forEach((direction) => {
     grid[direction[1]!]![direction[0]!] = -4;
-  }
+  });
+
   printGrid(viewLvl);
 }
 
 function stairPath(x1: number, y1: number, x2: number, y2: number, fl: number) {
-  tempdist1 = Object.values(stairs).map(
-    ([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second),
-  );
-  tempdist2 = Object.values(stairs).map(
-    ([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second),
-  );
-  tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
+  let minData = { min: Infinity, minIndex: -1 };
 
-  min = Math.min(...tempdist);
-  indexmin = tempdist.indexOf(min);
-  [sx1, sy1] = stairs[stairsSchema.parse(indexmin.toString())];
+  Object.values(stairs).forEach(([first, second], index) => {
+    const distance =
+      Math.abs(x1 - first) +
+      Math.abs(y1 - second) +
+      Math.abs(x2 - first) +
+      Math.abs(y2 - second);
 
-  if (fl === 2) {
-    path(level2, x1, y1, sx1, sy1);
-    path(level1, sx1, sy1, x2, y2);
-  } else {
-    path(level1, x1, y1, sx1, sy1);
-    path(level2, sx1, sy1, x2, y2);
-  }
+    if (distance < minData.min) {
+      minData = { min: distance, minIndex: index };
+    }
+  });
+
+  [sx1, sy1] = stairs[stairsSchema.parse(minData.minIndex.toString())];
+
+  path(fl === 2 ? level2 : level1, x1, y1, sx1, sy1);
+  path(fl === 2 ? level1 : level2, sx1, sy1, x2, y2);
 }
 
 function mainToBtm(
@@ -506,38 +467,44 @@ function btmPath(
   flr2: Lvl,
 ): void {
   if (flr1 !== 0) {
-    tempdist1 = Object.values(btmStairs)
-      .slice(0, 2)
-      .map(([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second));
-    tempdist2 = Object.values(btmStairs)
-      .slice(0, 2)
-      .map(([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second));
-    tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
-    min = Math.min(...tempdist);
-    indexmin = tempdist.indexOf(min);
-    [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
+    let minData = { min: Infinity, indexmin: -1 };
 
-    if (flr1 === 2) {
-      path(level2, x1, y1, sx1, sy1);
-    } else {
-      path(level1, x1, y1, sx1, sy1);
-    }
+    Object.values(btmStairs)
+      .slice(0, 2)
+      .forEach(([first, second], index) => {
+        const distance =
+          Math.abs(x1 - first) +
+          Math.abs(y1 - second) +
+          Math.abs(x2 - first) +
+          Math.abs(y2 - second);
+
+        if (distance < minData.min) {
+          minData = { min: distance, indexmin: index };
+        }
+      });
+
+    [sx1, sy1] = btmStairs[btmStairsSchema.parse(minData.indexmin.toString())];
+
+    path(flr1 === 2 ? level2 : level1, x1, y1, sx1, sy1);
   } else if (flr2 !== 0) {
-    tempdist1 = Object.values(btmStairs)
+    let minData = { min: Infinity, indexmin: -1 };
+
+    Object.values(btmStairs)
       .slice(0, 1)
-      .map(([first, second]) => Math.abs(x1 - first) + Math.abs(y1 - second));
-    tempdist2 = Object.values(btmStairs)
-      .slice(0, 1)
-      .map(([first, second]) => Math.abs(x2 - first) + Math.abs(y2 - second));
-    tempdist = tempdist1.map((element, i) => element + (tempdist2[i] ?? 0));
-    min = Math.min(...tempdist);
-    indexmin = tempdist.indexOf(min);
-    [sx1, sy1] = btmStairs[btmStairsSchema.parse(indexmin.toString())];
-    if (flr2 === 2) {
-      path(level2, x2, y2, sx1, sy1);
-    } else {
-      path(level1, x2, y2, sx1, sy1);
-    }
+      .forEach(([first, second], index) => {
+        const distance =
+          Math.abs(x1 - first) +
+          Math.abs(y1 - second) +
+          Math.abs(x2 - first) +
+          Math.abs(y2 - second);
+
+        if (distance < minData.min) {
+          minData = { min: distance, indexmin: index };
+        }
+      });
+
+    [sx1, sy1] = btmStairs[btmStairsSchema.parse(minData.indexmin.toString())];
+    path(flr2 === 2 ? level2 : level1, x2, y2, sx1, sy1);
   }
 
   if (flr1 === 0) {
@@ -554,27 +521,27 @@ function clearGrid(): void {
   const img = source;
 
   ctx.drawImage(img, 0, 0, size, size);
-  for (let y = 0; y < level0.length; y++) {
-    for (let x = 0; x < (level0[y]?.length ?? 0); x++) {
-      if (level0[x]?.[y] === -4) {
+  level0.forEach((row, x) => {
+    row.forEach((cell, y) => {
+      if (cell === -4) {
         level0[x]![y] = 0;
       }
-    }
-  }
-  for (let y = 0; y < level1.length; y++) {
-    for (let x = 0; x < (level1[y]?.length ?? 0); x++) {
-      if (level1[x]?.[y] === -4) {
+    });
+  });
+  level1.forEach((row, x) => {
+    row.forEach((cell, y) => {
+      if (cell === -4) {
         level1[x]![y] = 0;
       }
-    }
-  }
-  for (let y = 0; y < level2.length; y++) {
-    for (let x = 0; x < (level2[y]?.length ?? 0); x++) {
-      if (level2[x]?.[y] === -4) {
+    });
+  });
+  level2.forEach((row, x) => {
+    row.forEach((cell, y) => {
+      if (cell === -4) {
         level2[x]![y] = 0;
       }
-    }
-  }
+    });
+  });
 }
 
 function passingTime(num: number, profNum: number) {
@@ -582,7 +549,6 @@ function passingTime(num: number, profNum: number) {
   const endString = roomSchema.safeParse(profiles[profNum]?.[num + 1]?.[0]);
 
   clearGrid();
-  const zodErrorElement = document.getElementById("zod-error");
 
   if (startString.success && startString.data !== "") {
     start = startString.data;
@@ -602,12 +568,8 @@ function passingTime(num: number, profNum: number) {
   }
 
   if (stinv1 === 0 && stinv2 === 0) {
-    x1 = rooms[start][0];
-    y1 = rooms[start][1];
-    flr1 = rooms[start][2];
-    x2 = rooms[end][0];
-    y2 = rooms[end][1];
-    flr2 = rooms[end][2];
+    [x1, y1, flr1] = rooms[start];
+    [x2, y2, flr2] = rooms[end];
 
     if (flr1 === 1 && flr2 === 1) {
       grid = level1;
@@ -641,39 +603,30 @@ window.passingTime = passingTime;
  * Dark Mode!
  */
 async function toggleDarkMode() {
-  const element = document.body;
+  document.querySelectorAll("#c, #c2, #bg").forEach((element) => {
+    element.classList.toggle("darkMode");
+    element.classList.toggle("lightMode");
+  });
 
-  element.classList.toggle("darkModebg");
-  element.classList.toggle("lightModebg");
+  document
+    .querySelectorAll(
+      Array.from({ length: profiles.length }, (_, i) => `#profBox${i}`).join(
+        ", ",
+      ),
+    )
+    .forEach((element) => {
+      element.classList.toggle("textboxdark");
+      element.classList.toggle("textbox");
+    });
 
-  const c = document.getElementById("c");
+  const isDarkMode = document.body.classList.contains("darkModeBg");
 
-  c?.classList.toggle("darkMode");
-  c?.classList.toggle("lightMode");
+  document.body.classList.toggle("darkModeBg");
+  document.body.classList.toggle("lightModeBg");
+  const darkModeButton = document.getElementById("darkModeButton")!;
 
-  const c2 = document.getElementById("c2");
-
-  c2?.classList.toggle("darkMode");
-  c2?.classList.toggle("lightMode");
-
-  const bg = document.getElementById("bg");
-
-  bg?.classList.toggle("darkMode");
-  bg?.classList.toggle("lightMode");
-
-  for (let i = 0; i < profiles.length; i++) {
-    document.getElementById(`profBox${i}`);
-    c2?.classList.toggle("textboxdark");
-    c2?.classList.toggle("textbox");
-  }
-
-  if (c?.classList.contains("darkMode")) {
-    document.getElementById("darkModeButton")!.innerHTML = "Light Mode";
-    await storage.setItem("shade", "dark");
-  } else if (!element.classList.contains("lightMode")) {
-    document.getElementById("darkModeButton")!.innerHTML = "Dark Mode";
-    await storage.setItem("shade", "light");
-  }
+  darkModeButton.innerHTML = isDarkMode ? "Light Mode" : "Dark Mode";
+  await storage.setItem("shade", isDarkMode ? "dark" : "light");
 }
 window.toggleDarkMode = toggleDarkMode;
 

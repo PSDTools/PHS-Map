@@ -41,7 +41,7 @@ type Rooms = Record<`${Wing}${Lvl}${number}${number}`, Coords>;
 /**
  * Represent the level data.
  */
-// TODO(ParkerH27): Use a Map here.
+// TODO(ParkerH27): Use a Set here.
 type Level = number[][];
 
 /**
