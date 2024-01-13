@@ -370,7 +370,7 @@ window.courseLoop = courseLoop;
 async function locateCourses(profNum: number): Promise<void> {
   prof = profNum;
   profiles[profNum] = [];
-  profiles[0] = profiles[0] ?? [null, ""];
+  profiles[0] = profiles[0] ?? [undefined, ""];
 
   profiles[0]![profNum] = (
     document.getElementById(`nameProf${profNum}`) as HTMLInputElement

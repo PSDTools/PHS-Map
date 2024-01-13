@@ -53,7 +53,7 @@ const roomSchema = z.union([roomStrictSchema, z.literal("")]).readonly();
  * Represents the schema for profiles data.
  */
 const profilesSchema = z.union([
-  z.tuple([z.null()]).rest(z.union([z.string(), z.string().array()])),
+  z.tuple([z.undefined()]).rest(z.union([z.string(), z.string().array()])),
   z.tuple([]),
 ]);
 
