@@ -13,7 +13,6 @@ import {
   faPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import $ from "jquery";
 import * as PF from "pathfinding";
 import { createStorage, type Storage } from "unstorage";
 import indexedDbDriver from "unstorage/drivers/indexedb";
@@ -706,12 +705,11 @@ function downloadImg(element: HTMLAnchorElement) {
 window.downloadImg = downloadImg;
 
 /**
- * Make "Smooth Scroll" Buttons?
+ * Make links scroll smoothly.
  */
-$(($) => {
-  // Add smooth scrolling to all links
-  $<HTMLAnchorElement>("a").on("click", function (event) {
-    // Make sure this.hash has a value before overriding default behavior.
+document.querySelectorAll("a").forEach((anchor) => {
+  anchor.addEventListener("click", function (event) {
+    // Make sure this.hash has a value before overriding default behavior
     if (this.hash === "") {
       return;
     }
@@ -722,15 +720,15 @@ $(($) => {
     // Prevent default anchor click behavior
     event.preventDefault();
 
-    // Use jQuery's animate() method to add smooth page scroll.
-    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area.
-    $<HTMLHtmlElement | HTMLBodyElement>("html, body").animate(
-      { scrollTop: $(hash).offset()?.top },
-      1000,
-      () => {
+    // Use window.scrollTo with behavior: 'smooth' to add smooth page scroll
+    // The scrollIntoView method scrolls the specified element into the visible area of the document
+    const target = document.querySelector(hash);
+
+    if (target !== null) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+
         // Add hash (#) to URL when done scrolling (default click behavior)
         window.location.hash = this.hash;
-      },
-    );
   });
 });

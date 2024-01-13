@@ -29,7 +29,6 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "idb-keyval": "^6.2.1",
-    "jquery": "^3.7.1",
     "pathfinding": "^0.4.18",
     "unstorage": "^1.10.1",
     "workbox-build": "^7.0.0",
@@ -41,9 +40,8 @@
   "devDependencies": {
     "@eslint-types/typescript-eslint": "^6.18.1",
     "@eslint-types/unicorn": "^50.0.1",
-    "@types/eslint": "^8.56.2",
-    "@types/jquery": "^3.5.29",
     "@types/bun": "^1.0.1",
+    "@types/eslint": "^8.56.2",
     "@types/pathfinding": "^0.0.9",
     "browserslist": "^4.22.2",
     "browserslist-to-esbuild": "^2.1.1",
