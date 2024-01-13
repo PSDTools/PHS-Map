@@ -23,6 +23,7 @@ import type { Level, Lvl } from "./data/data-types.ts";
 import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
+  asyncProfilesListSchema,
   btmStairsSchema,
   colorSchema,
   profilesListSchema,
@@ -30,7 +31,6 @@ import {
   stairsSchema,
   type ProfilesList,
   type Room,
-  asyncProfilesListSchema,
 } from "./data/schemas.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
@@ -325,8 +325,8 @@ function printGrid(level: Lvl): void {
   const gridSize = currentGrid.length;
   const cellSize = size / gridSize;
 
-  currentGrid.forEach((row, x) => {
-    row.forEach((cell, y) => {
+  currentGrid.forEach((row: number[], x: number): void => {
+    row.forEach((cell: number, y: number): void => {
       const parsedColor = colorSchema.safeParse(cell.toString());
 
       if (parsedColor.success) {
@@ -358,7 +358,10 @@ function courseLoop(profNum: number): void {
       (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
-    Array.from({ length: coursesAmt - 1 }, (_, i) => i + 1).forEach((i) => {
+    Array.from(
+      { length: coursesAmt - 1 },
+      (_: number, i: number): number => i + 1,
+    ).forEach((i): void => {
       createCourse(i, prof);
     });
     document.getElementById(`passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
@@ -374,15 +377,17 @@ async function locateCourses(profNum: number): Promise<void> {
   profiles[0]![profNum] = (
     document.getElementById(`nameProf${profNum}`) as HTMLInputElement
   ).value;
-  document.querySelectorAll(`.prof${profNum}`).forEach((_, i) => {
-    profiles[profNum]![i] = [];
-    (profiles[profNum]![i] as string[])![0] = (
-      document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
-    ).value;
-    (profiles[profNum]![i] as string[])![1] = (
-      document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
-    ).value;
-  });
+  document
+    .querySelectorAll(`.prof${profNum}`)
+    .forEach((_: Element, i: number): void => {
+      profiles[profNum]![i] = [];
+      (profiles[profNum]![i] as string[])![0] = (
+        document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
+      ).value;
+      (profiles[profNum]![i] as string[])![1] = (
+        document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
+      ).value;
+    });
   await storage.setItem("profiles", profiles);
 }
 window.locateCourses = locateCourses;
@@ -413,9 +418,11 @@ function path(
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
 
-  finder.findPath(x1, y1, x2, y2, matrix).forEach((direction) => {
-    grid[direction[1]!]![direction[0]!] = -4;
-  });
+  finder
+    .findPath(x1, y1, x2, y2, matrix)
+    .forEach((direction: number[]): void => {
+      grid[direction[1]!]![direction[0]!] = -4;
+    });
 
   printGrid(viewLvl);
 }
@@ -520,22 +527,22 @@ function clearGrid(): void {
   const img = source;
 
   ctx.drawImage(img, 0, 0, size, size);
-  level0.forEach((row, x) => {
-    row.forEach((cell, y) => {
+  level0.forEach((row: number[], x: number): void => {
+    row.forEach((cell: number, y: number): void => {
       if (cell === -4) {
         level0[x]![y] = 0;
       }
     });
   });
-  level1.forEach((row, x) => {
-    row.forEach((cell, y) => {
+  level1.forEach((row: number[], x: number): void => {
+    row.forEach((cell: number, y: number): void => {
       if (cell === -4) {
         level1[x]![y] = 0;
       }
     });
   });
-  level2.forEach((row, x) => {
-    row.forEach((cell, y) => {
+  level2.forEach((row: number[], x: number): void => {
+    row.forEach((cell: number, y: number): void => {
       if (cell === -4) {
         level2[x]![y] = 0;
       }
@@ -543,7 +550,7 @@ function clearGrid(): void {
   });
 }
 
-function passingTime(num: number, profNum: number) {
+function passingTime(num: number, profNum: number): void {
   const startString = roomSchema.safeParse(profiles[profNum]?.[num]?.[0]);
   const endString = roomSchema.safeParse(profiles[profNum]?.[num + 1]?.[0]);
 
@@ -601,19 +608,22 @@ window.passingTime = passingTime;
 /**
  * Dark Mode!
  */
-async function toggleDarkMode() {
-  document.querySelectorAll("#c, #c2, #bg").forEach((element) => {
-    element.classList.toggle("darkMode");
-    element.classList.toggle("lightMode");
-  });
+async function toggleDarkMode(): Promise<void> {
+  document
+    .querySelectorAll("#c, #c2, #bg")
+    .forEach((element: Element): void => {
+      element.classList.toggle("darkMode");
+      element.classList.toggle("lightMode");
+    });
 
   document
     .querySelectorAll(
-      Array.from({ length: profiles.length }, (_, i) => `#profBox${i}`).join(
-        ", ",
-      ),
+      Array.from(
+        { length: profiles.length },
+        (_: number, i: number): string => `#profBox${i}`,
+      ).join(", "),
     )
-    .forEach((element) => {
+    .forEach((element: Element): void => {
       element.classList.toggle("textboxdark");
       element.classList.toggle("textbox");
     });
@@ -643,7 +653,7 @@ let px = 1;
 let py = 1;
 let old: number;
 
-function onKeyDown(event: KeyboardEvent) {
+function onKeyDown(event: KeyboardEvent): void {
   switch (viewLvl) {
     case 1: {
       grid = level1;
@@ -697,7 +707,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 window.addEventListener("keydown", onKeyDown);
 
-function downloadImg(element: HTMLAnchorElement) {
+function downloadImg(element: HTMLAnchorElement): void {
   const image = canvas.toDataURL("image/jpg");
 
   element.href = image;
@@ -707,8 +717,8 @@ window.downloadImg = downloadImg;
 /**
  * Make links scroll smoothly.
  */
-document.querySelectorAll("a").forEach((anchor) => {
-  anchor.addEventListener("click", function (event) {
+document.querySelectorAll("a").forEach((anchor: HTMLAnchorElement): void => {
+  anchor.addEventListener("click", function (event: MouseEvent): void {
     // Make sure this.hash has a value before overriding default behavior
     if (this.hash === "") {
       return;
@@ -728,7 +738,7 @@ document.querySelectorAll("a").forEach((anchor) => {
       target.scrollIntoView({ behavior: "smooth" });
     }
 
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = this.hash;
+    // Add hash (#) to URL when done scrolling (default click behavior)
+    window.location.hash = this.hash;
   });
 });
