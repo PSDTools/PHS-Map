@@ -198,5 +198,3 @@ export const rooms = {
   A002: [77, 160, 0],
   A004: [74, 149, 0],
 } as const satisfies Rooms;
-
-export default rooms;
