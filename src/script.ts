@@ -198,7 +198,7 @@ function createCourse(num: number, profNum: number): void {
     <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
-// TODO(lisahduck): Make errors render next to the erroring input.
+// TODO(lishaduck): Make errors render next to the erroring input.
 const zodErrorElement = document.getElementById("zod-error");
 
 async function applySavedProfiles(): Promise<void> {
