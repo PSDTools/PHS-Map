@@ -215,11 +215,12 @@ async function applySavedProfiles(): Promise<void> {
       for (let f = 1; f < (profiles[i]?.length ?? 0) + 1; f++) {
         createCourse(f, i);
         const roomInput = document.getElementById(`rmnum${f}${i}txt`);
-        const nameInput = document.getElementById(
-          `cl${f}${i}txt`,
-        ) as HTMLInputElement;
+        const nameInput = document.getElementById(`cl${f}${i}txt`);
 
-        if (roomInput instanceof HTMLInputElement) {
+        if (
+          roomInput instanceof HTMLInputElement &&
+          nameInput instanceof HTMLInputElement
+        ) {
           const parsedRoom = roomSchema.safeParse(profiles[i]?.[f - 1]?.[0]);
 
           if (parsedRoom.success) {
