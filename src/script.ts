@@ -23,13 +23,12 @@ import type { Coords2D, Level, Lvl, StairList } from "./data/data-types.ts";
 import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
-  asyncProfilesListSchema,
+  isKey,
+  numberIndexSchema,
   profilesListSchema,
   roomSchema,
-  numberIndexSchema,
   type ProfilesList,
   type Room,
-  isKey,
 } from "./data/schemas.ts";
 import { btmStairs, stairs } from "./data/stairs.ts";
 
@@ -202,10 +201,8 @@ function createCourse(num: number, profNum: number): void {
 const zodErrorElement = document.getElementById("zod-error");
 
 async function applySavedProfiles(): Promise<void> {
-  const unparsedProfiles = await asyncProfilesListSchema.parse(
-    storage.getItem("profiles"),
-  );
-  const parsedProfiles = profilesListSchema.safeParse(unparsedProfiles);
+  const unparsedProfiles = await storage.getItem("profiles");
+  const parsedProfiles = profilesListSchema.safeParse(unparsedProfiles ?? []);
 
   if (parsedProfiles.success) {
     profiles = parsedProfiles.data;

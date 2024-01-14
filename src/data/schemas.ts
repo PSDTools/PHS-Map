@@ -53,38 +53,44 @@ const roomStrictSchema = z.custom<keyof typeof rooms>(
 const roomSchema = z.union([roomStrictSchema, z.literal("")]).readonly();
 
 /**
+ * Coerces a null value to undefined.
+ *
+ * @param val - Something possibly nullable.
+ * @returns Something, but the null value is coerced to undefined.
+ */
+function coerceNullToUndefined(val: unknown): unknown {
+  return val ?? undefined;
+}
+
+/**
  * Represents the schema for profiles data.
  */
 const profilesSchema = z.union([
-  z.tuple([z.undefined()]).rest(z.union([z.string(), z.string().array()])),
+  z
+    .tuple([z.preprocess(coerceNullToUndefined, z.undefined())])
+    .rest(z.union([z.string(), z.string().array()])),
   z.tuple([]),
 ]);
 
 /**
  * Represents the schema for an individual profile.
  */
-const profileSchema = z.array(z.tuple([z.string(), z.string()]));
+const profileSchema = z.tuple([z.string(), z.string()]);
 
 /**
  * Represents the schema for a list of profiles.
  */
 // TODO(ParkerH27): Make this a Map.
 const profilesListSchema = z.union([
-  z.tuple([profilesSchema]).rest(profileSchema),
+  z.tuple([profilesSchema]).rest(profileSchema.array()),
   z.tuple([]),
 ]);
 
-const asyncProfilesListSchema = z.promise(profilesListSchema.nullish());
-
 const numberIndexSchema = z.custom<NumberIndex>((val) =>
-  z
-    .string()
-    .refine((val2) => !isNaN(Number(val2)))
-    .safeParse(val),
+  z.string().regex(/^\d+$/).safeParse(val),
 );
 
 export {
-  asyncProfilesListSchema,
   isKey,
   numberIndexSchema,
   profilesListSchema,
