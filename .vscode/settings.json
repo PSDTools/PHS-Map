@@ -2,13 +2,9 @@
   "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"],
   "eslint.experimental.useFlatConfig": true,
   "explorer.fileNesting.patterns": {
-    "package.json": ".prettierc, .prettierignore, bun.lockb, eslint.config.js, turbo.json",
+    "package.json": ".prettierrc, .prettierignore, bun.lockb, eslint.config.js, turbo.json",
     "README*": "*.${capture}",
     ".replit": "replit.*"
   },
-  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
-  "search.exclude": {
-    "**/.yarn": true,
-    "**/.pnp.*": true
-  }
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs"
 }
