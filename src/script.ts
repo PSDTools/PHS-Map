@@ -207,7 +207,7 @@ async function applySavedProfiles(): Promise<void> {
   if (parsedProfiles.success) {
     profiles = parsedProfiles.data;
 
-    // We can't use `.forEach` here to reduce the number of DOM queries because `createProfile()` mutates the DOM.
+    // We can't use `for-of` here to reduce the number of DOM queries because `createProfile()` mutates the DOM.
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
       (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
@@ -293,16 +293,16 @@ function printGrid(level: Lvl): void {
   const gridSize = currentGrid.length;
   const cellSize = size / gridSize;
 
-  currentGrid.forEach((row: number[], x: number): void => {
-    row.forEach((cell: number, y: number): void => {
+  for (const [x, row] of currentGrid.entries()) {
+    for (const [y, cell] of row.entries()) {
       const key = cell.toString();
 
       if (isKey(colorMap, key)) {
         ctx.fillStyle = colorMap[key];
         ctx.fillRect(cellSize * y, cellSize * x, cellSize, cellSize);
       }
-    });
-  });
+    }
+  }
   ctx.fillStyle = "#FFFFFF";
   ctx.fillRect((size / 8) * 7, size, size / 8, (size / 17) * -1);
   ctx.fillStyle = "#000000";
@@ -326,12 +326,14 @@ function courseLoop(profNum: number): void {
       (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
-    Array.from(
+    const array = Array.from(
       { length: coursesAmt - 1 },
       (_: number, i: number): number => i + 1,
-    ).forEach((i): void => {
+    );
+
+    for (const i of array) {
       createCourse(i, prof);
-    });
+    }
     document.getElementById(`passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
   }
 }
@@ -345,17 +347,16 @@ async function locateCourses(profNum: number): Promise<void> {
   profiles[0]![profNum] = (
     document.getElementById(`nameProf${profNum}`) as HTMLInputElement
   ).value;
-  document
-    .querySelectorAll(`.prof${profNum}`)
-    .forEach((_: Element, i: number): void => {
-      profiles[profNum]![i] = [];
-      (profiles[profNum]![i] as string[])![0] = (
-        document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
-      ).value;
-      (profiles[profNum]![i] as string[])![1] = (
-        document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
-      ).value;
-    });
+  for (const [i] of document.querySelectorAll(`.prof${profNum}`).entries()) {
+    profiles[profNum]![i] = [];
+    (profiles[profNum]![i] as string[])![0] = (
+      document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
+    ).value;
+    (profiles[profNum]![i] as string[])![1] = (
+      document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
+    ).value;
+  }
+
   await storage.setItem("profiles", profiles);
 }
 window.locateCourses = locateCourses;
@@ -386,11 +387,9 @@ function path(
   const matrix = new PF.Grid(grid);
   const finder = new PF.AStarFinder();
 
-  finder
-    .findPath(x1, y1, x2, y2, matrix)
-    .forEach((direction: number[]): void => {
-      grid[direction[1]!]![direction[0]!] = -4;
-    });
+  for (const direction of finder.findPath(x1, y1, x2, y2, matrix)) {
+    grid[direction[1]!]![direction[0]!] = -4;
+  }
 
   printGrid(viewLvl);
 }
@@ -404,19 +403,17 @@ function pathCalculationInternals(
 ): Coords2D | undefined {
   let minData = { min: Infinity, minIndex: -1 };
 
-  Object.values(stairs).forEach(
-    ([first, second]: Coords2D, index: number): void => {
-      const distance =
-        Math.abs(x1 - first) +
-        Math.abs(y1 - second) +
-        Math.abs(x2 - first) +
-        Math.abs(y2 - second);
+  for (const [index, [first, second]] of Object.values(stairs).entries()) {
+    const distance =
+      Math.abs(x1 - first) +
+      Math.abs(y1 - second) +
+      Math.abs(x2 - first) +
+      Math.abs(y2 - second);
 
-      if (distance < minData.min) {
-        minData = { min: distance, minIndex: index };
-      }
-    },
-  );
+    if (distance < minData.min) {
+      minData = { min: distance, minIndex: index };
+    }
+  }
 
   return stairs[numberIndexSchema.parse(minData.minIndex.toString())];
 }
@@ -495,27 +492,27 @@ function clearGrid(): void {
   const img = source;
 
   ctx.drawImage(img, 0, 0, size, size);
-  level0.forEach((row: number[], x: number): void => {
-    row.forEach((cell: number, y: number): void => {
+  for (const [x, row] of level0.entries()) {
+    for (const [y, cell] of row.entries()) {
       if (cell === -4) {
         level0[x]![y] = 0;
       }
-    });
-  });
-  level1.forEach((row: number[], x: number): void => {
-    row.forEach((cell: number, y: number): void => {
+    }
+  }
+  for (const [x, row] of level1.entries()) {
+    for (const [y, cell] of row.entries()) {
       if (cell === -4) {
         level1[x]![y] = 0;
       }
-    });
-  });
-  level2.forEach((row: number[], x: number): void => {
-    row.forEach((cell: number, y: number): void => {
+    }
+  }
+  for (const [x, row] of level2.entries()) {
+    for (const [y, cell] of row.entries()) {
       if (cell === -4) {
         level2[x]![y] = 0;
       }
-    });
-  });
+    }
+  }
 }
 
 function passingTime(num: number, profNum: number): void {
@@ -577,24 +574,21 @@ window.passingTime = passingTime;
  * Dark Mode!
  */
 async function toggleDarkMode(): Promise<void> {
-  document
-    .querySelectorAll("#c, #c2, #bg")
-    .forEach((element: Element): void => {
-      element.classList.toggle("darkMode");
-      element.classList.toggle("lightMode");
-    });
+  // Query for every element that has the class "darkMode" or "lightMode" and toggle them.
+  for (const element of document.querySelectorAll(".darkMode, .lightMode")) {
+    element.classList.toggle("darkMode");
+    element.classList.toggle("lightMode");
+  }
 
-  document
-    .querySelectorAll(
-      Array.from(
-        { length: profiles.length },
-        (_: number, i: number): string => `#profBox${i}`,
-      ).join(", "),
-    )
-    .forEach((element: Element): void => {
-      element.classList.toggle("textboxdark");
-      element.classList.toggle("textbox");
-    });
+  for (const element of document.querySelectorAll(
+    Array.from(
+      { length: profiles.length },
+      (_: number, i: number): string => `#profBox${i}`,
+    ).join(", "),
+  )) {
+    element.classList.toggle("textboxdark");
+    element.classList.toggle("textbox");
+  }
 
   const isDarkMode = document.body.classList.contains("darkModeBg");
 
@@ -715,28 +709,33 @@ window.downloadImg = downloadImg;
 /**
  * Make links scroll smoothly.
  */
-document.querySelectorAll("a").forEach((anchor: HTMLAnchorElement): void => {
-  anchor.addEventListener("click", function (event: MouseEvent): void {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash === "") {
-      return;
-    }
+for (const anchor of document.querySelectorAll("a")) {
+  anchor.addEventListener(
+    "click",
 
-    // Store hash
-    const hash = this.hash;
+    ((document, window) =>
+      function (event: MouseEvent): void {
+        // Make sure this.hash has a value before overriding default behavior
+        if (anchor.hash === "") {
+          return;
+        }
 
-    // Prevent default anchor click behavior
-    event.preventDefault();
+        // Store hash
+        const hash = anchor.hash;
 
-    // Use window.scrollTo with behavior: 'smooth' to add smooth page scroll
-    // The scrollIntoView method scrolls the specified element into the visible area of the document
-    const target = document.querySelector(hash);
+        // Prevent default anchor click behavior
+        event.preventDefault();
 
-    if (target !== null) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+        // Use window.scrollTo with behavior: 'smooth' to add smooth page scroll
+        // The scrollIntoView method scrolls the specified element into the visible area of the document
+        const target = document.querySelector(hash);
 
-    // Add hash (#) to URL when done scrolling (default click behavior)
-    window.location.hash = this.hash;
-  });
-});
+        if (target !== null) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = this.hash;
+      })(document, window),
+  );
+}
