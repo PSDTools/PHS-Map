@@ -30,6 +30,8 @@ jobs:
 
       - name: Install bun
         uses: oven-sh/setup-bun@9b21598af8d4dfc302e5a30250007de0fda92acc # v1.1.0
+        with:
+          bun-version: 1.0.25
 
       - name: Cache
         uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
@@ -44,9 +46,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Lint & Vite Build
-        # Use --bun once the next release is cut.
-        # Right now, bun is incorrectly parsing dotfiles.
-        run: bun run turbo build
+        run: bun --bun run turbo build
 
       - name: Redirect 404 to Index for SPA
         run: cp dist/index.html dist/404.html
