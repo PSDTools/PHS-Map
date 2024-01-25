@@ -52,14 +52,12 @@ declare global {
   }
 }
 
-// If not marked with //, should be able to remove at a later time.
-
-let grid: Level; //
-let canvas: HTMLCanvasElement; //
-let ctx: CanvasRenderingContext2D; //
-let coursesAmt: number; //
+let grid: Level;
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D;
+let coursesAmt: number;
 let viewLvl: Lvl;
-let profiles: ProfilesList = []; //
+let profiles: ProfilesList = [];
 let source: HTMLImageElement;
 let size: number;
 let profNum: number;
