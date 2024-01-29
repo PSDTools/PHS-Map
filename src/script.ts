@@ -24,7 +24,6 @@ import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
   isKey,
-  numberIndexSchema,
   profilesListSchema,
   roomSchema,
   type ProfilesList,
@@ -413,7 +412,7 @@ function pathCalculationInternals(
     }
   }
 
-  return stairs[numberIndexSchema.parse(minData.minIndex.toString())];
+  return stairs[minData.minIndex];
 }
 
 function stairPath(

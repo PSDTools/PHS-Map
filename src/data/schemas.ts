@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { NumberIndex } from "./data-types.ts";
 import { rooms } from "./rooms.ts";
 
 type ProfilesList = z.infer<typeof profilesListSchema>;
@@ -86,15 +85,4 @@ const profilesListSchema = z.union([
   z.tuple([]),
 ]);
 
-const numberIndexSchema = z.custom<NumberIndex>((val) =>
-  z.string().regex(/^\d+$/).safeParse(val),
-);
-
-export {
-  isKey,
-  numberIndexSchema,
-  profilesListSchema,
-  roomSchema,
-  type ProfilesList,
-  type Room,
-};
+export { isKey, profilesListSchema, roomSchema, type ProfilesList, type Room };
