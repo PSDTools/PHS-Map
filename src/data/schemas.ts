@@ -79,7 +79,6 @@ const profileSchema = z.tuple([z.string(), z.string()]);
 /**
  * Represents the schema for a list of profiles.
  */
-// TODO(ParkerH27): Make this a Map.
 const profilesListSchema = z.union([
   z.tuple([profilesSchema]).rest(profileSchema.array()),
   z.tuple([]),
