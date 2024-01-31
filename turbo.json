@@ -10,14 +10,14 @@
       ]
     },
     "bundle": {
+      "outputs": [
+        "dist/**"
+      ],
       "inputs": [
         "src/**",
         "public/**",
         "vite.config.ts",
         "index.html"
-      ],
-      "outputs": [
-        "dist/**"
       ]
     },
     "lint": {
@@ -65,13 +65,15 @@
         "node_modules/.cache/prettier/**"
       ],
       "inputs": [
+        "$TURBO_DEFAULT$",
         "**/*.html",
         "**/*.ts",
         "**/*.md",
         "**/*.json",
         "**/*.js",
         "**/*.css",
-        ".prettierc"
+        ".prettierc",
+        "!**/dist/**"
       ]
     },
     "format:check": {
@@ -79,6 +81,7 @@
         "node_modules/.cache/prettier/**"
       ],
       "inputs": [
+        "$TURBO_DEFAULT$",
         "**/*.html",
         "**/*.ts",
         "**/*.md",
@@ -86,21 +89,22 @@
         "turbo.json",
         "**/*.js",
         "**/*.css",
-        ".prettierc"
+        ".prettierc",
+        "!**/dist/**"
       ]
     },
     "dev": {
       "cache": false,
       "persistent": true,
+      "outputs": [
+        "node_modules/.vite/**",
+        "dev-dist/**"
+      ],
       "inputs": [
         "src/**",
         "public/**",
         "vite.config.ts",
         "index.html"
-      ],
-      "outputs": [
-        "node_modules/.vite/**",
-        "dev-dist/**"
       ]
     }
   },
