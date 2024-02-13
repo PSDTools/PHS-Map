@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@eslint-types/typescript-eslint": "^6.21.0",
-    "@eslint-types/unicorn": "^50.0.1",
+    "@eslint-types/unicorn": "^51.0.1",
     "@types/bun": "^1.0.5",
     "@types/eslint": "^8.56.2",
     "@types/pathfinding": "^0.0.9",
