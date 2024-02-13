@@ -36,24 +36,24 @@
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "zod": "^3.22.4",
-    "zod-validation-error": "^3.0.0"
+    "zod-validation-error": "^3.0.2"
   },
   "devDependencies": {
-    "@eslint-types/typescript-eslint": "^6.18.1",
+    "@eslint-types/typescript-eslint": "^6.21.0",
     "@eslint-types/unicorn": "^50.0.1",
-    "@types/bun": "^1.0.1",
+    "@types/bun": "^1.0.5",
     "@types/eslint": "^8.56.2",
     "@types/pathfinding": "^0.0.9",
-    "browserslist": "^4.22.2",
+    "browserslist": "^4.22.3",
     "browserslist-to-esbuild": "^2.1.1",
     "eslint": "^8.56.0",
     "eslint-config-sheriff": "^18.1.0",
     "eslint-define-config": "^2.1.0",
-    "lightningcss": "^1.22.1",
-    "prettier": "3.2.4",
+    "lightningcss": "^1.23.0",
+    "prettier": "3.2.5",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11",
-    "vite-plugin-pwa": "^0.17.4",
+    "vite": "^5.1.1",
+    "vite-plugin-pwa": "^0.18.1",
     "vite-plugin-webfont-dl": "^3.9.1"
   },
   "scripts": {
