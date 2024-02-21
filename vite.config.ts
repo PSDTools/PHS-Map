@@ -19,7 +19,7 @@ export default defineConfig({
       },
     },
     target: browserslistToEsbuild(browsersList),
-    cssMinify: "lightningcss",
+    // cssMinify: "lightningcss",
   },
   css: {
     transformer: "lightningcss",

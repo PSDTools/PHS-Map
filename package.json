@@ -30,7 +30,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "idb-keyval": "^6.2.1",
     "pathfinding": "^0.4.18",
-    "turbo": "^1.12.0",
     "unstorage": "^1.10.1",
     "workbox-build": "^7.0.0",
     "workbox-core": "^7.0.0",
@@ -41,6 +40,7 @@
   "devDependencies": {
     "@eslint-types/typescript-eslint": "^6.21.0",
     "@eslint-types/unicorn": "^51.0.1",
+    "@sherifforg/types": "^3.0.0",
     "@types/bun": "^1.0.5",
     "@types/eslint": "^8.56.2",
     "@types/pathfinding": "^0.0.9",
@@ -51,6 +51,7 @@
     "eslint-define-config": "^2.1.0",
     "lightningcss": "^1.23.0",
     "prettier": "3.2.5",
+    "turbo": "^1.12.4",
     "typescript": "^5.3.3",
     "vite": "^5.1.1",
     "vite-plugin-pwa": "^0.18.1",

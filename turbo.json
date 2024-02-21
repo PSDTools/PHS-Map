@@ -22,8 +22,8 @@
     },
     "lint": {
       "inputs": [
-        "src/**",
-        "vite.config.ts"
+        "**/*.ts",
+        "eslint.config.js"
       ]
     },
     "typecheck": {

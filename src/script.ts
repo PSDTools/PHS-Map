@@ -341,15 +341,15 @@ async function locateCourses(profNum: number): Promise<void> {
   profiles[profNum] = [];
   profiles[0] = profiles[0] ?? [undefined, ""];
 
-  profiles[0]![profNum] = (
+  profiles[0][profNum] = (
     document.getElementById(`nameProf${profNum}`) as HTMLInputElement
   ).value;
   for (const [i] of document.querySelectorAll(`.prof${profNum}`).entries()) {
     profiles[profNum]![i] = [];
-    (profiles[profNum]![i] as string[])![0] = (
+    (profiles[profNum]![i] as string[])[0] = (
       document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
-    (profiles[profNum]![i] as string[])![1] = (
+    (profiles[profNum]![i] as string[])[1] = (
       document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
   }
