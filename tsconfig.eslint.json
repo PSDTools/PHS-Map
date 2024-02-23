@@ -4,6 +4,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.extra.json",
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "types": ["@types/bun"]
   }
 }
