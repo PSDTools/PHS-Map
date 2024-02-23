@@ -32,16 +32,16 @@ export default defineFlatConfig([
   {
     files: ["**/*.ts"],
     rules: {
-      "padding-line-between-statements": "warn",
       "@typescript-eslint/naming-convention": "off",
-      "prefer-destructuring": "warn",
+      "prefer-destructuring": "off",
+      "@typescript-eslint/prefer-destructuring": "warn",
       "unicorn/prefer-query-selector": "warn",
       "func-style": ["error", "declaration", { allowArrowFunctions: true }],
       "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
       "operator-assignment": ["warn", "always"],
       "@typescript-eslint/no-non-null-assertion": "off",
       "no-console": "warn",
-      "no-negated-condition": "warn",
+      "no-negated-condition": "off",
       "unicorn/no-negated-condition": "error",
       "@typescript-eslint/ban-ts-comment": [
         "error",
