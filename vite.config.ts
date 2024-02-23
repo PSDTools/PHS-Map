@@ -7,10 +7,11 @@ import { VitePWA } from "vite-plugin-pwa";
 import webfontDownload from "vite-plugin-webfont-dl";
 
 const browsersList = browserslist();
+const basename = "/PHS-Map/";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/PHS-Map/",
+  base: basename,
   build: {
     sourcemap: true,
     rollupOptions: {
@@ -44,14 +45,14 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
       },
       manifest: {
-        id: "/PHS-Map/",
-        scope: "/PHS-Map/",
+        id: basename,
+        scope: basename,
         name: "Pattonville Senior High School Map",
         display: "standalone",
-        start_url: "/PHS-Map/",
+        start_url: basename,
         short_name: "PHS Map",
         theme_color: "#00843e",
-        description: "Pattonville Senior High School Map",
+        description: "A map of Pattonville Senior High School",
         dir: "ltr",
         orientation: "any",
         background_color: "#000000",
@@ -63,7 +64,6 @@ export default defineConfig({
             src: join(basename, `psdr3-icon.png`),
             sizes: "512x512",
             type: "image/png",
-            purpose: "any",
           },
         ],
         screenshots: [],
