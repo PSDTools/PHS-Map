@@ -1,4 +1,4 @@
-import { resolve, join } from "node:path";
+import { resolve } from "node:path";
 import browserslist from "browserslist";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { browserslistToTargets } from "lightningcss";
@@ -61,17 +61,16 @@ export default defineConfig({
         related_applications: [],
         prefer_related_applications: false,
         display_override: ["window-controls-overlay"],
-        icons: [
-          {
-            src: join(basename, `psdr3-icon.png`),
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
         screenshots: [],
         // features: [],
         categories: [],
         shortcuts: [],
+      },
+      pwaAssets: {
+        htmlPreset: "2023",
+        preset: "minimal-2023",
+        image: "public/logo.svg",
+        overrideManifestIcons: true,
       },
     }),
   ],

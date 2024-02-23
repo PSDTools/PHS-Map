@@ -44,6 +44,7 @@
     "@types/bun": "^1.0.7",
     "@types/eslint": "^8.56.3",
     "@types/pathfinding": "^0.0.9",
+    "@vite-pwa/assets-generator": "^0.2.4",
     "browserslist": "^4.23.0",
     "browserslist-to-esbuild": "^2.1.1",
     "eslint": "^8.56.0",
@@ -54,7 +55,7 @@
     "turbo": "^1.12.4",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
-    "vite-plugin-pwa": "^0.18.2",
+    "vite-plugin-pwa": "^0.19.0",
     "vite-plugin-webfont-dl": "^3.9.1"
   },
   "scripts": {

@@ -46,7 +46,8 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Lint & Vite Build
-        run: bun --bun run turbo build
+        # Sharp is buggy w/Bun.
+        run: bun run turbo build
 
       - name: Redirect 404 to Index for SPA
         run: cp dist/index.html dist/404.html
