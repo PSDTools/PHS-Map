@@ -17,7 +17,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         // TODO(lishaduck): Once oven-sh/bun#2472 is resolved, use it. Pun not intended :)
-        main: resolve(import.meta.dir, "index.html"),
+        main: resolve(import.meta.dirname, "index.html"),
       },
     },
     target: browserslistToEsbuild(browsersList),
