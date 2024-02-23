@@ -43,7 +43,7 @@ jobs:
           key: ${{ runner.os }}-bun-turbo-${{ hashFiles('**/turbo.json') }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun --bun install --frozen-lockfile
 
       - name: Lint & Vite Build
         # Sharp is buggy w/Bun.

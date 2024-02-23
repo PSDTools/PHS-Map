@@ -5,6 +5,7 @@ import { browserslistToTargets } from "lightningcss";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import webfontDownload from "vite-plugin-webfont-dl";
+import { minify } from "html-minifier-terser";
 
 const browsersList = browserslist();
 const basename = "/PHS-Map/";
@@ -31,6 +32,28 @@ export default defineConfig({
   },
   plugins: [
     webfontDownload(["https://fonts.googleapis.com/css?family=Lato"]),
+    {
+      name: "html-minify", // Name of the plugin
+      transformIndexHtml: {
+        order: "post",
+        handler: async (html: string): Promise<string> =>
+          minify(html, {
+            removeAttributeQuotes: true,
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            collapseBooleanAttributes: true,
+            minifyURLs: true,
+            collapseInlineTagWhitespace: true,
+            decodeEntities: true,
+            noNewlinesBeforeTagClose: true,
+            removeStyleLinkTypeAttributes: true,
+            removeScriptTypeAttributes: true,
+          }),
+      },
+    },
     VitePWA({
       strategies: "injectManifest",
       injectManifest: {
