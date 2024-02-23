@@ -60,6 +60,9 @@
     "vite-plugin-pwa": "^0.19.0",
     "vite-plugin-webfont-dl": "^3.9.1"
   },
+  "trustedDependencies": [
+    "sharp"
+  ],
   "scripts": {
     "dev": "vite --open",
     "bundle": "vite build",
@@ -70,7 +73,7 @@
     "format:check": "prettier . --check",
     "lint": "eslint ."
   },
-  "packageManager": "bun@1.0.13",
+  "packageManager": "bun@1.0.29",
   "browserslist": [
     "defaults and fully supports es6-module"
   ]

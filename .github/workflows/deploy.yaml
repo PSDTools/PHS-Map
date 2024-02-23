@@ -31,23 +31,26 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@9b21598af8d4dfc302e5a30250007de0fda92acc # v1.1.0
         with:
-          bun-version: 1.0.25
+          bun-version: 1.0.29
 
       - name: Cache
         uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        id: cache
         with:
           path: |
             .turbo
             node_modules
             ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-turbo-${{ hashFiles('**/turbo.json') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-node_modules-${{ hashFiles('**/bun.lockb', '**/turbo.json') }}
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: bun --bun install --frozen-lockfile
+        env:
+          SHARP_IGNORE_GLOBAL_LIBVIPS: 1
 
       - name: Lint & Vite Build
-        # Sharp is buggy w/Bun.
-        run: bun run turbo build
+        run: bun --bun run turbo build
 
       - name: Redirect 404 to Index for SPA
         run: cp dist/index.html dist/404.html
