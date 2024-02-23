@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+import { resolve, join } from "node:path";
 import browserslist from "browserslist";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { browserslistToTargets } from "lightningcss";
@@ -15,11 +15,12 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
+        // TODO(lishaduck): Once oven-sh/bun#2472 is resolved, use it. Pun not intended :)
+        main: resolve(import.meta.dir, "index.html"),
       },
     },
     target: browserslistToEsbuild(browsersList),
-    // cssMinify: "lightningcss",
+    // cssMinify: "lightningcss", // Currently doesn't support first-child.
   },
   css: {
     transformer: "lightningcss",
@@ -59,7 +60,7 @@ export default defineConfig({
         display_override: ["window-controls-overlay"],
         icons: [
           {
-            src: "/PHS-Map/psdr3-icon.png",
+            src: join(basename, `psdr3-icon.png`),
             sizes: "512x512",
             type: "image/png",
             purpose: "any",
