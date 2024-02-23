@@ -39,6 +39,8 @@ export default defineConfig({
         globDirectory: "dist",
         globPatterns: ["**/*.{html,js,css,json,png}"],
       },
+      injectRegister: "script-defer",
+      registerType: "autoUpdate",
       srcDir: "src",
       filename: "sw.ts",
       workbox: {
