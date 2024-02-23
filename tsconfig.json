@@ -33,7 +33,7 @@
     "experimentalDecorators": false,
     "useDefineForClassFields": true,
     "paths": {},
-    "types": ["vite-plugin-pwa/client", "vite/client"]
+    "types": ["vite-plugin-pwa/vanillajs", "vite/client"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "src/sw.ts"]
