@@ -94,7 +94,7 @@ dom.watch();
  * @param isOpen - True if the nav should be open, false if it should be closed.
  */
 function toggleNav(isOpen: boolean): void {
-  const sidenav = document.getElementById("my-sidenav");
+  const sidenav = document.querySelector("#my-sidenav");
   const open = "open-nav";
   const close = "close-nav";
 
@@ -120,7 +120,7 @@ function createProfile(profNum: number): void {
   const tempElementIdNext = `tempProf${profNum + 1}`;
 
   // Creates html elements in the courses class.
-  document.getElementById(tempElementId)!.innerHTML = `<div
+  document.querySelector(`#${tempElementId}`)!.innerHTML = `<div
       class="prof txtbox w3-animate-right"
       id="profBox${prof}"
     >
@@ -157,7 +157,7 @@ function createCourse(num: number, profNum: number): void {
   const tempElementIdNext = `temp${prof}${numNext}`;
 
   // Creates html elements in the courses class.
-  document.getElementById(tempElementId)!.innerHTML = `<div
+  document.querySelector(`#${tempElementId}`)!.innerHTML = `<div
       id="input-con-div"
       class=" input-container lightModeInput"
     >
@@ -195,7 +195,7 @@ function createCourse(num: number, profNum: number): void {
 }
 
 // TODO(lishaduck): Make errors render next to the erroring input.
-const zodErrorElement = document.getElementById("zod-error");
+const zodErrorElement = document.querySelector("#zod-error");
 
 async function applySavedProfiles(): Promise<void> {
   const unparsedProfiles = await storage.getItem("profiles");
@@ -207,12 +207,12 @@ async function applySavedProfiles(): Promise<void> {
     // We can't use `for-of` here to reduce the number of DOM queries because `createProfile()` mutates the DOM.
     for (let i = 1; i < profiles.length; i++) {
       createProfile(i);
-      (document.getElementById(`nameProf${i}`) as HTMLInputElement).value =
+      (document.querySelector(`#nameProf${i}`) as HTMLInputElement).value =
         (profiles[0]?.[i] ?? "") as string;
       for (let f = 1; f < (profiles[i]?.length ?? 0) + 1; f++) {
         createCourse(f, i);
-        const roomInput = document.getElementById(`rmnum${f}${i}txt`);
-        const nameInput = document.getElementById(`cl${f}${i}txt`);
+        const roomInput = document.querySelector(`#rmnum${f}${i}txt`);
+        const nameInput = document.querySelector(`#cl${f}${i}txt`);
 
         if (
           roomInput instanceof HTMLInputElement &&
@@ -223,7 +223,7 @@ async function applySavedProfiles(): Promise<void> {
           if (parsedRoom.success) {
             roomInput.value = parsedRoom.data;
           } else {
-            document.getElementById("zod-error")!.innerHTML = fromZodError(
+            document.querySelector("#zod-error")!.innerHTML = fromZodError(
               parsedRoom.error,
             ).toString();
             stinv1 = 1;
@@ -233,8 +233,8 @@ async function applySavedProfiles(): Promise<void> {
       }
 
       const lastCourseIndex = profiles[i]?.length;
-      const lastCourse = document.getElementById(
-        `passing${lastCourseIndex}${i}`,
+      const lastCourse = document.querySelector(
+        `#passing${lastCourseIndex}${i}`,
       );
 
       lastCourse?.classList.replace("display-block", "display-none");
@@ -252,7 +252,7 @@ async function remProf(profNum: number): Promise<void> {
   profiles.splice(profNum, 1);
   profiles[0]?.splice(profNum, 1);
 
-  window.document.getElementById("profiles")!.innerHTML = `<div
+  window.document.querySelector("#profiles")!.innerHTML = `<div
     class=""
     id="tempProf1"
   ></div>`;
@@ -308,9 +308,9 @@ function printGrid(level: Lvl): void {
 }
 
 function createCanvas(): void {
-  canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
+  canvas = document.querySelector("#my-canvas") as HTMLCanvasElement;
   ctx = canvas.getContext("2d")!;
-  size = (document.getElementById("c")?.offsetWidth ?? 0) - 48;
+  size = (document.querySelector<HTMLDivElement>("#c")?.offsetWidth ?? 0) - 48;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
   printGrid(viewLvl);
@@ -320,7 +320,7 @@ function courseLoop(profNum: number): void {
   prof = profNum;
   coursesAmt =
     parseInt(
-      (document.getElementById(`num${profNum}`) as HTMLInputElement).value,
+      (document.querySelector(`#num${profNum}`) as HTMLInputElement).value,
     ) + 1;
   if (!Number.isNaN(coursesAmt)) {
     const array = Array.from(
@@ -331,7 +331,7 @@ function courseLoop(profNum: number): void {
     for (const i of array) {
       createCourse(i, prof);
     }
-    document.getElementById(`passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
+    document.querySelector(`#passing${coursesAmt - 1}${prof}`)!.innerHTML = "";
   }
 }
 window.courseLoop = courseLoop;
@@ -342,15 +342,15 @@ async function locateCourses(profNum: number): Promise<void> {
   profiles[0] = profiles[0] ?? [undefined, ""];
 
   profiles[0][profNum] = (
-    document.getElementById(`nameProf${profNum}`) as HTMLInputElement
+    document.querySelector(`#nameProf${profNum}`) as HTMLInputElement
   ).value;
   for (const [i] of document.querySelectorAll(`.prof${profNum}`).entries()) {
     profiles[profNum]![i] = [];
     (profiles[profNum]![i] as string[])[0] = (
-      document.getElementById(`rmnum${i + 1}${prof}txt`) as HTMLInputElement
+      document.querySelector(`#rmnum${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
     (profiles[profNum]![i] as string[])[1] = (
-      document.getElementById(`cl${i + 1}${prof}txt`) as HTMLInputElement
+      document.querySelector(`#cl${i + 1}${prof}txt`) as HTMLInputElement
     ).value;
   }
 
@@ -369,7 +369,7 @@ window.addProf = addProf;
 
 function lvl(level: Lvl): void {
   viewLvl = level;
-  source = document.getElementById(`LVL${level}`) as HTMLImageElement;
+  source = document.querySelector(`#LVL${level}`) as HTMLImageElement;
   createCanvas();
 }
 window.lvl = lvl;
@@ -591,7 +591,7 @@ async function toggleDarkMode(): Promise<void> {
 
   document.body.classList.toggle("darkModeBg");
   document.body.classList.toggle("lightModeBg");
-  const darkModeButton = document.getElementById("darkModeButton")!;
+  const darkModeButton = document.querySelector("#darkModeButton")!;
 
   darkModeButton.innerHTML = isDarkMode ? "Light Mode" : "Dark Mode";
   await storage.setItem("shade", isDarkMode ? "dark" : "light");
@@ -718,7 +718,7 @@ for (const anchor of document.querySelectorAll("a")) {
         }
 
         // Store hash
-        const hash = anchor.hash;
+        const { hash } = anchor;
 
         // Prevent default anchor click behavior
         event.preventDefault();
