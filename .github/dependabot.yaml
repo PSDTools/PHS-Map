@@ -12,6 +12,27 @@ updates:
       interval: "daily"
     assignees:
       - "lishaduck"
+    groups:
+      lint:
+        patterns:
+          - "@eslint-types/*"
+          - "@sherifforg/*"
+          - "eslint*"
+      build:
+        patterns:
+          - "vite*"
+          - "@vite-pwa/*"
+          - "workbox*"
+          - "browserslist*"
+          - "*html-minifier-terser"
+          - "lightningcss"
+          - "turbo"
+      fontawesome:
+        patterns:
+          - "@fortawesome/*"
+      zod:
+        patterns:
+          - "zod*"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
