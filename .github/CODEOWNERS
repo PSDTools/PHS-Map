@@ -1,0 +1,16 @@
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# the global owners will be requested for
+# review when someone opens a pull request.
+*                  @ParkerH27
+
+/.github/          @lishaduck
+/.prettier*        @lishaduck
+/bun*              @lishaduck
+/eslint.config.js  @lishaduck
+/package.json      @lishaduck
+/tsconfig.*json    @lishaduck
+/turbo             @lishaduck
+/vite.config.ts    @lishaduck
