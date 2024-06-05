@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_job:
+  build:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +47,8 @@ jobs:
         run: bun --bun install --frozen-lockfile
         env:
           SHARP_IGNORE_GLOBAL_LIBVIPS: 1
+      - name: 🌐 Disable analytics
+        run: turbo telemetry disable
       - name: 🔨 Build
         run: bun --bun run turbo build
       - name: 📃 Setup Pages
@@ -56,9 +58,9 @@ jobs:
         with:
           path: "./dist/"
 
-  deploy_job:
+  deploy:
     name: Deploy
-    needs: [build_job]
+    needs: [build]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 4
